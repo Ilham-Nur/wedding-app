@@ -23,19 +23,19 @@ class LoginController extends Controller
      */
     public function login(Request $request): RedirectResponse
     {
-      
+
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
-       
+
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
 
             $user = Auth::user();
 
-          
+
             if ($user->status !== 'active') {
                 Auth::logout();
                 $request->session()->invalidate();
@@ -45,12 +45,12 @@ class LoginController extends Controller
                 ]);
             }
 
-      
-            if ($user->role_id == 1) { 
-                return redirect()->intended('/admin/dashboard');
+
+            if ($user->role_id == 1) {
+                return redirect()->intended('/wedding');
             }
 
-        
+
              return redirect()->route('wedding.index');
         }
 
