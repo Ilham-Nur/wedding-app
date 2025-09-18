@@ -1,22 +1,12 @@
 <?php
 
 use App\Http\Controllers\WeddingController;
-use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return redirect('/login');
-});
+Route::get('/wedding', [WeddingController::class, 'index'])->name('wedding.index');
+Route::get('wedding/data', [WeddingController::class, 'getData'])->name('wedding.data');
+Route::post('wedding', [WeddingController::class, 'store'])->name('wedding.store');
+Route::get('wedding/{pernikahan}', [WeddingController::class, 'show'])->name('wedding.show'); // <--- tambahan
+Route::put('wedding/{pernikahan}', [WeddingController::class, 'update'])->name('wedding.update');
+Route::delete('wedding/{pernikahan}', [WeddingController::class, 'destroy'])->name('wedding.destroy');
 
-Route::controller(LoginController::class)->middleware('guest')->group(function () {
-    Route::get('/login', 'create')->name('login');
-    Route::post('/login', 'store');
-});
-
-Route::middleware('auth')->group(function () {
-    Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
-});
-
-Route::controller(WeddingController::class)->prefix('wedding')->name('wedding.')->group(function () {
-    Route::get('/', 'index')->name('index');
-});
