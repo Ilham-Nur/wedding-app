@@ -13,7 +13,7 @@ class LoginController extends Controller
     /**
      * Menampilkan halaman form login.
      */
-    public function create()
+    public function index()
     {
         return view('auth.login');
     }
@@ -21,7 +21,7 @@ class LoginController extends Controller
     /**
      * Menangani proses saat tombol login ditekan.
      */
-    public function store(Request $request): RedirectResponse
+    public function login(Request $request): RedirectResponse
     {
       
         $credentials = $request->validate([
