@@ -24,7 +24,7 @@
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="" aria-expanded="false">
                             <span>
-                                <i class="ti ti-layout-dashboard"></i>
+                               <i class="ti ti-users"></i>
                             </span>
                             <span class="hide-menu">Wedding</span>
                         </a>
