@@ -91,10 +91,9 @@ class WeddingController extends Controller
             'waktu_selesai'=> 'nullable|date_format:H:i',
             'layout_id'    => 'required|exists:layouts,id',
             'masa_aktif'   => 'required|date',
-            'slug'         => 'required|string|unique:pernikahans,slug,' . $pernikahan->id,
         ]);
 
-         $validated['status_id'] = 1;
+        $validated['status_id'] = 1;
 
         $pernikahan->update($validated);
 
