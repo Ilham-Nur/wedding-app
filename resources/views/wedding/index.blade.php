@@ -60,7 +60,7 @@
 
     <!-- Modal Tambah/Edit Wedding -->
     <div class="modal fade" id="addWeddingModal" tabindex="-1" aria-labelledby="addWeddingModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addWeddingModalLabel">Tambah Wedding</h5>
