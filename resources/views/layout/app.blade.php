@@ -16,13 +16,13 @@
 
     @include('layout.main')
 
-  <script src="{{ asset('template/assets/libs/jquery/dist/jquery.min.js') }}"></script>
-  <script src="{{ asset('template/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
-  <script src="{{ asset('template/assets/js/sidebarmenu.js') }}"></script>
-  <script src="{{ asset('template/assets/js/app.min.js') }}"></script>
-  <script src="{{ asset('template/assets/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
-  <script src="{{ asset('template/assets/libs/simplebar/dist/simplebar.js') }}"></script>
-  <script src="{{ asset('template/assets/js/dashboard.js') }}"></script>
+    <script src="{{ asset('template/assets/libs/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('template/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('template/assets/js/sidebarmenu.js') }}"></script>
+    <script src="{{ asset('template/assets/js/app.min.js') }}"></script>
+    <script src="{{ asset('template/assets/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('template/assets/libs/simplebar/dist/simplebar.js') }}"></script>
+    <script src="{{ asset('template/assets/js/dashboard.js') }}"></script>
     <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
