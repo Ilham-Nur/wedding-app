@@ -39,9 +39,9 @@ class WeddingController extends Controller
                 })
                 ->addColumn('action', function ($row) {
                     return '
-                        <button class="btn btn-sm btn-info btn-detail" data-id="'.$row->id.'">
-                           <i class="ti ti-eye"></i>
-                        </button>
+                        <a href="'.url('wedding/detail/'.$row->id).'" class="btn btn-sm btn-info">
+                            <i class="ti ti-eye"></i>
+                        </a>
                         <button class="btn btn-sm btn-primary btn-edit" data-id="'.$row->id.'">
                             <i class="ti ti-edit"></i>
                         </button>
@@ -121,4 +121,11 @@ class WeddingController extends Controller
         ]);
     }
 
+
+    public function detail($id)
+    {
+        $wedding = Pernikahan::with(['pembeli.user', 'layout', 'status'])->findOrFail($id);
+
+        return view('wedding.detail', compact('wedding'));
+    }
 }
