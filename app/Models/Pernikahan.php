@@ -16,13 +16,17 @@ class Pernikahan extends Model
         'nama_pria',
         'nama_wanita',
         'tanggal',
-        'waktu_mulai',
-        'waktu_selesai',
         'layout_id',
         'masa_aktif',
         'status_id',
         'slug',
-        'video_url'
+        'video_url',
+        'foto_suami',
+        'foto_istri',
+        'nama_ayah_suami',
+        'nama_ibu_suami',
+        'nama_ayah_istri',
+        'nama_ibu_istri'
     ];
 
     // Relasi contoh

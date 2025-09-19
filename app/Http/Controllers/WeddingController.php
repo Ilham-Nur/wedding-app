@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Layout;
 use App\Models\Pembeli;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Pernikahan;
 use Illuminate\Support\Str;
@@ -128,4 +129,45 @@ class WeddingController extends Controller
 
         return view('wedding.detail', compact('wedding'));
     }
+
+    public function updateExtra(Request $request, $id)
+    {
+        $wedding = Pernikahan::findOrFail($id);
+
+        // Validasi
+        $validated = $request->validate([
+            'video_url'        => 'nullable|url',
+            'foto_suami'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'foto_istri'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'nama_ayah_suami'  => 'nullable|string|max:255',
+            'nama_ibu_suami'   => 'nullable|string|max:255',
+            'nama_ayah_istri'  => 'nullable|string|max:255',
+            'nama_ibu_istri'   => 'nullable|string|max:255',
+        ]);
+
+        // Upload foto kalau ada, simpan path baru
+        if ($request->hasFile('foto_suami')) {
+            $validated['foto_suami'] = $request->file('foto_suami')->store('uploads/wedding', 'public');
+        }
+
+        if ($request->hasFile('foto_istri')) {
+            $validated['foto_istri'] = $request->file('foto_istri')->store('uploads/wedding', 'public');
+        }
+
+        // Pastikan field video_url tetap ter-update walau kosong
+        $wedding->update([
+            'video_url'       => $validated['video_url'] ?? $wedding->video_url,
+            'foto_suami'      => $validated['foto_suami'] ?? $wedding->foto_suami,
+            'foto_istri'      => $validated['foto_istri'] ?? $wedding->foto_istri,
+            'nama_ayah_suami' => $validated['nama_ayah_suami'] ?? $wedding->nama_ayah_suami,
+            'nama_ibu_suami'  => $validated['nama_ibu_suami'] ?? $wedding->nama_ibu_suami,
+            'nama_ayah_istri' => $validated['nama_ayah_istri'] ?? $wedding->nama_ayah_istri,
+            'nama_ibu_istri'  => $validated['nama_ibu_istri'] ?? $wedding->nama_ibu_istri,
+        ]);
+
+        return redirect()
+            ->route('wedding.detail', $id)
+            ->with('success', 'Data tambahan berhasil disimpan.');
+    }
+
 }

@@ -15,8 +15,6 @@ class PernikahanSeeder extends Seeder
                 'nama_pria' => 'Andi',
                 'nama_wanita' => 'Siti',
                 'tanggal' => '2025-09-15',
-                'waktu_mulai' => '10:00:00',
-                'waktu_selesai' => '13:00:00',
                 'layout_id' => 1,
                 'masa_aktif' => '2025-09-20',
                 'status_id' => 1, // aktif

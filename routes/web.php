@@ -21,6 +21,7 @@ Route::middleware('auth')->group(function () {
     Route::put('wedding/{pernikahan}', [WeddingController::class, 'update'])->name('wedding.update');
     Route::delete('wedding/{pernikahan}', [WeddingController::class, 'destroy'])->name('wedding.destroy');
     Route::get('wedding/detail/{id}', [WeddingController::class, 'detail'])->name('wedding.detail');
+    Route::put('/wedding/{id}/extra', [WeddingController::class, 'updateExtra'])->name('wedding.updateExtra');
 
 
     // Wedding Gallery
@@ -31,6 +32,9 @@ Route::middleware('auth')->group(function () {
 
     // Tamu
     Route::get('/wedding/{id}/tamu', [TamuController::class, 'index'])->name('wedding.tamu');
+
+    // Lokasi
+    Route::get('/wedding/{id}/lokasi', [WeddingController::class, 'lokasi'])->name('wedding.lokasi');
 
 
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
