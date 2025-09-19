@@ -44,4 +44,8 @@ class Pernikahan extends Model
     {
         return $this->belongsTo(StatusPernikahan::class, 'status_id');
     }
+      public function galeris()
+    {
+        return $this->hasMany(Galeri::class, 'pernikahan_id');
+    }
 }

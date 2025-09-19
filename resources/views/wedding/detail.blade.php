@@ -9,7 +9,7 @@
 
                 {{-- Tombol Arah ke Gallery & Gift --}}
                 <div class="mb-3">
-                    <a href="{{ route('wedding.gallery', $wedding->id) }}" class="btn btn-outline-info">📷 Gallery</a>
+                    <a href="{{ route('gallery.index', $wedding->id) }}" class="btn btn-outline-info">📷 Gallery</a>
                     <a href="{{ route('wedding.gift', $wedding->id) }}" class="btn btn-outline-success">🎁 Gift</a>
                     <a href="{{ route('wedding.tamu', $wedding->id) }}" class="btn btn-outline-primary">👥 Tamu</a>
                     <a href="{{ route('wedding.lokasi', $wedding->id) }}" class="btn btn-outline-danger">📍 Lokasi</a>

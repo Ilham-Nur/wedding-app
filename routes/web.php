@@ -25,7 +25,10 @@ Route::middleware('auth')->group(function () {
 
 
     // Wedding Gallery
-    Route::get('/wedding/{id}/gallery', [GalleryController::class, 'index'])->name('wedding.gallery');
+    Route::get('/wedding/{id}/gallery', [GalleryController::class, 'index'])->name('gallery.index');
+    Route::get('/galeri/{pernikahan}', [GalleryController::class, 'show'])->name('gallery.show');
+    Route::post('/galeri', [GalleryController::class, 'store'])->name('gallery.store');
+    Route::delete('/galeri/{galeri}', [GalleryController::class, 'destroy'])->name('gallery.destroy');
 
     // Wedding Gift
     Route::get('/wedding/{id}/gift', [GiftController::class, 'index'])->name('wedding.gift');
