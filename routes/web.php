@@ -35,7 +35,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/wedding/{pernikahanId}/gift', [GiftController::class, 'index'])->name('wedding.gift');
 
     // Tamu
-    Route::get('/wedding/{id}/tamu', [TamuController::class, 'index'])->name('wedding.tamu');
+    Route::prefix('wedding/{id}/tamu')->group(function () {
+        Route::get('/', [TamuController::class, 'index'])->name('wedding.tamu');
+        Route::get('/getdata', [TamuController::class, 'getData'])->name('wedding.tamu.getdata');
+        Route::post('/', [TamuController::class, 'store'])->name('wedding.tamu.store');
+        Route::get('/{tamu}', [TamuController::class, 'show'])->name('wedding.tamu.show');
+        Route::put('/{tamu}', [TamuController::class, 'update'])->name('wedding.tamu.update');
+        Route::delete('/{tamu}', [TamuController::class, 'destroy'])->name('wedding.tamu.destroy');
+    });
+
+    Route::post('/wedding/{id}/tamu/import-array', [TamuController::class, 'importArray'])
+        ->name('wedding.tamu.importArray');
+
 
     // Lokasi
     Route::get('/wedding/{pernikahanId}/lokasi', [LokasiPernikahanController::class, 'index'])->name('wedding.lokasi');
