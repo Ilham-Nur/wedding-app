@@ -43,7 +43,6 @@
                         <label class="form-label">Foto Suami</label>
                         <input type="file" name="foto_suami" class="form-control" accept="image/*"
                             onchange="previewImage(event, 'previewSuami')">
-                        {{-- Tampilkan preview jika sudah ada di DB --}}
                         @if ($wedding->foto_suami)
                             <img id="previewSuami" src="{{ asset('storage/' . $wedding->foto_suami) }}" alt="Foto Suami"
                                 class="mt-2" width="50" height="50" style="object-fit: cover;">
@@ -57,7 +56,6 @@
                         <label class="form-label">Foto Istri</label>
                         <input type="file" name="foto_istri" class="form-control" accept="image/*"
                             onchange="previewImage(event, 'previewIstri')">
-                        {{-- Tampilkan preview jika sudah ada di DB --}}
                         @if ($wedding->foto_istri)
                             <img id="previewIstri" src="{{ asset('storage/' . $wedding->foto_istri) }}" alt="Foto Istri"
                                 class="mt-2" width="50" height="50" style="object-fit: cover;">
@@ -68,6 +66,37 @@
                     </div>
                 </div>
 
+                {{-- Foto Utama --}}
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Foto Utama</label>
+                        <input type="file" name="foto_utama" class="form-control" accept="image/*"
+                            onchange="previewImage(event, 'previewUtama')">
+                        @if ($wedding->foto_utama)
+                            <img id="previewUtama" src="{{ asset('storage/' . $wedding->foto_utama) }}" alt="Foto Utama"
+                                class="mt-2" width="80" height="80" style="object-fit: cover;">
+                        @else
+                            <img id="previewUtama" class="mt-2 d-none" width="80" height="80"
+                                style="object-fit: cover;">
+                        @endif
+                    </div>
+                </div>
+
+                {{-- File Musik --}}
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">File Musik</label>
+                        <input type="file" name="file_musik" class="form-control" accept="audio/*">
+                        @if ($wedding->file_musik)
+                            <audio controls class="mt-2" style="width: 100%;">
+                                <source src="{{ asset('storage/' . $wedding->file_musik) }}" type="audio/mpeg">
+                                Browser Anda tidak mendukung audio.
+                            </audio>
+                        @endif
+                    </div>
+                </div>
+
+                {{-- Orang Tua --}}
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label class="form-label">Nama Ayah Suami</label>

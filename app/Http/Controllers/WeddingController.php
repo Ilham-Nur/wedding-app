@@ -139,13 +139,15 @@ class WeddingController extends Controller
             'video_url'        => 'nullable|url',
             'foto_suami'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'foto_istri'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'foto_utama'       => 'nullable|image|mimes:jpg,jpeg,png|max:4096',
+            'file_musik'       => 'nullable|mimes:mp3,wav,ogg|max:10240', // max 10MB
             'nama_ayah_suami'  => 'nullable|string|max:255',
             'nama_ibu_suami'   => 'nullable|string|max:255',
             'nama_ayah_istri'  => 'nullable|string|max:255',
             'nama_ibu_istri'   => 'nullable|string|max:255',
         ]);
 
-        // Upload foto kalau ada, simpan path baru
+        // Upload foto kalau ada
         if ($request->hasFile('foto_suami')) {
             $validated['foto_suami'] = $request->file('foto_suami')->store('uploads/wedding', 'public');
         }
@@ -154,11 +156,21 @@ class WeddingController extends Controller
             $validated['foto_istri'] = $request->file('foto_istri')->store('uploads/wedding', 'public');
         }
 
-        // Pastikan field video_url tetap ter-update walau kosong
+        if ($request->hasFile('foto_utama')) {
+            $validated['foto_utama'] = $request->file('foto_utama')->store('uploads/wedding', 'public');
+        }
+
+        if ($request->hasFile('file_musik')) {
+            $validated['file_musik'] = $request->file('file_musik')->store('uploads/wedding/music', 'public');
+        }
+
+        // Update semua field
         $wedding->update([
             'video_url'       => $validated['video_url'] ?? $wedding->video_url,
             'foto_suami'      => $validated['foto_suami'] ?? $wedding->foto_suami,
             'foto_istri'      => $validated['foto_istri'] ?? $wedding->foto_istri,
+            'foto_utama'      => $validated['foto_utama'] ?? $wedding->foto_utama,
+            'file_musik'      => $validated['file_musik'] ?? $wedding->file_musik,
             'nama_ayah_suami' => $validated['nama_ayah_suami'] ?? $wedding->nama_ayah_suami,
             'nama_ibu_suami'  => $validated['nama_ibu_suami'] ?? $wedding->nama_ibu_suami,
             'nama_ayah_istri' => $validated['nama_ayah_istri'] ?? $wedding->nama_ayah_istri,
