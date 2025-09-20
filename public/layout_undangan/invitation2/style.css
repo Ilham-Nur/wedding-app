@@ -1,0 +1,852 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #F5F5F5;
+}
+.flying-Butterfly {
+    position: absolute; 
+    width: 60px; 
+    animation: moveButterfly 5s linear infinite;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+@keyframes moveButterfly {
+    0% { transform: translate(0, 0) scaleX(1); }
+    100% { transform: translate(0, 0) scaleX(1); }
+}
+.music-button {
+    width: 45px;
+    height: 45px;
+    background-color: #B0B0B0;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+}
+.music-button img {
+    width: 90%;
+    height: auto;
+}
+.music-button.active {
+    background-color: #5e3b76;
+}
+.menu-container {
+    position: fixed;
+    bottom: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.menu-options {
+    display: flex;
+    padding: 8px 10px;
+    gap: 5px;
+    background-color: #f3e9e2;
+    border-radius: 30px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.menu-button {
+    background-color: #f3e9e2;
+    color: #c5a3d1;
+    border: none;
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 10px;
+}
+
+.menu-button i {
+    transition: opacity 0.3s ease;
+}
+
+.menu-text {
+    display: none;
+    margin-left: 8px;
+    font-size: 12px;
+}
+
+.menu-button:hover {
+    background-color: #dfc7f3;
+}
+
+.menu-button.active {
+    width: auto;
+    padding: 10px 15px;
+    border-radius: 20px;
+    background-color: #dfc7f3;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+}
+
+.menu-button.active i {
+    opacity: 1;
+}
+
+.menu-button.active .menu-text {
+    display: inline;
+}
+
+
+.fade-in {
+    animation: fadeIn 1s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+
+.hero {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: none;
+}
+
+.hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.bubbles {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.bubble {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #c29be2;
+    border-radius: 50%;
+    animation: float 8s infinite linear;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(100vh) translateX(0);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-10vh) translateX(20px);
+        opacity: 0;
+    }
+}
+
+.content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #6C2A83;
+    width: 90%;
+}
+
+.content h2 {
+    font-size: 1.5rem;
+    font-family: "Roboto Flex", serif;
+}
+
+.content h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    font-family: "Style Script", serif;
+}
+
+.content p {
+    font-size: 1rem;
+}
+
+.button-invitation {
+    display: inline-block;
+    margin-top: 5px;
+    padding: 8px 15px;
+    font-size: 0.9rem;
+    color: white;
+    background-color: #6C2A83;
+    border-radius: 20px;
+    text-decoration: none;
+    transition: 0.3s;
+    font-family: "Lexend Deca", serif;
+}
+
+.button-invitation:hover {
+    background-color: #8F3FB1;
+}
+.hidden {
+    display: none;
+}
+
+.home {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    max-width: 600px; 
+    padding: 20px;
+}
+
+.main-gallery {
+    width: 60%;
+    padding-top:40px;
+    height: 70%;
+    z-index: 1;
+}
+
+.home::before,
+.home::after {
+    content: "";
+    position: absolute;
+    width: 350px; 
+    height: 350px; 
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.home::before {
+    background-image: url('gallery/flower-top.png'); 
+    top: -130px; 
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 0;
+}
+
+.home::after {
+    background-image: url('gallery/flower-bottom.png'); 
+    bottom: -157px; 
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+}
+.container-quote {
+    width: 90%;
+    max-width: 400px;
+    margin-top: 80px;
+    margin-bottom: 50px;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    background-color: #6C2A83;
+}
+.content-quote{
+    color: white;
+    font-family: "Style Script", serif;
+    font-size: 18px;
+}
+.couple-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.couple-half {
+  width: 100%;
+  text-align: center;
+}
+
+.couple-half img {
+  border-radius:10px;
+  width: 305px;
+  height: 305px;
+  margin-bottom: 20px;
+}
+.bride::after {
+    content: "";
+    position: absolute;
+    top: 155%; 
+    left: 50%;
+    transform: translateX(-50%); 
+    width: 55%; 
+    height: auto;
+    aspect-ratio: 1; 
+    background: url("gallery/flower_couple.png") no-repeat center/cover;
+    border-radius: 10px;
+    z-index: 3;
+}
+.desc-groom h3,
+.desc-bride h3 {
+  font-family: "Style Script", serif;
+  font-size: 22px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.desc-groom p,
+.desc-bride p {
+  font-size: 16px;
+  color: #666;
+  line-height: 1.5;
+}
+
+.parents-font {
+  font-style: italic;
+  font-weight: bold;
+  color: #444;
+}
+
+.fh5co-social-icons {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.fh5co-social-icons li a {
+  font-size: 20px;
+  color: #B771E5;
+  transition: color 0.3s ease;
+}
+
+.fh5co-social-icons li a:hover {
+  color: #444;
+}
+.icon-groom{
+  font-family: "Style Script", serif; 
+  color: #B771E5; 
+  text-align: center;
+  margin:20px;
+}
+.gallery-container {
+    max-width: 700px;
+    width: 100%;
+    position: relative;
+    margin: 0 auto;
+}
+.contain {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px;
+    text-align: center;
+}
+.Judul{
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    font-family: "Great Vibes", serif;
+}
+  
+.highlight {
+    color: #5e3b76;
+}
+
+.gallery-container {
+    max-width: 700px;
+    width: 100%;
+    position: relative;
+    margin: 0 auto;
+}
+  
+.main-image {
+    position: relative;
+    width: 100%;
+    height: 400px;
+}
+  
+.main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 5px;
+}
+  
+.main-image img.active {
+    display: block;
+}
+  
+.thumbnails {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    overflow-x: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none; 
+}
+.thumbnails img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: border 0.3s, filter 0.3s;
+    border-radius: 5px;
+    filter: grayscale(100%);
+}
+.thumbnails::-webkit-scrollbar {
+    display: none;
+}
+  
+.thumbnails img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: border 0.3s;
+    border-radius: 50px;
+}
+  
+.thumbnails img.active {
+    filter: grayscale(0%); 
+    border: 2px solid #5e3b76; 
+}
+  
+.thumbnails img:hover {
+    filter: grayscale(0%); 
+}
+.container-calender {
+    margin-top: 40px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    max-width: 600px; 
+    padding: 120px 20px;
+}
+
+.text-calender {
+    text-align: center;
+}
+
+.container-calender::before,
+.container-calender::after {
+    content: "";
+    position: absolute;
+    background-size: cover; 
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.container-calender::before {
+    background-image: url('gallery/top-flower.png'); 
+    width: 200px; 
+    height: 200px; 
+    top: -50px; 
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 0;
+}
+
+.container-calender::after {
+    background-image: url('gallery/bottom-flower.png'); 
+    bottom: -150px; 
+    width: 428px; 
+    height: 428px; 
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+}
+.simply-countdown {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #5e3b76;
+}
+
+.simply-countdown .simply-section {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.simply-countdown .simply-section::after {
+    content: "|"; 
+    margin-left: 10px;
+    color: #5e3b76;
+}
+
+.simply-countdown .simply-section:last-child::after {
+    content: ""; 
+}
+.container-marriage, .container-reception {
+    background: #f8f0e8;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    font-family: 'Work Sans', sans-serif;
+    color: #5e3b76;
+    max-width: 90%;
+    margin: 20px auto;
+}
+
+.map-iframe {
+    width: 93%;
+    height: 200px;
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+    position: relative;
+    font-family: "Style Script", serif; 
+}
+
+.title::after {
+    content: "✿";
+    display: block;
+    font-size: 1.2rem;
+    margin-top: -5px;
+}
+
+.date, .time, .location {
+    font-size: 1rem;
+    margin: 5px 0;
+}
+
+.location {
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.btn-location {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background: transparent;
+    color: #5e3b76;
+    border: 2px solid #5e3b76;
+    border-radius: 25px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-location:hover {
+    background: #5e3b76;
+    color: white;
+}
+.container-section {
+    padding: 20px;
+    margin: 15px auto;
+    max-width: 90%;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+    position: relative;
+    font-family: "Style Script", serif;
+    color: #5e3b76; 
+}
+
+.section-title::after {
+    content: "✿";
+    display: block;
+    font-size: 1.2rem;
+    margin-top: -5px;
+    color: #5e3b76;
+}
+
+.section-text {
+    font-size: 1rem;
+    margin: 10px 0;
+    color: #444;
+}
+
+.btn-streaming, .btn-instagram {
+    display: inline-flex; 
+    align-items: center;  
+    padding: 10px 15px;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-streaming {
+    background: #c29be2;
+    color: white;
+    border-radius: 25px;
+}
+
+.btn-streaming i{ 
+    font-size: 18px;
+    margin-right: 8px; 
+}
+
+.btn-streaming:hover {
+    background: #a472d1;
+}
+.btn-instagram {
+    background:#fce38a;
+    color: #5e3b76;
+    border-radius: 5px;
+}
+
+.btn-instagram:hover {
+    background: #fbd56b;
+}
+.btn-instagram i{
+    font-size: 18px;
+    margin-right: 8px; 
+}
+.Gifts {
+    max-width: 1080px;
+    margin: 20px auto;
+    padding: 20px; 
+}
+.love-gift h2 {
+    font-size: 2.7rem;
+    font-family: "Style Script", serif;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #5e3b76;
+}
+.section-love::after {
+    content: "♥";
+    display: block;
+    font-size: 1.5rem;
+    margin-top: -5px;
+    color: #5e3b76;
+}
+
+  
+.love-gift p {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    color: #666666;
+}
+  
+.container-bank {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+  
+.card-bank {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    width: 400px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+  
+.card-bank img {
+    max-width: 180px;
+    height: auto;
+    margin-bottom: 20px;
+}
+  
+.card-bank h3 {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+  
+.card-bank p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #333;
+}
+  
+.card-bank button {
+    margin-top: 10px;
+    padding: 10px 15px;
+    font-size: 14px;
+    background-color: #a073b1;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+  
+.card-bank button:hover {
+    background-color: #5e3b76;
+}
+.container-wish {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+}
+.section-wishes::after {
+    content: "♥";
+    display: block;
+    font-size: 1.5rem;
+    margin-top: -5px;
+    color: #5e3b76;
+}
+.container-wish h2 {
+    text-align: center;
+    color: #5e3b76;
+    font-size: 2.5rem;
+    font-family: "Style Script", serif;
+}
+.form-container {
+    border-radius: 10px;
+    margin: 10px 0;
+}
+.form-container h3{
+    font-family: "Lexend", serif;
+    color: #b38acb;
+}
+.form-container input, .form-container textarea {
+    width: 90%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+.form-container button {
+    width: 96%;
+    background: #b38acb;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.form-container button:hover {
+    background: #a073b1;
+}
+.message-box {
+    background-color: #a073b1;
+    border:solid 2px #5e3b76;
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 16px;
+    max-width: 88%;
+}
+.footer {
+    text-align: center;
+    position: relative;
+    margin-top: 50px;
+}
+.footer img {
+    width: 30px;
+    margin: 5px;
+}
+.footer p {
+    margin: 5px 0;
+    color: #555;
+    font-size: 14px;
+}
+.footer b {
+    color: #d9534f;
+}
+.footer::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100px; 
+    background: url('gallery/footer_flower.png') no-repeat center/contain;
+    margin: 0px auto 0; 
+    background-size: cover;
+}
+.desktop-view {
+    margin: 0;
+    padding: 0;
+    background-color: #c2b8a3; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+    flex-direction: column;
+    text-align: center;
+    padding: 20px; 
+    box-sizing: border-box; 
+}
+
+.image-container img {
+    width: 100%; 
+    max-width: 500px; 
+    height: auto;
+    border-radius: 5px;
+}
+
+.text-desktop {
+    margin-top: 20px;
+    font-size: 4vw; 
+    font-style: italic;
+    color: white;
+    max-width: 90%;
+}
+
+@media (max-width: 425px) {
+    .desktop-view { display: none; }
+}
+
+@media (min-width: 426px) {
+    .mobile-view { display: none; }
+}
+@media (max-width: 375px) {
+    .bride::after {
+        top: 155%; 
+    }
+    .container-calender::after {
+        width: 373px; 
+        height: 373px; 
+    }
+    .container-quote {
+        width: 89.2%;
+    }
+    .container-calender {
+        width: 88%;
+    }
+    .home {
+        width: 89%;
+    }
+}
