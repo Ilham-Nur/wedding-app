@@ -7,20 +7,21 @@ use Illuminate\Http\Request;
 
 class UndanganController extends Controller
 {
-    public function show($slug)
+    public function show($slug, $code = null)
     {
-        // 1. Cari data pernikahan beserta data layout-nya
-        $wedding = Pernikahan::with('layout', 'galeris', 'tamus' , 'lokasis', 'gifts')->where('slug', $slug)->firstOrFail();
+        $wedding = Pernikahan::with('layout', 'galeris', 'tamus', 'lokasis', 'gifts')
+                    ->where('slug', $slug)
+                    ->firstOrFail();
 
-        // 2. Ambil nama file dari kolom 'folder_path'
-        //    Contoh: 'layout1'
-        $namaFileLayout = $wedding->layout->folder_path;
+        // opsional: cek code tamu
+        if ($code) {
+            $tamu = $wedding->tamus()->where('undangan_code', $code)->first();
+            if (! $tamu) {
+                abort(404, 'Tamu tidak ditemukan');
+            }
+        }
 
-        // 3. Bangun path ke file view yang benar.
-        //    Ini akan menghasilkan string: 'template.layout1'
-        $viewPath = 'template.' . $namaFileLayout;
-
-        // 4. Panggil view yang sesuai
-        return view($viewPath, compact('wedding'));
+        $viewPath = 'template.' . $wedding->layout->folder_path;
+        return view($viewPath, compact('wedding', 'tamu'));
     }
 }

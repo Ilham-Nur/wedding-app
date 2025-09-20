@@ -13,6 +13,7 @@ Route::get('/', [LoginController::class, 'index'])->name('login.index');
 
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 
+Route::get('/undangan/{slug}/{code}', [UndanganController::class, 'show'])->name('undangan.show');
 
 
 Route::middleware('auth')->group(function () {
@@ -70,8 +71,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/lokasi/{id}/update', [LokasiPernikahanController::class, 'update'])->name('lokasi.update');
     Route::delete('/lokasi/{id}/delete', [LokasiPernikahanController::class, 'destroy'])->name('lokasi.destroy');
 
-    //slug for undangan
-    Route::get('/undangan/{slug}', [UndanganController::class, 'show'])->name('undangan.show');
+
 
 
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');

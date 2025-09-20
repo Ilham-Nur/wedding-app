@@ -86,8 +86,8 @@
                     <!-- Groom -->
                     <div class="person">
                         <div class="photo-wrapper">
-                            <img src="{{ asset('layout_undangan/layout4/gallery/frame_img_couple.png') }}" alt="Frame"
-                                class="photo-frame" />
+                            <img src="{{ asset('layout_undangan/layout4/gallery/frame_img_couple.png') }}"
+                                alt="Frame" class="photo-frame" />
                             <div class="photo">
                                 <img src="{{ asset('storage/' . $wedding->foto_suami) }}" alt="Frame"
                                     class="photo-frame" />
@@ -102,8 +102,8 @@
                     <!-- Bride -->
                     <div class="person">
                         <div class="photo-wrapper">
-                            <img src="{{ asset('layout_undangan/layout4/gallery/frame_img_couple.png') }}" alt="Frame"
-                                class="photo-frame" />
+                            <img src="{{ asset('layout_undangan/layout4/gallery/frame_img_couple.png') }}"
+                                alt="Frame" class="photo-frame" />
                             <div class="photo">
                                 <img src="{{ asset('storage/' . $wedding->foto_istri) }}" alt="Bride" />
                             </div>
@@ -115,170 +115,157 @@
                     </div>
                 </div>
             </section>
+
+
             <div class="contain section" id="gallery">
                 <h1 class="Judul animate__animated animate__fadeInUp">
                     Moment <span class="highlight">Bahagia Kami</span>
                 </h1>
-
-                {{-- 1. Cek dulu apakah ada foto di galeri sebelum menampilkan apapun --}}
-                @if($wedding->galeris->isNotEmpty())
-
+                @if ($wedding->galeris->isNotEmpty())
                     <div class="gallery-container">
 
                         {{-- 2. Loop pertama untuk menampilkan gambar utama (main-image) --}}
                         <div class="main-image">
-                            @foreach($wedding->galeris as $foto)
+                            @foreach ($wedding->galeris as $foto)
                                 {{-- Ambil path gambar dari database dan gunakan helper asset() --}}
-                                <img src="{{ asset('storage/' . $foto->file_path) }}" alt="{{ $foto->judul ?? 'Foto Galeri' }}">
+                                <img src="{{ asset('storage/' . $foto->file_path) }}"
+                                    alt="{{ $foto->judul ?? 'Foto Galeri' }}">
                             @endforeach
                         </div>
 
                         {{-- 3. Loop kedua untuk menampilkan gambar kecil (thumbnails) --}}
                         <div class="thumbnails">
-                            @foreach($wedding->galeris as $foto)
+                            @foreach ($wedding->galeris as $foto)
                                 {{-- Gunakan variabel $loop->index untuk mengisi data-index secara otomatis --}}
-                                <img src="{{ asset('storage/' . $foto->file_path) }}" alt="{{ $foto->judul ?? 'Thumbnail' }}"
-                                    data-index="{{ $foto->urutan }}">
+                                <img src="{{ asset('storage/' . $foto->file_path) }}"
+                                    alt="{{ $foto->judul ?? 'Thumbnail' }}" data-index="{{ $foto->urutan }}">
                             @endforeach
                         </div>
 
                     </div>
-
                 @else
                     {{-- 4. Tampilkan pesan ini jika tidak ada foto sama sekali --}}
                     <p class="text-center">Galeri foto akan segera ditambahkan.</p>
                 @endif
             </div>
-    </div>
-    <div class="container-calender section" id="date">
-        <h1 class="Judul animate__animated animate__fadeInUp">
-            <span class="highlight">Acara</span> Diselenggarakan
-        </h1>
-        <div class="simply-countdown"></div>
-    </div>
-    <div class="container-marriage section" id="location">
-        <div class="card-location">
-            <div class="card-header">
-                <h2>Unduh Mantu</h2>
+            <div class="container-calender section" id="date">
+                <h1 class="Judul animate__animated animate__fadeInUp">
+                    <span class="highlight">Acara</span> Diselenggarakan
+                </h1>
+                <div class="simply-countdown"></div>
             </div>
-            <div class="card-content">
-                <p class="date">Rabu, 21 April 2021</p>
-                <p class="time">
-                    <i class="fa fa-clock-o"></i> pukul 11:00 WITA – selesai
-                </p>
-                <p class="address">
-                    <i class="fa fa-map-marker"></i> Bukit Tinggi Sekali, Wetan
-                    ngalor. 12980
-                </p>
+            <div class="container-marriage section" id="location">
+                @foreach ($wedding->lokasis as $lokasi)
+                    <div class="card-location">
+                        <div class="card-header">
+                            <h2>{{ $lokasi->nama_acara }}</h2>
+                        </div>
+                        <div class="card-content">
+                            <p class="date">
+                                {{ \Carbon\Carbon::parse($lokasi->tanggal)->translatedFormat('l, d F Y') }}</p>
+                            <p class="time">
+                                <i class="fa fa-clock-o"></i> pukul
+                                {{ \Carbon\Carbon::parse($lokasi->waktu_mulai)->format('H:i') }} –
+                                {{ $lokasi->waktu_selesai ? \Carbon\Carbon::parse($lokasi->waktu_selesai)->format('H:i') : 'selesai' }}
+                            </p>
+                            <p class="address">
+                                <i class="fa fa-map-marker"></i> {{ $lokasi->alamat }}
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ $lokasi->maps_link }}" target="_blank" class="btn-location">
+                                Lihat lokasi
+                            </a>
+                        </div>
+                    </div>
+                @endforeach
             </div>
-            <div class="card-footer">
-                <button class="btn-location">lihat lokasi</button>
-            </div>
-        </div>
-        <div class="card-location">
-            <div class="card-header">
-                <h2>Resepsi</h2>
-            </div>
-            <div class="card-content">
-                <p class="date">Rabu, 21 April 2021</p>
-                <p class="time">
-                    <i class="fa fa-clock-o"></i> pukul 11:00 WITA – selesai
-                </p>
-                <p class="address">
-                    <i class="fa fa-map-marker"></i> Bukit Tinggi Sekali, Wetan
-                    ngalor. 12980
-                </p>
-            </div>
-            <div class="card-footer">
-                <button class="btn-location">lihat lokasi</button>
-            </div>
-        </div>
-    </div>
 
-    <div class="Gifts section animate__animated animate__fadeInUp" id="gift">
-        <!-- Love Gift Section -->
-        <section class="love-gift">
-            <h2 class="section-love animate__animated animate__fadeInLeft">
-                Love Gift
-            </h2>
-            <p>
-                <i>Dengan hormat, bagi Anda yang ingin memberikan tanda kasih
-                    kepada kami, dapat melalui:</i>
-            </p>
-            <div class="container-bank">
-                <div class="card-bank animate__animated animate__fadeInLeft">
-                    <img src="{{ asset('layout_undangan/layout4/gallery/BCA.png') }}" alt="BCA Logo" />
-
-                    <p>No. Rekening: <strong id="bca-number">2820297663</strong></p>
-                    <p>a.n Tandrio</p>
-                    <button onclick="copyToClipboard('bca-number')">
-                        Salin No. Rekening
-                    </button>
-                </div>
-
-                <div class="card-bank animate__animated animate__fadeInLeft">
-                    <img src="{{ asset('layout_undangan/layout4/gallery/BNI.png') }}" alt="BNI Logo"
-                        style="margin-top: 5px" />
+            <div class="Gifts section animate__animated animate__fadeInUp" id="gift">
+                <!-- Love Gift Section -->
+                <section class="love-gift">
+                    <h2 class="section-love animate__animated animate__fadeInLeft">
+                        Love Gift
+                    </h2>
                     <p>
-                        No. Rekening: <strong id="bni-number">28202973424</strong>
+                        <i>Dengan hormat, bagi Anda yang ingin memberikan tanda kasih
+                            kepada kami, dapat melalui:</i>
                     </p>
-                    <p>a.n Tandrio</p>
-                    <button onclick="copyToClipboard('bni-number')">
-                        Salin No. Rekening
+                    <div class="container-bank">
+                        <div class="card-bank animate__animated animate__fadeInLeft">
+                            <img src="{{ asset('layout_undangan/layout4/gallery/BCA.png') }}" alt="BCA Logo" />
+
+                            <p>No. Rekening: <strong id="bca-number">2820297663</strong></p>
+                            <p>a.n Tandrio</p>
+                            <button onclick="copyToClipboard('bca-number')">
+                                Salin No. Rekening
+                            </button>
+                        </div>
+
+                        <div class="card-bank animate__animated animate__fadeInLeft">
+                            <img src="{{ asset('layout_undangan/layout4/gallery/BNI.png') }}" alt="BNI Logo"
+                                style="margin-top: 5px" />
+                            <p>
+                                No. Rekening: <strong id="bni-number">28202973424</strong>
+                            </p>
+                            <p>a.n Tandrio</p>
+                            <button onclick="copyToClipboard('bni-number')">
+                                Salin No. Rekening
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="container-wish section">
+                <h2 class="section-wishes animate__animated">Wishes</h2>
+                <div class="form-container">
+                    <h3>Send a wish:</h3>
+                    <input type="text" placeholder="Your full name" class="wish-input" />
+                    <input type="text" placeholder="Your address" class="wish-input" />
+                    <textarea placeholder="ex: congrats for this event" class="wish-textarea"></textarea>
+                    <button class="submit-button">submit now</button>
+                </div>
+                <div class="message-box">
+                    Belum ada yang mengirimkan ucapan, jadilah yang pertama
+                </div>
+            </div>
+
+            <div class="footer">
+                <p>powered by <b>Ilham Nur</b></p>
+                <img src="{{ asset('layout_undangan/layout4/gallery/instagram.png') }}" class="footer-img" />
+
+            </div>
+
+            <div class="menu-container">
+                <div class="menu-options">
+                    <button onclick="scrollToSection('couple', this)" class="menu-button">
+                        <i class="fa-solid fa-person-half-dress"></i>
+                        <span class="menu-text">Couple</span>
+                    </button>
+                    <button onclick="scrollToSection('gallery', this)" class="menu-button">
+                        <i class="fa-regular fa-images"></i>
+                        <span class="menu-text">Gallery</span>
+                    </button>
+                    <button onclick="scrollToSection('date', this)" class="menu-button">
+                        <i class="fa-regular fa-calendar"></i>
+                        <span class="menu-text">Date</span>
+                    </button>
+                    <button onclick="scrollToSection('location', this)" class="menu-button">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span class="menu-text">Location</span>
+                    </button>
+                    <button onclick="scrollToSection('gift', this)" class="menu-button">
+                        <i class="fa-solid fa-gift"></i>
+                        <span class="menu-text">Gift</span>
                     </button>
                 </div>
             </div>
         </section>
     </div>
-    <div class="container-wish section">
-        <h2 class="section-wishes animate__animated">Wishes</h2>
-        <div class="form-container">
-            <h3>Send a wish:</h3>
-            <input type="text" placeholder="Your full name" class="wish-input" />
-            <input type="text" placeholder="Your address" class="wish-input" />
-            <textarea placeholder="ex: congrats for this event" class="wish-textarea"></textarea>
-            <button class="submit-button">submit now</button>
-        </div>
-        <div class="message-box">
-            Belum ada yang mengirimkan ucapan, jadilah yang pertama
-        </div>
-    </div>
-
-    <div class="footer">
-        <p>powered by <b>Ilham Nur</b></p>
-        <img src="{{ asset('layout_undangan/layout4/gallery/instagram.png') }}" class="footer-img" />
-
-    </div>
-
-    <div class="menu-container">
-        <div class="menu-options">
-            <button onclick="scrollToSection('couple', this)" class="menu-button">
-                <i class="fa-solid fa-person-half-dress"></i>
-                <span class="menu-text">Couple</span>
-            </button>
-            <button onclick="scrollToSection('gallery', this)" class="menu-button">
-                <i class="fa-regular fa-images"></i>
-                <span class="menu-text">Gallery</span>
-            </button>
-            <button onclick="scrollToSection('date', this)" class="menu-button">
-                <i class="fa-regular fa-calendar"></i>
-                <span class="menu-text">Date</span>
-            </button>
-            <button onclick="scrollToSection('location', this)" class="menu-button">
-                <i class="fa-solid fa-location-dot"></i>
-                <span class="menu-text">Location</span>
-            </button>
-            <button onclick="scrollToSection('gift', this)" class="menu-button">
-                <i class="fa-solid fa-gift"></i>
-                <span class="menu-text">Gift</span>
-            </button>
-        </div>
-    </div>
-    </section>
-    </div>
     <div class="desktop-view">
         <div class="image-container">
-            <img src="src=" {{ asset('layout_undangan/layout4/gallery/desktop-image.jpg') }} alt="Foto Pernikahan" />
+            <img src="src=" {{ asset('layout_undangan/layout4/gallery/desktop-image.jpg') }}
+                alt="Foto Pernikahan" />
         </div>
         <div class="text-desktop">
             Silahkan akses undangan ini melalui hand phone anda. Terima kasih.
@@ -299,7 +286,7 @@
         // }
         document
             .getElementById("button-inv")
-            .addEventListener("click", function () {
+            .addEventListener("click", function() {
                 const invitationContent = document.getElementById("main-content");
                 invitationContent.classList.remove("hidden");
                 invitationContent.classList.add("fade-in");
@@ -327,8 +314,7 @@
                             }
                         }
                     });
-                },
-                {
+                }, {
                     root: null,
                     threshold: 0.6,
                 }
@@ -340,7 +326,9 @@
         function scrollToSection(sectionId, button) {
             const section = document.getElementById(sectionId);
             if (section) {
-                section.scrollIntoView({ behavior: "smooth" });
+                section.scrollIntoView({
+                    behavior: "smooth"
+                });
             }
 
             const buttons = document.querySelectorAll(".menu-button");
@@ -418,12 +406,12 @@
         const mySong = document.getElementById("mySong");
         const lihatUndanganBtn = document.getElementById("button-inv");
 
-        mySong.addEventListener("ended", function () {
+        mySong.addEventListener("ended", function() {
             mySong.currentTime = 0;
             mySong.play();
         });
 
-        musicButton.addEventListener("click", function () {
+        musicButton.addEventListener("click", function() {
             if (mySong.paused) {
                 mySong.play();
                 musicButton.classList.add("active");
@@ -433,7 +421,7 @@
             }
         });
 
-        lihatUndanganBtn.addEventListener("click", function () {
+        lihatUndanganBtn.addEventListener("click", function() {
             if (mySong.paused) {
                 mySong.play();
                 musicButton.classList.add("active");
@@ -464,7 +452,7 @@
 
             // Menampilkan pop-up dan menghapusnya setelah 2 detik
             document.body.appendChild(alertBox);
-            setTimeout(function () {
+            setTimeout(function() {
                 document.body.removeChild(alertBox);
             }, 2000);
         }
@@ -477,10 +465,22 @@
             minutes: 0,
             seconds: 0,
             words: {
-                days: { singular: " DAYS", plural: " DAYS" },
-                hours: { singular: " HOURS", plural: " HOURS" },
-                minutes: { singular: " MINUTES", plural: " MINUTES" },
-                seconds: { singular: " SECONDS", plural: " SECONDS" },
+                days: {
+                    singular: " DAYS",
+                    plural: " DAYS"
+                },
+                hours: {
+                    singular: " HOURS",
+                    plural: " HOURS"
+                },
+                minutes: {
+                    singular: " MINUTES",
+                    plural: " MINUTES"
+                },
+                seconds: {
+                    singular: " SECONDS",
+                    plural: " SECONDS"
+                },
             },
         });
 
