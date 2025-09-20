@@ -53,7 +53,7 @@
             <div class="home">
                 <div class="side-text left">Panjul & Ichay</div>
                 <div class="side-text right">10 Oktober 2025</div>
-                <img src="gallery/first1.jpeg" class="main-gallery" />
+                <img src="{{ asset('storage/' . $wedding->foto_utama) }}" class="main-gallery" />
             </div>
             <div class="container-quote animate__animated animate__fadeInUp animate__delay-1s">
                 <div class="content-quote">
