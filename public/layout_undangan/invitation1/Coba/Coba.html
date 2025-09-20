@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Menu</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+
+        .menu-container {
+            position: relative;
+        }
+
+        .menu {
+            display: flex;
+            background: #2c3e50;
+            padding: 10px;
+            border-radius: 50px;
+            gap: 10px;
+        }
+
+        .menu-item {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .menu-item img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .menu-item.active {
+            background: #1abc9c;
+            border-radius: 50%;
+        }
+
+        .menu-button {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            background: white;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="menu-container">
+        <button class="menu-button">
+            <span>&#9658;</span>
+        </button>
+        <div class="menu">
+            <button class="menu-item"><i class="fa-regular fa-clock"></i></button>
+            <button class="menu-item"><i class="fa-regular fa-clock"></i></button>
+            <button class="menu-item active"><i class="fa-regular fa-clock"></i></button>
+            <button class="menu-item"><i class="fa-regular fa-clock"></i></button>
+            <button class="menu-item"><i class="fa-regular fa-clock"></i></button>
+        </div>
+    </div>
+</body>
+<script src="https://kit.fontawesome.com/f89fc2c44e.js" crossorigin="anonymous"></script>
+</html>

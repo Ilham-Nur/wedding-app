@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitation</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Hurricane&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="mobile-view">
+        <section id="hero-page">
+            <div class="hero" style="background-color: #F5F5F5;">
+                <div class="image-fade">
+                    <img src="gallery/wedding1.png" alt="Wedding Background" class="fade-img">
+                    <img src="gallery/wedding2.jpg" alt="Wedding Background" class="fade-img">
+                    <img src="gallery/wedding3.jpg" alt="Wedding Background" class="fade-img">
+                </div>
+
+                <div class="content">
+                    <h2 class="animate__animated animate__fadeInDown">THE WEDDING OF</h2>
+                    <h1 class="animate__animated animate__fadeIn animate__delay-1s">Tandrio & Drio</h1>
+                    <p class="animate__animated animate__fadeInUp animate__delay-2s">Wednesday, February 5th, 2025</p>
+                    <a href="#" class="button-invitation" id="button-inv">
+                        Open Invitation
+                    </a>
+                </div>
+            </div>
+        </section>
+        <section id="main-content" class="hidden">
+            <div class="content-audio">
+                <div class="music-button" id="musicButton">
+                    <img src="gallery/icon-music.png" alt="Music Icon">
+                </div>
+                <audio id="mySong">
+                    <source src="media/song.mp3" type="audio/mp3">
+                </audio>
+            </div>
+            <div class="menu-container">
+                <div class="menu-options">
+                    <button onclick="scrollToSection('couple', this)" class="menu-button">
+                        <i class="fa-solid fa-person-half-dress"></i>
+                        <span class="menu-text">Couple</span>
+                    </button>
+                    <button onclick="scrollToSection('gallery', this)" class="menu-button">
+                        <i class="fa-regular fa-images"></i>
+                        <span class="menu-text">Gallery</span>
+                    </button>
+                    <button onclick="scrollToSection('date', this)" class="menu-button">
+                        <i class="fa-regular fa-calendar"></i>
+                        <span class="menu-text">Date</span>
+                    </button>
+                    <button onclick="scrollToSection('location', this)" class="menu-button">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span class="menu-text">Location</span>
+                    </button>
+                    <button onclick="scrollToSection('wish', this)" class="menu-button">
+                        <i class="fa-solid fa-heart"></i>
+                        <span class="menu-text">Wish</span>
+                    </button>
+                </div>
+            </div>
+            <div class="container-front">
+                <div class="image-wrapper">
+                    <img src="gallery/front-wedding.jpg" alt="Wedding Photo">
+                </div>
+            </div>
+            <div class="decoration">
+                <i data-aos="zoom-in" data-aos-duration="500">The best and most
+                    beautiful things in this world cannot be seen or even heard, but must be felt with the heart.</i>
+            </div>
+
+            <div class="container section" data-aos="fade-up" data-aos-duration="1000" id="couple">
+                <div class="title" data-aos="zoom-in" data-aos-duration="500">The Wedding Of</div>
+
+                <div class="profile" data-aos="fade-up" data-aos-duration="1500">
+                    <div class="profile-img-wrapper">
+                        <img src="gallery/Pria.jpg" alt="Groom" class="profile-img">
+                        <img src="gallery/border.png" class="profile-border">
+                    </div>
+                    <a href="" class="instagram" data-aos="fade-up" data-aos-duration="1500">
+                        <i class="fa-brands fa-instagram"></i> &#64;smartappscare.link
+                    </a>
+                    <div class="name">David, G. M | Ciu Ta Wei</div>
+                    <div class="desc">Putra Pertama dari </div>
+                    <div class="father">Bapak Muaedah M.Pd Ketapang</div>
+                    <div class="mother">Ibu Muaedah M.Pd Ketapang</div>
+                </div>
+
+                <h2 class="icon-groom" data-aos="zoom-in" data-aos-duration="500">&</h2>
+
+                <div class="profile" data-aos="fade-up" data-aos-duration="500">
+                    <div class="profile-img-wrapper">
+                        <img src="gallery/Wanita.jpg" alt="Groom" class="profile-img">
+                        <img src="gallery/border.png" class="profile-border">
+                    </div>
+                    <a href="" class="instagram" data-aos="fade-up" data-aos-duration="500">
+                        <i class="fa-brands fa-instagram"></i> &#64;smartappscare.link
+                    </a>
+                    <div class="name">Vivi Febrianti, G. M | Hiu Vi Vi</div>
+                    <div class="desc">Putri Pertama dari</div>
+                    <div class="father">Bapak Muaedah M.Pd Ketapang</div>
+                    <div class="mother">Ibu Muaedah M.Pd Ketapang</div>
+                </div>
+            </div>
+            <section class="section" id="gallery">
+                <div class="card">
+                    <img src="gallery/background-gallery.png" alt="Background"
+                        style="object-fit: cover; background-position: center; background-repeat: no-repeat;">
+                    <div class="text-overlay">
+                        <h2 data-aos="fade-in" data-aos-duration="800">Moment yang berharga</h2>
+                        <p data-aos="fade-in" data-aos-duration="1000">"Menciptakan kenangan adalah hadiah yang tak
+                            ternilai harganya. Kenangan akan bertahan seumur hidup benda-benda hanya dalam waktu
+                            singkat."</p>
+                    </div>
+                </div>
+                <div class="image-container">
+                    <img src="gallery/image1.jpg" alt="Wedding 1" class="active">
+                    <img src="gallery/image2.jpg" alt="Wedding 2">
+                    <img src="gallery/image4.jpg" alt="Wedding 3">
+                </div>
+            </section>
+            <div class="container-date section" id="date">
+                <h2 data-aos="fade-up" data-aos-duration="1000">Acara Akan Diselenggarakan</h2>
+
+                <div class="countdown" data-aos="zoom-in" data-aos-duration="1000">
+                    <div class="time" data-aos="fade-up" data-aos-duration="1000">
+                        <span id="days">48</span>
+                        <div class="label">Hari</div>
+                    </div>
+                    <div class="time-box" data-aos="zoom-in-up" data-aos-duration="1000">
+                        <div class="time" data-aos="fade-left" data-aos-duration="1000">
+                            <span id="hours">20</span>
+                            <div class="label">Jam</div>
+                        </div>
+                        <div class="time" data-aos="fade-left" data-aos-duration="1000">
+                            <span id="minutes">42</span>
+                            <div class="label">Menit</div>
+                        </div>
+                        <div class="time" data-aos="fade-left" data-aos-duration="1000">
+                            <span id="seconds">06</span>
+                            <div class="label">Detik</div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="date" data-aos="fade-up" data-aos-duration="1000">Rabu, 2 April 2025</p>
+
+                <a href="#" class="btn-calender" data-aos="zoom-in" data-aos-duration="1000"><i
+                        class="fa-regular fa-calendar-plus"></i> Simpan acara ke kalender</a>
+                <a href="#" class="btn-notif" data-aos="zoom-in" data-aos-duration="1000"><i
+                        class="fa-solid fa-bell"></i> Aktifkan Notifikasi</a>
+            </div>
+            <div class="container-location section" id="location">
+                <div class="invitation-marriage" data-aos="zoom-in" data-aos-duration="1000">
+                    <h1 class="title-marriage" data-aos="fade-up" data-aos-duration="1000">Marriage Contract</h1>
+                    <p class="details" data-aos="fade-up" data-aos-duration="1000">Jumat, 15 Oktober 2021</p>
+                    <p class="details" data-aos="fade-up" data-aos-duration="1000">
+                        <span class="icon">🕰️</span> pukul 09:00 WIB - selesai
+                    </p>
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.026431643772!2d104.03974747520486!3d1.141564162209452!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d989eb75a75fff%3A0x3ff15f3c17586b6b!2sUniversitas%20Universal%20(UVERS)%20Pasir%20Putih!5e0!3m2!1sid!2sid!4v1739343485488!5m2!1sid!2sid"
+                        width="320" height="180" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade" data-aos="fade-up"
+                        data-aos-duration="1000"></iframe>
+                    <p class="details" data-aos="fade-up" data-aos-duration="1000">
+                        <span class="icon">📍</span> Jalan Kemuning Raya, di Masjid Al Barokah
+                    </p>
+                    <a href="#" class="btn-location" data-aos="zoom-in" data-aos-duration="1000">lihat lokasi</a>
+                </div>
+
+                <div class="invitation-reception" data-aos="zoom-in" data-aos-duration="1000">
+                    <h1 class="title-marriage" data-aos="fade-up" data-aos-duration="1000">Reception</h1>
+                    <p class="details" data-aos="fade-up" data-aos-duration="1000">Jumat, 15 Oktober 2021</p>
+                    <p class="details" data-aos="fade-up" data-aos-duration="1000">
+                        <span class="icon">🕰️</span> pukul 09:00 WIB - selesai
+                    </p>
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.026431643772!2d104.03974747520486!3d1.141564162209452!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d989eb75a75fff%3A0x3ff15f3c17586b6b!2sUniversitas%20Universal%20(UVERS)%20Pasir%20Putih!5e0!3m2!1sid!2sid!4v1739343485488!5m2!1sid!2sid"
+                        width="320" height="180" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade" data-aos="fade-up"
+                        data-aos-duration="1000"></iframe>
+                    <p class="details" data-aos="fade-up" data-aos-duration="1000">
+                        <span class="icon">📍</span> Jalan Kemuning Raya, di Masjid Al Barokah
+                    </p>
+                    <a href="#" class="btn-location" data-aos="zoom-in" data-aos-duration="1000">lihat lokasi</a>
+                </div>
+            </div>
+            <div class="invite">
+                <div class="invite-marriage">
+                    <p class="line-first" data-aos="fade-up" data-aos-duration="1000">Merupakan suatu kehormatan dan
+                        kebahagiaan bagi kami apabila, Bapak / Ibu / Saudara / i. berkenan hadir untuk memberikan doa
+                        restunya kami ucapkan terimakasih.</p>
+                    <h4 class="bold" data-aos="fade-up" data-aos-duration="1000">Turut mengundang:</h4>
+                    <p data-aos="fade-up" data-aos-duration="1000">Keluarga Besar Sujono</p>
+                    <p data-aos="fade-up" data-aos-duration="1000">Keluarga Besar Emence</p>
+                    <p data-aos="fade-up" data-aos-duration="1000">Teman SMK 1 Negeri</p>
+                </div>
+            </div>
+            <div class="container-gift">
+                <h2 class="title-gift" data-aos="fade-up" data-aos-duration="1000">Kirim Hadiah</h2>
+                <p class="subtitle" data-aos="fade-up" data-aos-duration="1000">
+                    Sekarang <strong><i>hadiahmu</i></strong> bisa tersampaikan secara digital
+                </p>
+
+                <div class="bank-card" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                    <h3>Bank Mandiri</h3>
+                    <p class="account-number" id="number" onclick="copyToClipboard('number')">
+                        18181818718 <span><i class="fa-solid fa-copy"></i></span>
+                    </p>
+                    <p class="account-name">a/n Our Wedding Link</p>
+                </div>
+
+                <div class="bank-card" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+                    <h3>Bank Central Asia (BCA)</h3>
+                    <p class="account-number" id="number" onclick="copyToClipboard('number')">
+                        28031280318 <span><i class="fa-solid fa-copy"></i></span>
+                    </p>
+                    <p class="account-name">a/n Our Wedding Link</p>
+                    <a href="#" class="qr-link" id="showqr">show QR</a>
+                </div>
+
+                <div class="bank-card" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600">
+                    <h3>Bank Central Asia (BCA)</h3>
+                    <p class="account-number" id="number" onclick="copyToClipboard('number')">
+                        1234567812 <span><i class="fa-solid fa-copy"></i></span>
+                    </p>
+                    <p class="account-name">a/n Our Wedding</p>
+                    <a href="#" class="qr-link" id="showqr">show QR</a>
+                </div>
+                <h2 class="title-ucapan" data-aos="fade-up" data-aos-duration="1000">Ucapan & Doa</h2>
+
+                <div class="form-container section" id="wish" data-aos="fade-up" data-aos-duration="1000"
+                    data-aos-delay="400">
+                    <h3>Kirim ucapan:</h3>
+
+                    <form action="#" method="POST" enctype="multipart/form-data">
+                        <input type="text" name="nama" placeholder="Nama lengkap" required>
+                        <textarea name="alamat" placeholder="Alamat" required></textarea>
+
+                        <label class="file-upload">
+                            <span>Bagikan momentmu</span>
+                            <span class="browse">Browse</span>
+                            <input type="file" name="foto">
+                        </label>
+
+                        <p class="optional">optional</p>
+
+                        <textarea name="pesan" placeholder="contoh: Selamat untuk acaranya"></textarea>
+
+                        <button type="submit" class="submit-btn">Kirim sekarang</button>
+                    </form>
+
+                </div>
+                <div class="notification" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+                    Belum ada yang mengirimkan ucapan, jadilah yang pertama
+                </div>
+            </div>
+            <div class="footer">
+                <p>powered by <b>SMARTSAPPSCARE</b></p>
+                <img src="gallery/instagram.png" alt="Instagram Icon" class="footer-img">
+            </div>
+        </section>
+    </div>
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <p>Anda telah membuka popup dengan menekan tombol.</p>
+            <span id="close" class="close-btn">&times;</span>
+        </div>
+    </div>
+    <div class="desktop-view">
+        <div class="image-desktop">
+            <img src="gallery/desktop-image.jpg" alt="Foto Pernikahan">
+        </div>
+        <div class="text-desktop">
+            Silahkan akses undangan ini melalui hand phone anda. Terima kasih.
+        </div>
+    </div>
+</body>
+<script>
+    const musicButton = document.getElementById("musicButton");
+    const mySong = document.getElementById("mySong");
+    const lihatUndanganBtn = document.getElementById("button-inv");
+
+    mySong.addEventListener("ended", function () {
+        mySong.currentTime = 0;
+        mySong.play();
+    });
+
+    musicButton.addEventListener("click", function () {
+        if (mySong.paused) {
+            mySong.play();
+            musicButton.classList.add("active");
+        } else {
+            mySong.pause();
+            musicButton.classList.remove("active");
+        }
+    });
+
+    lihatUndanganBtn.addEventListener("click", function () {
+        if (mySong.paused) {
+            mySong.play();
+            musicButton.classList.add("active");
+        }
+    });
+    const ButtonOpen = document.getElementById("showqr");
+    const popup = document.getElementById("popup");
+    const ButtonClose = document.getElementById("close");
+
+    ButtonOpen.addEventListener("click", function () {
+        popup.style.display = 'flex';
+    });
+    ButtonClose.addEventListener("click", function () {
+        popup.style.display = 'none';
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target === popup) {
+            popup.style.display = 'none';
+        }
+    });
+
+    document.getElementById("button-inv").addEventListener("click", function (event) {
+        event.preventDefault();
+
+        document.getElementById("main-content").style.display = "block";
+
+        AOS.refresh();
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+        const sections = document.querySelectorAll('.section');
+        const buttons = document.querySelectorAll('.menu-button');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    setTimeout(() => {
+                        buttons.forEach(button => button.classList.remove('active'));
+                        const activeButton = document.querySelector(`.menu-button[onclick*="${id}"]`);
+                        if (activeButton) {
+                            activeButton.classList.add('active');
+                        }
+                    }, 100);  // Menunda proses sedikit agar scroll lebih lancar
+                }
+            });
+        }, {
+            root: null,
+            threshold: 0.3
+        });
+
+
+        sections.forEach(section => observer.observe(section));
+    });
+    function copyToClipboard(elementId) {
+        var text = document.getElementById(elementId).innerText;
+        var textArea = document.createElement("textarea");
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textArea);
+
+        // Membuat pop-up kecil
+        var alertBox = document.createElement("div");
+        alertBox.innerText = "Nomor rekening telah disalin!";
+        alertBox.style.position = "fixed";
+        alertBox.style.top = "80%";  // Mengatur posisi sedikit lebih bawah dari tengah
+        alertBox.style.left = "50%";
+        alertBox.style.transform = "translateX(-50%)"; // Hanya horizontal center
+        alertBox.style.padding = "10px";
+        alertBox.style.backgroundColor = "#4CAF50";
+        alertBox.style.color = "white";
+        alertBox.style.borderRadius = "10px";
+        alertBox.style.zIndex = "9999";
+
+        // Menampilkan pop-up dan menghapusnya setelah 2 detik
+        document.body.appendChild(alertBox);
+        setTimeout(function () {
+            document.body.removeChild(alertBox);
+        }, 2000);
+    }
+    function countdownTimer() {
+        const targetDate = new Date("April 2, 2025 00:00:00").getTime();
+
+        setInterval(() => {
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById("days").textContent = days < 10 ? "0" + days : days;
+            document.getElementById("hours").textContent = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").textContent = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").textContent = seconds < 10 ? "0" + seconds : seconds;
+        }, 1000);
+    }
+
+    countdownTimer();
+
+    function scrollToSection(sectionId, button) {
+        const section = document.getElementById(sectionId);
+        if (section) {
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        const buttons = document.querySelectorAll('.menu-button');
+        buttons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+    }
+    document
+        .getElementById("button-inv")
+        .addEventListener("click", function () {
+            const invitationContent =
+                document.getElementById("main-content");
+            invitationContent.classList.remove("hidden");
+            invitationContent.classList.add("fade-in");
+
+            const pageIntro = document.getElementById("hero-page");
+            pageIntro.classList.add("hidden");
+            pageIntro.classList.add("fade-out");
+        });
+
+    const imagess = document.querySelectorAll(".image-container img");
+    let currentIndex = 0;
+
+    function changeImage() {
+        imagess[currentIndex].classList.remove("active"); // Hilangkan gambar aktif
+
+        currentIndex = (currentIndex + 1) % imagess.length; // Ganti ke gambar berikutnya
+
+        imagess[currentIndex].classList.add("active"); // Tambahkan gambar aktif
+    }
+    setInterval(changeImage, 4000);
+
+</script>
+<script>
+    window.addEventListener('load', function () {
+        AOS.refresh();
+    });
+    const images = document.querySelectorAll('.fade-img');
+    const totalImages = images.length;
+    let currentImageIndex = 0;
+
+    function changeImage() {
+        images[currentImageIndex].classList.remove('visible');
+
+        currentImageIndex = (currentImageIndex + 1) % totalImages;
+
+        images[currentImageIndex].classList.add('visible');
+    }
+
+    images[0].classList.add('visible');
+
+    setInterval(changeImage, 5000);
+</script>
+<script src="https://kit.fontawesome.com/f89fc2c44e.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({
+        once: false,
+        offset: -550,
+    });
+</script>
+
+</html>
