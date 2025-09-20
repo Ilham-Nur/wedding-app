@@ -231,7 +231,7 @@
             </div>
 
             <div class="footer">
-                <p>powered by <b>Ilham Nur</b></p>
+                <p>powered by <b>Arcdev</b></p>
                 <img src="{{ asset('layout_undangan/layout4/gallery/instagram.png') }}" class="footer-img" />
 
             </div>
