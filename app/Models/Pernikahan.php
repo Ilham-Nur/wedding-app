@@ -63,6 +63,6 @@ class Pernikahan extends Model
 
     public function gifts()
     {
-        return $this->hasMany(Gift::class, 'pernikahan_id');
+        return $this->hasMany(Rekening::class, 'pernikahan_id');
     }
 }
