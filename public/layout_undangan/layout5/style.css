@@ -5,8 +5,8 @@ body {
 }
 
 .flying-Butterfly {
-    position: absolute; 
-    width: 60px; 
+    position: absolute;
+    width: 60px;
     animation: moveButterfly 5s linear infinite;
     z-index: 1000;
     pointer-events: none;
@@ -111,7 +111,7 @@ body {
 .fade-in {
     animation: fadeIn 1s ease-out;
   }
-  
+
   @keyframes fadeIn {
     0% {
       opacity: 0;
@@ -214,7 +214,7 @@ body {
     flex-direction: column;
     align-items: center;
     width: 90%;
-    max-width: 600px; 
+    max-width: 600px;
     padding: 20px;
 }
 
@@ -240,24 +240,24 @@ body {
 .home::after {
     content: "";
     position: absolute;
-    width: 350px; 
-    height: 350px; 
+    width: 350px;
+    height: 350px;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
 }
 
 .home::before {
-    background-image: url('gallery/flower-top-bot.png'); 
-    top: -130px; 
+    background-image: url('gallery/flower-top-bot.png');
+    top: -130px;
     left: 50%;
     transform: translateX(-50%) rotate(180deg);
     z-index: 0;
 }
 
 .home::after {
-    background-image: url('gallery/flower-top-bot.png'); 
-    bottom: -165px; 
+    background-image: url('gallery/flower-top-bot.png');
+    bottom: -165px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 2;
@@ -348,7 +348,7 @@ body {
 
 .photo-frame {
   position: absolute;
-  top: 20px; 
+  top: 20px;
   left: 0;
   width: 100%;
   height: 100%;
@@ -419,7 +419,7 @@ body {
     margin-bottom: 10px;
     font-family: "Great Vibes", serif;
 }
-  
+
 .highlight {
     color: #846ad4;
 }
@@ -430,13 +430,13 @@ body {
     position: relative;
     margin: 0 auto;
 }
-  
+
 .main-image {
     position: relative;
     width: 100%;
     height: 400px;
 }
-  
+
 .main-image img {
     width: 100%;
     height: 100%;
@@ -447,18 +447,18 @@ body {
     left: 0;
     border-radius: 5px;
 }
-  
+
 .main-image img.active {
     display: block;
 }
-  
+
 .thumbnails {
     display: flex;
     gap: 10px;
     padding: 10px;
     overflow-x: scroll;
     scrollbar-width: none;
-    -ms-overflow-style: none; 
+    -ms-overflow-style: none;
 }
 .thumbnails img {
     width: 80px;
@@ -473,7 +473,7 @@ body {
 .thumbnails::-webkit-scrollbar {
     display: none;
 }
-  
+
 .thumbnails img {
     width: 80px;
     height: 80px;
@@ -483,14 +483,14 @@ body {
     transition: border 0.3s;
     border-radius: 50px;
 }
-  
+
 .thumbnails img.active {
-    filter: grayscale(0%); 
-    border: 2px solid #846ad4; 
+    filter: grayscale(0%);
+    border: 2px solid #846ad4;
 }
-  
+
 .thumbnails img:hover {
-    filter: grayscale(0%); 
+    filter: grayscale(0%);
 }
 .container-calender {
     /* margin-top: 40px; */
@@ -499,7 +499,7 @@ body {
     flex-direction: column;
     align-items: center;
     width: 90%;
-    max-width: 600px; 
+    max-width: 600px;
     /* padding: 120px 20px; */
     padding-left: 20px;
     padding-right: 20px;
@@ -514,26 +514,26 @@ body {
 .container-calender::after {
     content: "";
     position: absolute;
-    background-size: cover; 
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
 }
 
 /* .container-calender::before {
-    background-image: url('gallery/top-flower.png'); 
-    width: 200px; 
-    height: 200px; 
-    top: -50px; 
+    background-image: url('gallery/top-flower.png');
+    width: 200px;
+    height: 200px;
+    top: -50px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 0;
 } */
 
 .container-calender::after {
-    background-image: url('gallery/bottom-flower.png'); 
-    bottom: -150px; 
-    width: 428px; 
-    height: 428px; 
+    background-image: url('gallery/bottom-flower.png');
+    bottom: -150px;
+    width: 428px;
+    height: 428px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 2;
@@ -658,7 +658,7 @@ body {
 .Gifts {
     max-width: 1080px;
     margin: 20px auto;
-    padding: 20px; 
+    padding: 20px;
 }
 
 .love-gift h2 {
@@ -678,14 +678,14 @@ body {
     color: #846ad4;
 }
 
-  
+
 .love-gift p {
     text-align: center;
     margin-bottom: 20px;
     font-size: 1.1rem;
     color: #666666;
 }
-  
+
 .container-bank {
     display: flex;
     flex-wrap: wrap;
@@ -693,7 +693,7 @@ body {
     justify-content: center;
     padding: 20px;
 }
-  
+
 .card-bank {
     border: 1px solid #ddd;
     border-radius: 10px;
@@ -702,24 +702,24 @@ body {
     text-align: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-  
+
 .card-bank img {
     max-width: 180px;
     height: auto;
     margin-bottom: 20px;
 }
-  
+
 .card-bank h3 {
     font-size: 20px;
     margin-bottom: 20px;
 }
-  
+
 .card-bank p {
     margin: 5px 0;
     font-size: 16px;
     color: #333;
 }
-  
+
 .card-bank button {
     margin-top: 10px;
     padding: 10px 15px;
@@ -730,7 +730,7 @@ body {
     border-radius: 5px;
     cursor: pointer;
 }
-  
+
 .card-bank button:hover {
     background-color: #846ad4;
 }
@@ -812,36 +812,36 @@ body {
     content: "";
     display: block;
     width: 100%;
-    height: 180px; 
+    height: 180px;
     background: url('gallery/footer_baru.png') no-repeat center/contain;
-    margin: 20px auto 0; 
+    margin: 20px auto 0;
     background-size: cover;
-   
+
 }
 .desktop-view {
     margin: 0;
     padding: 0;
-    background-color: #c2b8a3; 
+    background-color: #c2b8a3;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; 
+    height: 100vh;
     flex-direction: column;
     text-align: center;
-    padding: 20px; 
-    box-sizing: border-box; 
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .image-container img {
-    width: 100%; 
-    max-width: 500px; 
+    width: 100%;
+    max-width: 500px;
     height: auto;
     border-radius: 5px;
 }
 
 .text-desktop {
     margin-top: 20px;
-    font-size: 4vw; 
+    font-size: 4vw;
     font-style: italic;
     color: white;
     max-width: 90%;
@@ -857,11 +857,11 @@ body {
 
 @media (max-width: 375px) {
     .bride::after {
-        top: 155%; 
+        top: 155%;
     }
     .container-calender::after {
-        width: 373px; 
-        height: 373px; 
+        width: 373px;
+        height: 373px;
     }
     .container-quote {
         width: 87%;

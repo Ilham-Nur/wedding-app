@@ -8,10 +8,7 @@
                 <h5 class="card-title fw-semibold mb-0">Detail Wedding</h5>
             </div>
             <div>
-                <a href="{{ route('wedding.detail', $wedding->id) }}" class="btn btn-outline-primary m-1">📝 Detail</a>
-                <a href="{{ route('gallery.index', $wedding->id) }}" class="btn btn-outline-info">📷 Gallery</a>
-                <a href="#" class="btn btn-outline-success m-1">🎁 Gift</a>
-                <a href="#" class="btn btn-outline-primary m-1">👥 Tamu</a>
+                <a href="{{ route('wedding.detail', $wedding->id) }}" class="btn btn-outline-primary m-1">← Kembali</a>
             </div>
             <hr>
             <div class="d-flex justify-content-between align-items-center mb-4">
@@ -112,7 +109,7 @@
         @endif
 
         $(document).ready(function () {
-           
+
             $('.form-delete').submit(function (e) {
                 e.preventDefault();
                 Swal.fire({
@@ -131,7 +128,7 @@
                 });
             });
 
-      
+
             $('#formTambahFoto').submit(function (e) {
                 e.preventDefault();
                 Swal.fire({

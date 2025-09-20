@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{ asset($assetPath . '/style.css') }}">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
 </head>
 
 <body style="background-color: #ece8fa">
@@ -53,7 +54,7 @@
                 </audio>
             </div>
             <div class="home">
-                <img src="{{ asset('layout_undangan/layout5/gallery/first1.jpeg') }}" class="main-gallery" />
+                <img src="{{ asset('storage/' . $wedding->foto_utama) }}" class="main-gallery" />
             </div>
 
             <div class="svg-before">
@@ -95,10 +96,11 @@
                     <!-- Groom -->
                     <div class="person">
                         <div class="photo-wrapper">
-                            <img src="{{ asset('layout_undangan/layout5/gallery/frame_img_couple.png') }}" alt="Frame" class="photo-frame" />
-                            
+                            <img src="{{ asset('layout_undangan/layout5/gallery/frame_img_couple.png') }}"
+                                alt="Frame" class="photo-frame" />
+
                             <div class="photo">
-                                <img src="{{ asset('layout_undangan/layout5/gallery/groom.jpeg') }}" alt="Groom" />
+                                <img src="{{ asset('storage/' . $wedding->foto_suami) }}" alt="Groom" />
 
                             </div>
                         </div>
@@ -111,9 +113,10 @@
                     <!-- Bride -->
                     <div class="person">
                         <div class="photo-wrapper">
-                            <img src="{{ asset('layout_undangan/layout5/gallery/frame_img_couple.png') }}" alt="Frame" class="photo-frame" />
+                            <img src="{{ asset('layout_undangan/layout5/gallery/frame_img_couple.png') }}"
+                                alt="Frame" class="photo-frame" />
                             <div class="photo">
-                                <img src="{{ asset('layout_undangan/layout5/gallery/bride.jpeg') }}" alt="Bride" />
+                                <img src="{{ asset('storage/' . $wedding->foto_istri) }}" alt="Bride" />
                             </div>
                         </div>
                         <div class="name">{{ $wedding->nama_wanita }}</div>
@@ -136,42 +139,32 @@
                 <h1 class="Judul animate__animated animate__fadeInUp">
                     Moment <span class="highlight">Bahagia Kami</span>
                 </h1>
+                @if ($wedding->galeris->isNotEmpty())
+                    <div class="gallery-container">
 
-                <div class="contain section" id="gallery">
-                    <h1 class="Judul animate__animated animate__fadeInUp">
-                        Moment <span class="highlight">Bahagia Kami</span>
-                    </h1>
-
-                    {{-- 1. Cek dulu apakah ada foto di galeri sebelum menampilkan apapun --}}
-                    @if($wedding->galeris->isNotEmpty())
-
-                        <div class="gallery-container">
-
-                            {{-- 2. Loop pertama untuk menampilkan gambar utama (main-image) --}}
-                            <div class="main-image">
-                                @foreach($wedding->galeris as $foto)
-                                    {{-- Ambil path gambar dari database dan gunakan helper asset() --}}
-                                    <img src="{{ asset('storage/' . $foto->file_path) }}"
-                                        alt="{{ $foto->judul ?? 'Foto Galeri' }}">
-                                @endforeach
-                            </div>
-
-                            {{-- 3. Loop kedua untuk menampilkan gambar kecil (thumbnails) --}}
-                            <div class="thumbnails">
-                                @foreach($wedding->galeris as $foto)
-                                    {{-- Gunakan variabel $loop->index untuk mengisi data-index secara otomatis --}}
-                                    <img src="{{ asset('storage/' . $foto->file_path) }}"
-                                        alt="{{ $foto->judul ?? 'Thumbnail' }}" data-index="{{ $foto->urutan }}">
-                                @endforeach
-                            </div>
-
+                        {{-- 2. Loop pertama untuk menampilkan gambar utama (main-image) --}}
+                        <div class="main-image">
+                            @foreach ($wedding->galeris as $foto)
+                                {{-- Ambil path gambar dari database dan gunakan helper asset() --}}
+                                <img src="{{ asset('storage/' . $foto->file_path) }}"
+                                    alt="{{ $foto->judul ?? 'Foto Galeri' }}">
+                            @endforeach
                         </div>
 
-                    @else
-                        {{-- 4. Tampilkan pesan ini jika tidak ada foto sama sekali --}}
-                        <p class="text-center">Galeri foto akan segera ditambahkan.</p>
-                    @endif
-                </div>
+                        {{-- 3. Loop kedua untuk menampilkan gambar kecil (thumbnails) --}}
+                        <div class="thumbnails">
+                            @foreach ($wedding->galeris as $foto)
+                                {{-- Gunakan variabel $loop->index untuk mengisi data-index secara otomatis --}}
+                                <img src="{{ asset('storage/' . $foto->file_path) }}"
+                                    alt="{{ $foto->judul ?? 'Thumbnail' }}" data-index="{{ $foto->urutan }}">
+                            @endforeach
+                        </div>
+
+                    </div>
+                @else
+                    {{-- 4. Tampilkan pesan ini jika tidak ada foto sama sekali --}}
+                    <p class="text-center">Galeri foto akan segera ditambahkan.</p>
+                @endif
             </div>
             <div class="container-calender section" id="date">
                 <h1 class="Judul animate__animated animate__fadeInUp">
@@ -182,38 +175,29 @@
 
             <div class="timeline-container" id="location">
                 <h2 class="section-title">Jadwal Acara</h2>
-
-                <div class="event-card">
-                    <div class="event-header">
-                        <i class="fa fa-heart icon"></i>
-                        <h3>Unduh Mantu</h3>
+                @foreach ($wedding->lokasis as $lokasi)
+                    <div class="event-card">
+                        <div class="event-header">
+                            <i class="fa fa-heart icon"></i>
+                            <h3>{{ $lokasi->nama_acara }}</h3>
+                        </div>
+                        <div class="event-info">
+                            <p><i class="fa fa-calendar"></i>
+                                {{ \Carbon\Carbon::parse($lokasi->tanggal)->translatedFormat('l, d F Y') }}</p>
+                            <p><i class="fa fa-clock-o"></i>
+                                {{ \Carbon\Carbon::parse($lokasi->waktu_mulai)->format('H:i') }} –
+                                {{ $lokasi->waktu_selesai ? \Carbon\Carbon::parse($lokasi->waktu_selesai)->format('H:i') : 'selesai' }}
+                            </p>
+                            <p>
+                                <i class="fa fa-map-marker"></i>{{ $lokasi->alamat }}
+                            </p>
+                        </div>
+                        {{-- <button class="btn-location">Lihat Lokasi</button> --}}
+                        <button href="{{ $lokasi->maps_link }}" target="_blank" class="btn-location">
+                            Lihat lokasi
+                        </button>
                     </div>
-                    <div class="event-info">
-                        <p><i class="fa fa-calendar"></i> Rabu, 21 April 2021</p>
-                        <p><i class="fa fa-clock-o"></i> 11:00 WITA – selesai</p>
-                        <p>
-                            <i class="fa fa-map-marker"></i> Bukit Tinggi Sekali, Wetan
-                            ngalor. 12980
-                        </p>
-                    </div>
-                    <button class="btn-location">Lihat Lokasi</button>
-                </div>
-
-                <div class="event-card">
-                    <div class="event-header">
-                        <i class="fa fa-glass icon"></i>
-                        <h3>Resepsi</h3>
-                    </div>
-                    <div class="event-info">
-                        <p><i class="fa fa-calendar"></i> Rabu, 21 April 2021</p>
-                        <p><i class="fa fa-clock-o"></i> 18:00 WITA – selesai</p>
-                        <p>
-                            <i class="fa fa-map-marker"></i> Bukit Tinggi Sekali, Wetan
-                            ngalor. 12980
-                        </p>
-                    </div>
-                    <button class="btn-location">Lihat Lokasi</button>
-                </div>
+                @endforeach
             </div>
 
             <div class="Gifts section animate__animated animate__fadeInUp" id="gift">
@@ -237,8 +221,9 @@
                         </div>
 
                         <div class="card-bank animate__animated animate__fadeInLeft">
-                            <img src="{{ asset('layout_undangan/layout5/gallery/BNI.png') }}" alt="BNI Logo" style="margin-top: 5px" />
-                            
+                            <img src="{{ asset('layout_undangan/layout5/gallery/BNI.png') }}" alt="BNI Logo"
+                                style="margin-top: 5px" />
+
                             <p>
                                 No. Rekening: <strong id="bni-number">28202973424</strong>
                             </p>
@@ -250,24 +235,39 @@
                     </div>
                 </section>
             </div>
+
             <div class="container-wish section">
-                <h2 class="section-wishes animate__animated">Wishes</h2>
+                <h2 class="section-wishes animate__animated">Konfirmasi Kehadiran</h2>
                 <div class="form-container">
-                    <h3>Send a wish:</h3>
-                    <input type="text" placeholder="Your full name" class="wish-input" />
-                    <input type="text" placeholder="Your address" class="wish-input" />
-                    <textarea placeholder="ex: congrats for this event" class="wish-textarea"></textarea>
-                    <button class="submit-button">submit now</button>
+                    <h3>Isi Kehadiran & Ucapan:</h3>
+
+                    <!-- Select konfirmasi kehadiran -->
+                    <label for="attendance">Konfirmasi Kehadiran:</label>
+                    <select id="attendance" class="wish-input">
+                        <option value="">-- Pilih Kehadiran --</option>
+                        <option value="hadir">Hadir</option>
+                        <option value="tidak_hadir">Tidak Hadir</option>
+                        <option value="mungkin">Mungkin</option>
+                    </select>
+
+                    <!-- Textarea ucapan -->
+                    <label for="message">Ucapan:</label>
+                    <textarea id="message" placeholder="Tulis ucapanmu di sini..." class="wish-textarea"></textarea>
+
+                    <!-- Button submit -->
+                    <button class="submit-button" onclick="submitWish()">Kirim Ucapan</button>
                 </div>
-                <div class="message-box">
+
+                <!-- Tempat tampilkan ucapan -->
+                <div class="message-box" id="messageBox">
                     Belum ada yang mengirimkan ucapan, jadilah yang pertama
                 </div>
             </div>
 
             <div class="footer">
-                <p>powered by <b>Ilham Nur</b></p>
-                <img src="{{ asset('layout_undangan/layout5/gallery/instagram.png') }}" alt="Instagram Icon" class="footer-img" />
-                
+                <p>powered by <b>Arcdev</b></p>
+                <img src="{{ asset('layout_undangan/layout5/gallery/instagram.png') }}" alt="Instagram Icon"
+                    class="footer-img" />
             </div>
 
             <div class="menu-container">
@@ -309,17 +309,53 @@
     <script src="countdown/simplyCountdown.min.js"></script>
     <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
     <script>
-        // for (let i = 0; i < 15; i++) {
-        //     let bubble = document.createElement("div");
-        //     bubble.classList.add("bubble");
-        //     bubble.style.left = Math.random() * 100 + "vw";
-        //     bubble.style.animationDuration = Math.random() * 4 + 4 + "s";
-        //     bubble.style.animationDelay = Math.random() * 4 + "s";
-        //     document.querySelector(".bubbles").appendChild(bubble);
-        // }
+        // Array ucapan dari tamu
+        let wishes = [];
+
+        function submitWish() {
+            const attendance = document.getElementById('attendance').value;
+            const message = document.getElementById('message').value;
+
+            if (!attendance || !message) {
+                alert("Harap pilih kehadiran dan isi ucapan.");
+                return;
+            }
+
+            // Simpan ke array
+            wishes.push({
+                attendance,
+                message
+            });
+
+            // Render ulang ucapan
+            renderWishes();
+
+            // Reset input
+            document.getElementById('attendance').value = "";
+            document.getElementById('message').value = "";
+        }
+
+        function renderWishes() {
+            const box = document.getElementById('messageBox');
+            if (wishes.length === 0) {
+                box.innerHTML = "Belum ada yang mengirimkan ucapan, jadilah yang pertama";
+                return;
+            }
+
+            // Tampilkan semua ucapan
+            box.innerHTML = wishes.map((wish, i) => `
+            <div class="wish-item">
+                <strong>Kehadiran:</strong> ${wish.attendance} <br/>
+                <strong>Ucapan:</strong> ${wish.message}
+                <hr/>
+            </div>
+        `).join("");
+        }
+
+
         document
             .getElementById("button-inv")
-            .addEventListener("click", function () {
+            .addEventListener("click", function() {
                 const invitationContent = document.getElementById("main-content");
                 invitationContent.classList.remove("hidden");
                 invitationContent.classList.add("fade-in");
@@ -347,8 +383,7 @@
                             }
                         }
                     });
-                },
-                {
+                }, {
                     root: null,
                     threshold: 0.6,
                 }
@@ -360,7 +395,9 @@
         function scrollToSection(sectionId, button) {
             const section = document.getElementById(sectionId);
             if (section) {
-                section.scrollIntoView({ behavior: "smooth" });
+                section.scrollIntoView({
+                    behavior: "smooth"
+                });
             }
 
             const buttons = document.querySelectorAll(".menu-button");
@@ -438,12 +475,12 @@
         const mySong = document.getElementById("mySong");
         const lihatUndanganBtn = document.getElementById("button-inv");
 
-        mySong.addEventListener("ended", function () {
+        mySong.addEventListener("ended", function() {
             mySong.currentTime = 0;
             mySong.play();
         });
 
-        musicButton.addEventListener("click", function () {
+        musicButton.addEventListener("click", function() {
             if (mySong.paused) {
                 mySong.play();
                 musicButton.classList.add("active");
@@ -453,7 +490,7 @@
             }
         });
 
-        lihatUndanganBtn.addEventListener("click", function () {
+        lihatUndanganBtn.addEventListener("click", function() {
             if (mySong.paused) {
                 mySong.play();
                 musicButton.classList.add("active");
@@ -484,7 +521,7 @@
 
             // Menampilkan pop-up dan menghapusnya setelah 2 detik
             document.body.appendChild(alertBox);
-            setTimeout(function () {
+            setTimeout(function() {
                 document.body.removeChild(alertBox);
             }, 2000);
         }
@@ -497,10 +534,22 @@
             minutes: 0,
             seconds: 0,
             words: {
-                days: { singular: " DAYS", plural: " DAYS" },
-                hours: { singular: " HOURS", plural: " HOURS" },
-                minutes: { singular: " MINUTES", plural: " MINUTES" },
-                seconds: { singular: " SECONDS", plural: " SECONDS" },
+                days: {
+                    singular: " DAYS",
+                    plural: " DAYS"
+                },
+                hours: {
+                    singular: " HOURS",
+                    plural: " HOURS"
+                },
+                minutes: {
+                    singular: " MINUTES",
+                    plural: " MINUTES"
+                },
+                seconds: {
+                    singular: " SECONDS",
+                    plural: " SECONDS"
+                },
             },
         });
 

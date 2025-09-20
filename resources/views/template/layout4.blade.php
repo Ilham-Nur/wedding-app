@@ -30,11 +30,11 @@
                         Undangan Pernikahan
                     </h2>
                     <h1 data-aos="zoom-in" data-aos-duration="1200" data-aos-delay="200">
-                        Panjul <br />
+                        Panji <br />
                         & <br />
                         Ichay
                     </h1>
-                    <p>Minggu, 10 Oktober 2025</p>
+                    <p>Minggu, 4 Oktober 2025</p>
                     <a href="#" class="button-invitation" id="button-inv">
                         Open Invitation
                     </a>

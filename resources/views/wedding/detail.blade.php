@@ -2,6 +2,9 @@
 @section('title', 'Detail Wedding')
 
 @section('content')
+    <a href="{{ route('wedding.index') }}" class="btn btn-secondary mb-2">
+        ← Kembali
+    </a>
     <div class="card">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-3">
