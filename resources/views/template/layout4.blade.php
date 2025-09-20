@@ -34,7 +34,7 @@
                         & <br />
                         Ichay
                     </h1>
-                    <p>Minggu, 4 Oktober 2025</p>
+                    <p>Minggu, 04 Oktober 2025</p>
                     <a href="#" class="button-invitation" id="button-inv">
                         Open Invitation
                     </a>
@@ -47,12 +47,12 @@
                     <img src="{{ asset('layout_undangan/layout4/gallery/icon-music.png') }}" alt="Music Icon" />
                 </div>
                 <audio id="mySong">
-                    <source src="media/song.mp3" type="audio/mp3" />
+                     <source src="{{ asset('storage/' . $wedding->file_musik) }}" type="audio/mp3" />
                 </audio>
             </div>
             <div class="home">
-                <div class="side-text left">Panjul & Ichay</div>
-                <div class="side-text right">10 Oktober 2025</div>
+                <div class="side-text left">Panji & Ichay</div>
+                <div class="side-text right">04 Oktober 2025</div>
                 <img src="{{ asset('storage/' . $wedding->foto_utama) }}" class="main-gallery" />
             </div>
             <div class="container-quote animate__animated animate__fadeInUp animate__delay-1s">
