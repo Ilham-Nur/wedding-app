@@ -6,6 +6,7 @@ use App\Http\Controllers\TamuController;
 use App\Http\Controllers\WeddingController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\LokasiPernikahanController;
+use App\Http\Controllers\UndanganController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LoginController::class, 'index'])->name('login.index');
@@ -68,6 +69,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/lokasi/{id}/edit', [LokasiPernikahanController::class, 'edit'])->name('lokasi.edit');
     Route::put('/lokasi/{id}/update', [LokasiPernikahanController::class, 'update'])->name('lokasi.update');
     Route::delete('/lokasi/{id}/delete', [LokasiPernikahanController::class, 'destroy'])->name('lokasi.destroy');
+
+    //slug for undangan
+    Route::get('/undangan/{slug}', [UndanganController::class, 'show'])->name('undangan.show');
+
 
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });

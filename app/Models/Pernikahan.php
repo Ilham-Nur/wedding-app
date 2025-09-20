@@ -48,4 +48,19 @@ class Pernikahan extends Model
     {
         return $this->hasMany(Galeri::class, 'pernikahan_id');
     }
+
+    public function tamus()
+    {
+        return $this->hasMany(Tamu::class, 'pernikahan_id');
+    }
+
+    public function lokasis()
+    {
+        return $this->hasMany(LokasiPernikahan::class, 'pernikahan_id');
+    }
+
+    public function gifts()
+    {
+        return $this->hasMany(Gift::class, 'pernikahan_id');
+    }
 }
