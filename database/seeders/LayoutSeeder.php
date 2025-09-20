@@ -11,12 +11,14 @@ class LayoutSeeder extends Seeder
     {
         DB::table('layouts')->insert([
             [
-                'nama_layout' => 'Layout 1',
+                'nama_layout' => 'template4',
+                'folder_path' => 'layout4',
                 'preview_url' => '/images/layout1.png',
                 'deskripsi' => 'Tema elegan',
             ],
             [
-                'nama_layout' => 'Layout 2',
+                'nama_layout' => 'layout5',
+                'folder_path' => 'layout5',
                 'preview_url' => '/images/layout2.png',
                 'deskripsi' => 'Tema simple',
             ],
