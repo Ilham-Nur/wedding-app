@@ -354,16 +354,42 @@
 
             $(document).on('click', '.copy-btn', function() {
                 let link = $(this).data('link');
-                navigator.clipboard.writeText(link).then(function() {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Berhasil',
-                        text: 'Link berhasil disalin!',
-                        timer: 1500,
-                        showConfirmButton: false
+
+                if (navigator.clipboard && window.isSecureContext) {
+                    // HTTPS / Clipboard API tersedia
+                    navigator.clipboard.writeText(link).then(function() {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: 'Link berhasil disalin!',
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+                    }).catch(function(err) {
+                        console.error('Gagal copy: ', err);
                     });
-                });
+                } else {
+                    // Fallback untuk HTTP
+                    const textArea = document.createElement("textarea");
+                    textArea.value = link;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    try {
+                        document.execCommand("copy");
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: 'Link berhasil disalin!',
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+                    } catch (err) {
+                        console.error("Gagal copy fallback: ", err);
+                    }
+                    document.body.removeChild(textArea);
+                }
             });
+
         });
     </script>
 @endsection
