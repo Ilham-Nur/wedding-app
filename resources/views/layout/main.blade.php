@@ -22,14 +22,14 @@
                         <span class="hide-menu">Home</span>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="./index.html" aria-expanded="false">
+                        <a class="sidebar-link" href="" aria-expanded="false">
                             <span>
-                                <i class="ti ti-layout-dashboard"></i>
+                                <i class="ti ti-users"></i>
                             </span>
-                            <span class="hide-menu">Dashboard</span>
+                            <span class="hide-menu">Wedding</span>
                         </a>
                     </li>
-                    <li class="nav-small-cap">
+                    {{-- <li class="nav-small-cap">
                         <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                         <span class="hide-menu">UI COMPONENTS</span>
                     </li>
@@ -112,9 +112,9 @@
                             </span>
                             <span class="hide-menu">Sample Page</span>
                         </a>
-                    </li>
+                    </li> --}}
                 </ul>
-                <div class="unlimited-access hide-menu bg-light-primary position-relative mb-7 mt-5 rounded">
+                {{-- <div class="unlimited-access hide-menu bg-light-primary position-relative mb-7 mt-5 rounded">
                     <div class="d-flex">
                         <div class="unlimited-access-title me-3">
                             <h6 class="fw-semibold fs-4 mb-6 text-dark w-85">Upgrade to pro</h6>
@@ -126,7 +126,7 @@
                                 class="img-fluid">
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </nav>
             <!-- End Sidebar navigation -->
         </div>
@@ -140,8 +140,7 @@
             <nav class="navbar navbar-expand-lg navbar-light">
                 <ul class="navbar-nav">
                     <li class="nav-item d-block d-xl-none">
-                        <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse"
-                            href="javascript:void(0)">
+                        <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse" href="javascript:void(0)">
                             <i class="ti ti-menu-2"></i>
                         </a>
                     </li>
@@ -165,23 +164,25 @@
                             <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"
                                 aria-labelledby="drop2">
                                 <div class="message-body">
-                                    <a href="javascript:void(0)"
-                                        class="d-flex align-items-center gap-2 dropdown-item">
+                                    <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
                                         <i class="ti ti-user fs-6"></i>
                                         <p class="mb-0 fs-3">My Profile</p>
                                     </a>
-                                    <a href="javascript:void(0)"
-                                        class="d-flex align-items-center gap-2 dropdown-item">
+                                    <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
                                         <i class="ti ti-mail fs-6"></i>
                                         <p class="mb-0 fs-3">My Account</p>
                                     </a>
-                                    <a href="javascript:void(0)"
-                                        class="d-flex align-items-center gap-2 dropdown-item">
+                                    <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
                                         <i class="ti ti-list-check fs-6"></i>
                                         <p class="mb-0 fs-3">My Task</p>
                                     </a>
-                                    <a href="./authentication-login.html"
-                                        class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                                    <a href="#" class="btn btn-outline-primary mx-3 mt-2 d-block" id="btn-logout">
+                                        Logout
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
                                 </div>
                             </div>
                         </li>
@@ -195,8 +196,8 @@
         </div>
 
         <div class="py-6 px-6 text-center">
-            <p class="mb-0 fs-4">Design and Developed by <a href="https://www.instagram.com/ilo_noer" target="_blank"
-                    class="pe-1 text-primary text-decoration-underline">Ilham Nur</a></p>
+            <p class="mb-0 fs-4">Developed by <a href="https://www.instagram.com/ilo_noer" target="_blank"
+                    class="pe-1 text-primary text-decoration-underline">ARCDEV</a></p>
         </div>
 
     </div>

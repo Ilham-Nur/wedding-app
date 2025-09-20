@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c514d8f7b9fc5970bdd94287905ef584",
+    "content-hash": "78af69ee316038c76fa1d1b14c736074",
     "packages": [
         {
             "name": "brick/math",
@@ -1055,6 +1055,7 @@
         },
         {
             "name": "laravel/framework",
+<<<<<<< HEAD
             "version": "v12.29.0",
             "source": {
                 "type": "git",
@@ -1065,6 +1066,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/framework/zipball/a9e4c73086f5ba38383e9c1d74b84fe46aac730b",
                 "reference": "a9e4c73086f5ba38383e9c1d74b84fe46aac730b",
+=======
+            "version": "v12.30.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/framework.git",
+                "reference": "943603722fe95b69f216bdcda7d060c9a55f18fd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/943603722fe95b69f216bdcda7d060c9a55f18fd",
+                "reference": "943603722fe95b69f216bdcda7d060c9a55f18fd",
+>>>>>>> d1c48d2b800b387a00091de35a4390b846979cfc
                 "shasum": ""
             },
             "require": {
@@ -1092,7 +1105,11 @@
                 "monolog/monolog": "^3.0",
                 "nesbot/carbon": "^3.8.4",
                 "nunomaduro/termwind": "^2.0",
+<<<<<<< HEAD
                 "phiki/phiki": "v2.0.0",
+=======
+                "phiki/phiki": "^2.0.0",
+>>>>>>> d1c48d2b800b387a00091de35a4390b846979cfc
                 "php": "^8.2",
                 "psr/container": "^1.1.1|^2.0.1",
                 "psr/log": "^1.0|^2.0|^3.0",
@@ -1271,7 +1288,11 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
+<<<<<<< HEAD
             "time": "2025-09-16T14:15:03+00:00"
+=======
+            "time": "2025-09-18T15:10:15+00:00"
+>>>>>>> d1c48d2b800b387a00091de35a4390b846979cfc
         },
         {
             "name": "laravel/prompts",
@@ -2516,6 +2537,7 @@
         },
         {
             "name": "phiki/phiki",
+<<<<<<< HEAD
             "version": "v2.0.0",
             "source": {
                 "type": "git",
@@ -2526,6 +2548,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/phikiphp/phiki/zipball/461f6dd7e91dc3a95463b42f549ac7d0aab4702f",
                 "reference": "461f6dd7e91dc3a95463b42f549ac7d0aab4702f",
+=======
+            "version": "v2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phikiphp/phiki.git",
+                "reference": "6d735108238c03daaaef571448d8dee8187cab5e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phikiphp/phiki/zipball/6d735108238c03daaaef571448d8dee8187cab5e",
+                "reference": "6d735108238c03daaaef571448d8dee8187cab5e",
+>>>>>>> d1c48d2b800b387a00091de35a4390b846979cfc
                 "shasum": ""
             },
             "require": {
@@ -2571,7 +2605,11 @@
             "description": "Syntax highlighting using TextMate grammars in PHP.",
             "support": {
                 "issues": "https://github.com/phikiphp/phiki/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/phikiphp/phiki/tree/v2.0.0"
+=======
+                "source": "https://github.com/phikiphp/phiki/tree/v2.0.2"
+>>>>>>> d1c48d2b800b387a00091de35a4390b846979cfc
             },
             "funding": [
                 {
@@ -2583,7 +2621,11 @@
                     "type": "other"
                 }
             ],
+<<<<<<< HEAD
             "time": "2025-08-28T18:20:27+00:00"
+=======
+            "time": "2025-09-17T18:32:40+00:00"
+>>>>>>> d1c48d2b800b387a00091de35a4390b846979cfc
         },
         {
             "name": "phpoption/phpoption",
@@ -6096,6 +6138,95 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.11.0"
             },
             "time": "2022-06-03T18:03:27+00:00"
+        },
+        {
+            "name": "yajra/laravel-datatables-oracle",
+            "version": "v12.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yajra/laravel-datatables.git",
+                "reference": "7b5f1f5454ab46f9bb735c23f67c3a88b70e0e4a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/7b5f1f5454ab46f9bb735c23f67c3a88b70e0e4a",
+                "reference": "7b5f1f5454ab46f9bb735c23f67c3a88b70e0e4a",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^12",
+                "illuminate/filesystem": "^12",
+                "illuminate/http": "^12",
+                "illuminate/support": "^12",
+                "illuminate/view": "^12",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "algolia/algoliasearch-client-php": "^3.4.1",
+                "larastan/larastan": "^3.1.0",
+                "laravel/pint": "^1.14",
+                "laravel/scout": "^10.8.3",
+                "meilisearch/meilisearch-php": "^1.6.1",
+                "orchestra/testbench": "^10",
+                "rector/rector": "^2.0"
+            },
+            "suggest": {
+                "yajra/laravel-datatables-buttons": "Plugin for server-side exporting of dataTables.",
+                "yajra/laravel-datatables-editor": "Plugin to use DataTables Editor (requires a license).",
+                "yajra/laravel-datatables-export": "Plugin for server-side exporting using livewire and queue worker.",
+                "yajra/laravel-datatables-fractal": "Plugin for server-side response using Fractal.",
+                "yajra/laravel-datatables-html": "Plugin for server-side HTML builder of dataTables."
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "DataTables": "Yajra\\DataTables\\Facades\\DataTables"
+                    },
+                    "providers": [
+                        "Yajra\\DataTables\\DataTablesServiceProvider"
+                    ]
+                },
+                "branch-alias": {
+                    "dev-master": "12.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helper.php"
+                ],
+                "psr-4": {
+                    "Yajra\\DataTables\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Arjay Angeles",
+                    "email": "aqangeles@gmail.com"
+                }
+            ],
+            "description": "jQuery DataTables API for Laravel",
+            "keywords": [
+                "datatables",
+                "jquery",
+                "laravel",
+                "yajra"
+            ],
+            "support": {
+                "issues": "https://github.com/yajra/laravel-datatables/issues",
+                "source": "https://github.com/yajra/laravel-datatables/tree/v12.4.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/yajra",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-09-09T12:14:05+00:00"
         }
     ],
     "packages-dev": [
