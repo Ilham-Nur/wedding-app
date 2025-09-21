@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{ asset($assetPath . '/style.css') }}">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
 </head>
 
 <body style="background-color: #f2efe7">
@@ -181,7 +182,7 @@
                 @endforeach
             </div>
 
-            @if(isset($tamu) && $tamu->show_gift)
+            @if (isset($tamu) && $tamu->show_gift)
                 <div class="Gifts section animate__animated animate__fadeInUp" id="gift">
                     <!-- Love Gift Section -->
                     <section class="love-gift">
@@ -193,44 +194,82 @@
                                 kepada kami, dapat melalui:</i>
                         </p>
                         <div class="container-bank">
-                            <div class="card-bank animate__animated animate__fadeInLeft">
-                                <img src="{{ asset('layout_undangan/layout4/gallery/BCA.png') }}" alt="BCA Logo" />
-
-                                <p>No. Rekening: <strong id="bca-number">2820297663</strong></p>
-                                <p>a.n Tandrio</p>
-                                <button onclick="copyToClipboard('bca-number')">
-                                    Salin No. Rekening
-                                </button>
-                            </div>
-
-                            <div class="card-bank animate__animated animate__fadeInLeft">
-                                <img src="{{ asset('layout_undangan/layout4/gallery/BNI.png') }}" alt="BNI Logo"
-                                    style="margin-top: 5px" />
-                                <p>
-                                    No. Rekening: <strong id="bni-number">28202973424</strong>
-                                </p>
-                                <p>a.n Tandrio</p>
-                                <button onclick="copyToClipboard('bni-number')">
-                                    Salin No. Rekening
-                                </button>
-                            </div>
+                            @foreach ($wedding->gifts as $rekening)
+                                @php
+                                    // buat id unik untuk tombol copy
+                                    $copyId = 'rekening-' . $rekening->id;
+                                @endphp
+                                <div class="card-bank animate__animated animate__fadeInLeft">
+                                    <img src="{{ asset('layout_undangan/layout4/gallery/' . $rekening->bank_nama . '.png') }}"
+                                        alt="{{ $rekening->bank_nama }} Logo" style="margin-top: 5px" />
+                                    <p>No. Rekening: <strong
+                                            id="{{ $copyId }}">{{ $rekening->no_rekening }}</strong></p>
+                                    <p>a.n {{ $rekening->atas_nama }}</p>
+                                    @if ($rekening->catatan)
+                                        <p><i>{{ $rekening->catatan }}</i></p>
+                                    @endif
+                                    <button onclick="copyToClipboard('{{ $copyId }}')">
+                                        Salin No. Rekening
+                                    </button>
+                                </div>
+                            @endforeach
                         </div>
                     </section>
                 </div>
             @endif
 
             <div class="container-wish section">
-                <h2 class="section-wishes animate__animated">Wishes</h2>
-                <div class="form-container">
-                    <h3>Send a wish:</h3>
-                    <input type="text" placeholder="Your full name" class="wish-input" />
-                    <input type="text" placeholder="Your address" class="wish-input" />
-                    <textarea placeholder="ex: congrats for this event" class="wish-textarea"></textarea>
-                    <button class="submit-button">submit now</button>
-                </div>
-                <div class="message-box">
-                    Belum ada yang mengirimkan ucapan, jadilah yang pertama
-                </div>
+                <h2 class="section-wishes animate__animated">Konfirmasi Kehadiran & Ucapan</h2>
+
+                @if (isset($tamu))
+                    @if ($tamu->status_hadir === 'belum_konfirmasi')
+                        <div class="form-container">
+                            <h3>Isi Kehadiran & Ucapan Anda:</h3>
+
+                            <!-- Status Hadir -->
+                            <label for="status_hadir">Konfirmasi Kehadiran:</label>
+                            <select id="status_hadir" name="status_hadir" class="wish-input" required>
+                                <option value="">-- Pilih Kehadiran --</option>
+                                <option value="belum_konfirmasi"
+                                    {{ $tamu->status_hadir == 'belum_konfirmasi' ? 'selected' : '' }}>Belum Konfirmasi
+                                </option>
+                                <option value="hadir" {{ $tamu->status_hadir == 'hadir' ? 'selected' : '' }}>Hadir
+                                </option>
+                                <option value="tidak_hadir"
+                                    {{ $tamu->status_hadir == 'tidak_hadir' ? 'selected' : '' }}>Tidak Hadir</option>
+                                <option value="mungkin" {{ $tamu->status_hadir == 'mungkin' ? 'selected' : '' }}>
+                                    Mungkin</option>
+                            </select>
+
+                            <!-- Jumlah Orang -->
+                            <label for="jumlah_orang">Jumlah Orang:</label>
+                            <input type="number" id="jumlah_orang" name="jumlah_orang" class="wish-input"
+                                min="1" value="{{ $tamu->jumlah_orang }}" required>
+
+                            <!-- Ucapan -->
+                            <label for="ucapan">Ucapan:</label>
+                            <textarea id="ucapan" name="ucapan" class="wish-textarea" placeholder="Tulis ucapanmu di sini...">{{ $tamu->ucapan }}</textarea>
+
+                            <!-- Tombol submit -->
+                            <button class="submit-button" id="submitWishBtn">Kirim</button>
+                        </div>
+                    @endif
+
+                    <!-- Daftar ucapan tamu -->
+                    <div class="message-box" id="messageBox">
+                        @if ($tamu->ucapan)
+                            <div class="wish-card">
+                                <h4 class="wish-name">{{ $tamu->nama_tamu }}</h4>
+                                <span
+                                    class="badge {{ $tamu->status_hadir }}">{{ ucfirst($tamu->status_hadir) }}</span>
+                                <p class="wish-text">{{ $tamu->ucapan }}</p>
+                            </div>
+                        @else
+                            <p>Belum ada yang mengirimkan ucapan, jadilah yang pertama</p>
+                        @endif
+                    </div>
+                @endif
+
             </div>
 
             <div class="footer">
@@ -278,6 +317,59 @@
     <script src="https://kit.fontawesome.com/f89fc2c44e.js" crossorigin="anonymous"></script>
     <script src="countdown/simplyCountdown.min.js"></script>
     <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+
+    <!-- SweetAlert CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        document.getElementById('submitWishBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            const statusHadir = document.getElementById('status_hadir').value;
+            const jumlahOrang = document.getElementById('jumlah_orang').value;
+            const ucapan = document.getElementById('ucapan').value;
+
+            if (!statusHadir || !jumlahOrang) {
+                Swal.fire('Peringatan', 'Harap isi status kehadiran dan jumlah orang.', 'warning');
+                return;
+            }
+
+            fetch(`/tamu/{{ $tamu->id }}/update-wish`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        status_hadir: statusHadir,
+                        jumlah_orang: jumlahOrang,
+                        ucapan: ucapan
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire('Berhasil', 'Ucapan dan kehadiran berhasil diperbarui!', 'success');
+
+                        // update message-box tanpa reload
+                        const box = document.getElementById('messageBox');
+                        box.innerHTML = `
+                <div class="wish-card">
+        <h4 class="wish-name">{{ $tamu->nama_tamu }}</h4>
+        <span class="badge ${statusHadir.toLowerCase()}">${statusHadir.charAt(0).toUpperCase() + statusHadir.slice(1)}</span>
+        <p class="wish-text">${ucapan}</p>
+    </div>
+            `;
+                    } else {
+                        Swal.fire('Error', 'Terjadi kesalahan, silakan coba lagi.', 'error');
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    Swal.fire('Error', 'Terjadi kesalahan server.', 'error');
+                });
+        });
+    </script>
     <script>
         // for (let i = 0; i < 15; i++) {
         //     let bubble = document.createElement("div");

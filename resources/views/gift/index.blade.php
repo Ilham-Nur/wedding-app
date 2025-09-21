@@ -52,7 +52,11 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="add_bank_nama" class="form-label">Nama Bank</label>
-                            <input type="text" class="form-control" id="add_bank_nama" name="bank_nama" required>
+                            <select class="form-control" id="add_bank_nama" name="bank_nama" required>
+                                <option value="">-- Pilih Bank --</option>
+                                <option value="BNI">BNI</option>
+                                <option value="BCA">BCA</option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="add_atas_nama" class="form-label">Atas Nama</label>
@@ -93,7 +97,13 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="edit_bank_nama" class="form-label">Nama Bank</label>
-                            <input type="text" class="form-control" id="edit_bank_nama" name="bank_nama" required>
+                            <select class="form-control" id="edit_bank_nama" name="bank_nama" required>
+                                <option value="">-- Pilih Bank --</option>
+                                <option value="BNI" {{ isset($bankNama) && $bankNama == 'BNI' ? 'selected' : '' }}>BNI
+                                </option>
+                                <option value="BCA" {{ isset($bankNama) && $bankNama == 'BCA' ? 'selected' : '' }}>BCA
+                                </option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="edit_atas_nama" class="form-label">Atas Nama</label>
@@ -201,7 +211,7 @@
                     $('#edit_no_rekening').val(res.no_rekening);
                     $('#edit_catatan').val(res.catatan);
                     $('#edit_pernikahan_id').val(res.pernikahan_id ||
-                    pernikahanId); // pastikan terisi
+                        pernikahanId); // pastikan terisi
 
                     $('#editGiftForm').attr('action', '/gift/' + id + '/update');
                     $('#editGiftModal').modal('show');

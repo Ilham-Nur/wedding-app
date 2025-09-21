@@ -14,6 +14,7 @@ Route::get('/', [LoginController::class, 'index'])->name('login.index');
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 
 Route::get('/undangan/{slug}/{code}', [UndanganController::class, 'show'])->name('undangan.show');
+Route::post('/tamu/{id}/update-wish', [UndanganController::class, 'updateWish'])->name('tamu.updateWish');
 
 
 Route::middleware('auth')->group(function () {
