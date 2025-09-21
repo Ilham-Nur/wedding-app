@@ -31,13 +31,14 @@
                         Undangan Pernikahan
                     </h2>
                     <h1 data-aos="zoom-in" data-aos-duration="1200" data-aos-delay="200">
-                        Panji <br />
-                        & <br />
-                        Ichay
+                        @if (isset($tamu))
+                            {!! preg_replace('/\s*&\s*/', '<br>&<br>', $tamu->nama_tamu) !!}
+                        @endif
                     </h1>
-                    <p>Minggu, 04 Oktober 2025</p>
+
+                    <p>{{ \Carbon\Carbon::parse($wedding->tanggal)->translatedFormat('l, d F Y') }}</p>
                     <a href="#" class="button-invitation" id="button-inv">
-                        Open Invitation
+                        Buka Undangan
                     </a>
                 </div>
             </div>
@@ -52,23 +53,24 @@
                 </audio>
             </div>
             <div class="home">
-                <div class="side-text left">Panji & Ichay</div>
-                <div class="side-text right">04 Oktober 2025</div>
+                <div class="side-text left">Panji & Frisca</div>
+                <div class="side-text right">{{ \Carbon\Carbon::parse($wedding->tanggal)->translatedFormat('d F Y') }}
+                </div>
                 <img src="{{ asset('storage/' . $wedding->foto_utama) }}" class="main-gallery" />
             </div>
             <div class="container-quote animate__animated animate__fadeInUp animate__delay-1s">
                 <div class="content-quote">
                     <h3 class="animate__animated animate__bounceIn animate__delay-2s" style="font-style: italic">
-                        Allah's blessings message
+                        Pesan berkah dari Allah
                         <span style="font-family: serif">﷽</span>
                     </h3>
                     <p class="animate__animated animate__fadeIn animate__delay-3s"
                         style="font-style: italic; font-family: 'Georgia', serif">
-                        Meaning: "And among the signs of His power is that He created for
-                        you wives of your own kind, so that you would be inclined and feel
-                        at ease with them, and He made among you a feeling of love and
-                        affection. Indeed, in that there are truly signs for a person who
-                        thinks."
+                        Artinya: "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan
+                        untukmu pasangan-pasangan dari jenismu sendiri, agar kamu merasa tenteram
+                        dan merasa nyaman dengan mereka, dan Dia menanamkan di antara kalian
+                        rasa kasih sayang dan cinta. Sungguh, di dalam itu benar-benar terdapat
+                        tanda bagi orang yang berpikir."
                     </p>
                     <p class="animate__animated animate__fadeIn animate__delay-4s"
                         style="font-style: italic; font-family: 'Georgia', serif">
@@ -187,7 +189,7 @@
                     <!-- Love Gift Section -->
                     <section class="love-gift">
                         <h2 class="section-love animate__animated animate__fadeInLeft">
-                            Love Gift
+                            Tanda Kasih
                         </h2>
                         <p>
                             <i>Dengan hormat, bagi Anda yang ingin memberikan tanda kasih
@@ -454,7 +456,7 @@
             autoSlideInterval = setInterval(() => {
                 currentIndex = (currentIndex + 1) % mainImages.length; // Perpindahan ke gambar berikutnya
                 setActiveImage(currentIndex);
-            }, 3000); // Interval waktu (3 detik)
+            }, 7000); // Interval waktu (3 detik)
         }
 
         // Inisialisasi awal saat halaman dimuat

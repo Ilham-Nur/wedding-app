@@ -272,7 +272,7 @@ body {
    color: #d4a76a;
 }
 .side-text.right {
-   right: -45px;
+   right: -60px;
    transform: translateY(-50%) rotate(90deg);
 }
 .side-text.left {
@@ -893,7 +893,7 @@ body {
         width: 89.2%;
     }
     .container-calender {
-        width: 88%;
+        width: 100%;
     }
     .home {
         width: 89%;

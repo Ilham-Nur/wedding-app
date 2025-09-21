@@ -56,6 +56,7 @@
                                 <option value="">-- Pilih Bank --</option>
                                 <option value="BNI">BNI</option>
                                 <option value="BCA">BCA</option>
+                                <option value="MANDIRI">MANDIRI</option>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -102,6 +103,8 @@
                                 <option value="BNI" {{ isset($bankNama) && $bankNama == 'BNI' ? 'selected' : '' }}>BNI
                                 </option>
                                 <option value="BCA" {{ isset($bankNama) && $bankNama == 'BCA' ? 'selected' : '' }}>BCA
+                                </option>
+                                <option value="MANDIRI" {{ isset($bankNama) && $bankNama == 'MANDIRI' ? 'selected' : '' }}>MANDIRI
                                 </option>
                             </select>
                         </div>
