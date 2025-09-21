@@ -272,7 +272,7 @@ body {
    color: #d4a76a;
 }
 .side-text.right {
-   right: -60px;
+   right: -50px;
    transform: translateY(-50%) rotate(90deg);
 }
 .side-text.left {
