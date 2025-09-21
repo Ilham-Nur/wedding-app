@@ -257,13 +257,16 @@
 
                     <!-- Daftar ucapan tamu -->
                     <div class="message-box" id="messageBox">
-                        @if ($tamu->ucapan)
-                            <div class="wish-card">
-                                <h4 class="wish-name">{{ $tamu->nama_tamu }}</h4>
-                                <span
-                                    class="badge {{ $tamu->status_hadir }}">{{ ucfirst($tamu->status_hadir) }}</span>
-                                <p class="wish-text">{{ $tamu->ucapan }}</p>
-                            </div>
+                        @if ($tamusWithUcapan->count())
+                            @foreach ($tamusWithUcapan as $wish)
+                                <div class="wish-card">
+                                    <h4 class="wish-name">{{ $wish->nama_tamu }}
+                                    </h4>
+                                    <span
+                                        class="badge {{ $wish->status_hadir }}">{{ ucfirst($wish->status_hadir) }}</span>
+                                    <p class="wish-text">{{ $wish->ucapan }}</p>
+                                </div>
+                            @endforeach
                         @else
                             <p>Belum ada yang mengirimkan ucapan, jadilah yang pertama</p>
                         @endif

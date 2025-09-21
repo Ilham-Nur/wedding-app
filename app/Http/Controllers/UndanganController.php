@@ -8,13 +8,20 @@ use Illuminate\Http\Request;
 
 class UndanganController extends Controller
 {
-    public function show($slug, $code = null)
+   public function show($slug, $code = null)
     {
-        $wedding = Pernikahan::with('layout', 'galeris', 'tamus', 'lokasis', 'gifts')
+        $wedding = Pernikahan::with('layout', 'galeris', 'lokasis', 'gifts')
                     ->where('slug', $slug)
                     ->firstOrFail();
 
+        // ambil semua tamu dengan ucapan untuk pernikahan ini
+        $tamusWithUcapan = $wedding->tamus()
+        ->where('status_hadir', '!=', 'belum_konfirmasi')
+        ->get();
+
+
         // opsional: cek code tamu
+        $tamu = null;
         if ($code) {
             $tamu = $wedding->tamus()->where('undangan_code', $code)->first();
             if (! $tamu) {
@@ -23,8 +30,9 @@ class UndanganController extends Controller
         }
 
         $viewPath = 'template.' . $wedding->layout->folder_path;
-        return view($viewPath, compact('wedding', 'tamu'));
+        return view($viewPath, compact('wedding', 'tamu', 'tamusWithUcapan'));
     }
+
 
      public function updateWish(Request $request, $id)
     {
