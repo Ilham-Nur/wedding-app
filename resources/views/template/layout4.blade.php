@@ -456,7 +456,7 @@
             autoSlideInterval = setInterval(() => {
                 currentIndex = (currentIndex + 1) % mainImages.length; // Perpindahan ke gambar berikutnya
                 setActiveImage(currentIndex);
-            }, 7000); // Interval waktu (3 detik)
+            }, 3000); // Interval waktu (3 detik)
         }
 
         // Inisialisasi awal saat halaman dimuat

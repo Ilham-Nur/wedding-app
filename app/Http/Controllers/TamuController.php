@@ -52,13 +52,28 @@ class TamuController extends Controller
                     </div>
                 ';
             })
-            ->addColumn('action', function ($row) {
+           ->addColumn('action', function ($row) {
                 $phone = preg_replace('/^0/', '62', $row->no_telp);
-                $slug = $row->pernikahan->slug ?? '';
-                $code = $row->undangan_code ?? '';
-                $url  = url("undangan/{$slug}/{$code}");
+                $slug  = $row->pernikahan->slug ?? '';
+                $code  = $row->undangan_code ?? '';
+                $url   = url("undangan/{$slug}/{$code}");
 
-                $message = urlencode("Halo {$row->nama_tamu}, ini undangan pernikahan untuk Anda: {$url}");
+                $namaPria   = $row->pernikahan->nama_pria ?? 'Mempelai Pria';
+                $namaWanita = $row->pernikahan->nama_wanita ?? 'Mempelai Wanita';
+
+                $message = urlencode(
+                    "Assalamu’alaikum Warahmatullahi Wabarakatuh\n\n" .
+                    "Dengan penuh rasa syukur, kami mengundang Bapak/Ibu/Saudara/i untuk hadir dan memberikan doa restu pada acara pernikahan kami:\n\n" .
+                    "🧑 {$namaPria}\n👩 {$namaWanita}\n\n" .
+                    "📅 Hari/Tanggal : Sabtu, 04 Oktober 2025\n" .
+                    "⏰ Waktu : 09.00 - 18.00\n" .
+                    "📍 Tempat : Gedung M.Space Convention Center\n\n" .
+                    "Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu.\n\n" .
+                    "Untuk detail acara, dapat dilihat pada undangan digital berikut:\n👉 {$url}\n\n" .
+                    "Mohon maaf perihal undangan hanya dibagikan melalui pesan ini. Atas kehadiran dan doa restunya, kami ucapkan terima kasih.\n\n" .
+                    "Wassalamu’alaikum Warahmatullahi Wabarakatuh\n\n" .
+                    "Hormat kami dan keluarga."
+                );
 
                 $waLink = "https://wa.me/{$phone}?text={$message}";
 
@@ -74,6 +89,7 @@ class TamuController extends Controller
                     </a>
                 ';
             })
+
             ->addColumn('ucapan', function($row){
                 return $row->ucapan ? $row->ucapan : '-';
             })
