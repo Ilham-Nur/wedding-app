@@ -28,7 +28,9 @@ class Pernikahan extends Model
         'nama_ayah_suami',
         'nama_ibu_suami',
         'nama_ayah_istri',
-        'nama_ibu_istri'
+        'nama_ibu_istri',
+        'turut_mengundang_pria',
+        'turut_mengundang_wanita'
     ];
 
     // Relasi contoh

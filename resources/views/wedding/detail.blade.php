@@ -125,6 +125,29 @@
                             value="{{ old('nama_ibu_istri', $wedding->nama_ibu_istri) }}">
                     </div>
                 </div>
+
+                {{-- Turut Mengundang Pihak Laki-laki --}}
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <label class="form-label">Turut Mengundang Pihak Laki-laki</label>
+                        <div id="editor-pria" style="height:200px; background:#fff;">
+                            {!! old('turut_mengundang_pria', $wedding->turut_mengundang_pria ?? '') !!}
+                        </div>
+                        <input type="hidden" name="turut_mengundang_pria" id="input-pria">
+                    </div>
+                </div>
+
+                {{-- Turut Mengundang Pihak Perempuan --}}
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <label class="form-label">Turut Mengundang Pihak Perempuan</label>
+                        <div id="editor-wanita" style="height:200px; background:#fff;">
+                            {!! old('turut_mengundang_wanita', $wedding->turut_mengundang_wanita ?? '') !!}
+                        </div>
+                        <input type="hidden" name="turut_mengundang_wanita" id="input-wanita">
+                    </div>
+                </div>
+
                 <div class="text-end">
                     <button type="button" class="btn btn-success btn-submit">💾 Simpan</button>
                 </div>
@@ -147,9 +170,21 @@
             }
         }
 
+        var quillPria = new Quill('#editor-pria', {
+            theme: 'snow'
+        });
+        var quillWanita = new Quill('#editor-wanita', {
+            theme: 'snow'
+        });
+
         $(document).ready(function() {
             $('.btn-submit').click(function(e) {
-                e.preventDefault(); // cegah submit default
+                e.preventDefault();
+
+                // simpan isi Quill ke hidden input
+                $('#input-pria').val(quillPria.root.innerHTML);
+                $('#input-wanita').val(quillWanita.root.innerHTML);
+
                 Swal.fire({
                     title: 'Apakah kamu yakin?',
                     text: "Data yang diubah akan tersimpan!",
@@ -161,7 +196,6 @@
                     cancelButtonText: 'Batal'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // Submit form secara manual
                         $(this).closest('form').submit();
                     }
                 });

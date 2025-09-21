@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{{ asset('template/assets/css/styles.min.css') }}" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 </head>
 
 <body>
@@ -26,6 +27,7 @@
     <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
 
     <script>
         document.getElementById('btn-logout').addEventListener('click', function(e) {

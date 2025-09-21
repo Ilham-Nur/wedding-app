@@ -32,10 +32,15 @@
                     </h2>
                     <h1 data-aos="zoom-in" data-aos-duration="1200" data-aos-delay="200">
                         @if (isset($tamu))
-                            {!! preg_replace('/\s*&\s*/', '<br>&<br>', $tamu->nama_tamu) !!}
+                            <span style="font-size: 1.2rem; display:block; margin-bottom:10px;">
+                                Dear {{ $tamu->nama_tamu }},
+                            </span>
                         @endif
-                    </h1>
 
+                        Panji
+                        <br>&
+                        <br>Frisca
+                    </h1>
                     <p>{{ \Carbon\Carbon::parse($wedding->tanggal)->translatedFormat('l, d F Y') }}</p>
                     <a href="#" class="button-invitation" id="button-inv">
                         Buka Undangan
@@ -219,6 +224,33 @@
                     </section>
                 </div>
             @endif
+            @php
+                $turutPria = trim(strip_tags($wedding->turut_mengundang_pria));
+                $turutWanita = trim(strip_tags($wedding->turut_mengundang_wanita));
+            @endphp
+
+            @if (!empty($turutPria))
+                <div class="container-mengundang-pria">
+                    <h3 class="title-mengundang" style="font-family: 'Great Vibes', cursive;
+    font-size: 2em;">
+                        Turut megundang pihak Laki-laki</h3>
+                    <div class="content-mengundang">
+                        {!! $wedding->turut_mengundang_pria !!}
+                    </div>
+                </div>
+            @endif
+
+            @if (!empty($turutWanita))
+                <div class="container-mengundang-wanita">
+                    <h3 class="title-mengundang" style="font-family: 'Great Vibes', cursive;
+    font-size: 2em;">
+                        Turut megundang pihak Perempuan</h3>
+                    <div class="content-mengundang">
+                        {!! $wedding->turut_mengundang_wanita !!}
+                    </div>
+                </div>
+            @endif
+
 
             <div class="container-wish section">
                 <h2 class="section-wishes animate__animated">Konfirmasi Kehadiran & Ucapan</h2>

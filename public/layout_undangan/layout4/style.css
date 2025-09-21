@@ -181,7 +181,7 @@ body {
 .content p {
     font-size: 1rem;
     font-family: 'Poppins', sans-serif;
-    margin-top: 10px;
+    margin-top: 5px;
     /* color: #d4a76a; */
 }
 
@@ -703,6 +703,67 @@ body {
 .card-bank button:hover {
     background-color: #75975e;
 }
+
+.container-mengundang-pria,
+.container-mengundang-wanita {
+    margin-top: 30px;
+    padding: 20px;
+    background: #fffaf3;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    max-width: 800px; /* biar gak terlalu lebar di layar besar */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.title-mengundang {
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #75975e;
+    margin-bottom: 10px;
+}
+
+.content-mengundang {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #333;
+    text-align: center;
+    word-wrap: break-word; /* jaga kalau ada teks panjang */
+}
+
+/* RESPONSIVE RULES */
+@media (max-width: 768px) {
+    .container-mengundang-pria,
+    .container-mengundang-wanita {
+        padding: 15px;
+    }
+
+    .title-mengundang {
+        font-size: 1.1rem;
+    }
+
+    .content-mengundang {
+        font-size: 0.95rem;
+        line-height: 1.4;
+    }
+}
+
+@media (max-width: 480px) {
+    .container-mengundang-pria,
+    .container-mengundang-wanita {
+        padding: 12px;
+    }
+
+    .title-mengundang {
+        font-size: 1rem;
+    }
+
+    .content-mengundang {
+        font-size: 0.9rem;
+    }
+}
+
 .container-wish {
     max-width: 400px;
     margin: auto;

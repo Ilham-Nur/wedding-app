@@ -136,15 +136,17 @@ class WeddingController extends Controller
 
         // Validasi
         $validated = $request->validate([
-            'video_url'        => 'nullable|url',
-            'foto_suami'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'foto_istri'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'foto_utama'       => 'nullable|image|mimes:jpg,jpeg,png|max:4096',
-            'file_musik'       => 'nullable|mimes:mp3,wav,ogg|max:10240', // max 10MB
-            'nama_ayah_suami'  => 'nullable|string|max:255',
-            'nama_ibu_suami'   => 'nullable|string|max:255',
-            'nama_ayah_istri'  => 'nullable|string|max:255',
-            'nama_ibu_istri'   => 'nullable|string|max:255',
+            'video_url'              => 'nullable|url',
+            'foto_suami'             => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'foto_istri'             => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'foto_utama'             => 'nullable|image|mimes:jpg,jpeg,png|max:4096',
+            'file_musik'             => 'nullable|mimes:mp3,wav,ogg|max:10240', // max 10MB
+            'nama_ayah_suami'        => 'nullable|string|max:255',
+            'nama_ibu_suami'         => 'nullable|string|max:255',
+            'nama_ayah_istri'        => 'nullable|string|max:255',
+            'nama_ibu_istri'         => 'nullable|string|max:255',
+            'turut_mengundang_pria'  => 'nullable|string',
+            'turut_mengundang_wanita'=> 'nullable|string',
         ]);
 
         // Upload foto kalau ada
@@ -166,15 +168,17 @@ class WeddingController extends Controller
 
         // Update semua field
         $wedding->update([
-            'video_url'       => $validated['video_url'] ?? $wedding->video_url,
-            'foto_suami'      => $validated['foto_suami'] ?? $wedding->foto_suami,
-            'foto_istri'      => $validated['foto_istri'] ?? $wedding->foto_istri,
-            'foto_utama'      => $validated['foto_utama'] ?? $wedding->foto_utama,
-            'file_musik'      => $validated['file_musik'] ?? $wedding->file_musik,
-            'nama_ayah_suami' => $validated['nama_ayah_suami'] ?? $wedding->nama_ayah_suami,
-            'nama_ibu_suami'  => $validated['nama_ibu_suami'] ?? $wedding->nama_ibu_suami,
-            'nama_ayah_istri' => $validated['nama_ayah_istri'] ?? $wedding->nama_ayah_istri,
-            'nama_ibu_istri'  => $validated['nama_ibu_istri'] ?? $wedding->nama_ibu_istri,
+            'video_url'              => $validated['video_url'] ?? $wedding->video_url,
+            'foto_suami'             => $validated['foto_suami'] ?? $wedding->foto_suami,
+            'foto_istri'             => $validated['foto_istri'] ?? $wedding->foto_istri,
+            'foto_utama'             => $validated['foto_utama'] ?? $wedding->foto_utama,
+            'file_musik'             => $validated['file_musik'] ?? $wedding->file_musik,
+            'nama_ayah_suami'        => $validated['nama_ayah_suami'] ?? $wedding->nama_ayah_suami,
+            'nama_ibu_suami'         => $validated['nama_ibu_suami'] ?? $wedding->nama_ibu_suami,
+            'nama_ayah_istri'        => $validated['nama_ayah_istri'] ?? $wedding->nama_ayah_istri,
+            'nama_ibu_istri'         => $validated['nama_ibu_istri'] ?? $wedding->nama_ibu_istri,
+            'turut_mengundang_pria'  => $validated['turut_mengundang_pria'] ?? $wedding->turut_mengundang_pria,
+            'turut_mengundang_wanita'=> $validated['turut_mengundang_wanita'] ?? $wedding->turut_mengundang_wanita,
         ]);
 
         return redirect()
