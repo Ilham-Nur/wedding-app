@@ -47,7 +47,7 @@
                     <img src="{{ asset('layout_undangan/layout4/gallery/icon-music.png') }}" alt="Music Icon" />
                 </div>
                 <audio id="mySong">
-                     <source src="{{ asset('storage/' . $wedding->file_musik) }}" type="audio/mp3" />
+                    <source src="{{ asset('storage/' . $wedding->file_musik) }}" type="audio/mp3" />
                 </audio>
             </div>
             <div class="home">
@@ -181,41 +181,44 @@
                 @endforeach
             </div>
 
-            <div class="Gifts section animate__animated animate__fadeInUp" id="gift">
-                <!-- Love Gift Section -->
-                <section class="love-gift">
-                    <h2 class="section-love animate__animated animate__fadeInLeft">
-                        Love Gift
-                    </h2>
-                    <p>
-                        <i>Dengan hormat, bagi Anda yang ingin memberikan tanda kasih
-                            kepada kami, dapat melalui:</i>
-                    </p>
-                    <div class="container-bank">
-                        <div class="card-bank animate__animated animate__fadeInLeft">
-                            <img src="{{ asset('layout_undangan/layout4/gallery/BCA.png') }}" alt="BCA Logo" />
+            @if(isset($tamu) && $tamu->show_gift)
+                <div class="Gifts section animate__animated animate__fadeInUp" id="gift">
+                    <!-- Love Gift Section -->
+                    <section class="love-gift">
+                        <h2 class="section-love animate__animated animate__fadeInLeft">
+                            Love Gift
+                        </h2>
+                        <p>
+                            <i>Dengan hormat, bagi Anda yang ingin memberikan tanda kasih
+                                kepada kami, dapat melalui:</i>
+                        </p>
+                        <div class="container-bank">
+                            <div class="card-bank animate__animated animate__fadeInLeft">
+                                <img src="{{ asset('layout_undangan/layout4/gallery/BCA.png') }}" alt="BCA Logo" />
 
-                            <p>No. Rekening: <strong id="bca-number">2820297663</strong></p>
-                            <p>a.n Tandrio</p>
-                            <button onclick="copyToClipboard('bca-number')">
-                                Salin No. Rekening
-                            </button>
-                        </div>
+                                <p>No. Rekening: <strong id="bca-number">2820297663</strong></p>
+                                <p>a.n Tandrio</p>
+                                <button onclick="copyToClipboard('bca-number')">
+                                    Salin No. Rekening
+                                </button>
+                            </div>
 
-                        <div class="card-bank animate__animated animate__fadeInLeft">
-                            <img src="{{ asset('layout_undangan/layout4/gallery/BNI.png') }}" alt="BNI Logo"
-                                style="margin-top: 5px" />
-                            <p>
-                                No. Rekening: <strong id="bni-number">28202973424</strong>
-                            </p>
-                            <p>a.n Tandrio</p>
-                            <button onclick="copyToClipboard('bni-number')">
-                                Salin No. Rekening
-                            </button>
+                            <div class="card-bank animate__animated animate__fadeInLeft">
+                                <img src="{{ asset('layout_undangan/layout4/gallery/BNI.png') }}" alt="BNI Logo"
+                                    style="margin-top: 5px" />
+                                <p>
+                                    No. Rekening: <strong id="bni-number">28202973424</strong>
+                                </p>
+                                <p>a.n Tandrio</p>
+                                <button onclick="copyToClipboard('bni-number')">
+                                    Salin No. Rekening
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                </section>
-            </div>
+                    </section>
+                </div>
+            @endif
+
             <div class="container-wish section">
                 <h2 class="section-wishes animate__animated">Wishes</h2>
                 <div class="form-container">
