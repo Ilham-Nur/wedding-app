@@ -197,7 +197,7 @@ class TamuController extends Controller
                 'no_telp'       => $row[1] ?? null,
                 'email'         => $row[2] ?? null,
                 'alamat'        => $row[3] ?? null,
-                'show_gift'     => isset($row[4]) && strtolower($row[4]) == 'ya' ? 1 : 0,
+                'show_gift'     => $row[4] ?? 1,
                 'undangan_code' => $undanganCode,
                 'status_hadir'  => 'belum_konfirmasi',
                 'jumlah_orang'  => 1,
