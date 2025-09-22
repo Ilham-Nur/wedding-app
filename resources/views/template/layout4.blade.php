@@ -233,7 +233,7 @@
                 <div class="container-mengundang-pria">
                     <h3 class="title-mengundang" style="font-family: 'Great Vibes', cursive;
     font-size: 2em;">
-                        Turut megundang pihak Laki-laki</h3>
+                        Turut mengundang pihak Laki-laki</h3>
                     <div class="content-mengundang">
                         {!! $wedding->turut_mengundang_pria !!}
                     </div>
@@ -244,7 +244,7 @@
                 <div class="container-mengundang-wanita">
                     <h3 class="title-mengundang" style="font-family: 'Great Vibes', cursive;
     font-size: 2em;">
-                        Turut megundang pihak Perempuan</h3>
+                        Turut mengundang pihak Perempuan</h3>
                     <div class="content-mengundang">
                         {!! $wedding->turut_mengundang_wanita !!}
                     </div>
