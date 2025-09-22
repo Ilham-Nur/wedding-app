@@ -343,7 +343,7 @@
     </div>
     <div class="desktop-view">
         <div class="image-container">
-            <img src="src=" {{ asset('layout_undangan/layout4/gallery/desktop-image.jpg') }}
+            <img src="{{ asset('storage/' . $wedding->foto_utama) }}"
                 alt="Foto Pernikahan" />
         </div>
         <div class="text-desktop">
