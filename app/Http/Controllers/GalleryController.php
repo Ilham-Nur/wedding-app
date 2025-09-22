@@ -12,7 +12,7 @@ class GalleryController extends Controller
 {
     public function index($id)
     {
-    
+
         $wedding = Pernikahan::with([
             'galeris' => function ($query) {
                 $query->orderBy('urutan', 'asc');
@@ -35,7 +35,7 @@ class GalleryController extends Controller
             'pernikahan_id' => 'required|exists:pernikahans,id',
             'judul' => 'nullable|string|max:150',
             'urutan' => 'nullable|integer',
-            'file_path.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+            'file_path.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:102400'
         ]);
 
         if ($request->hasFile('file_path')) {
