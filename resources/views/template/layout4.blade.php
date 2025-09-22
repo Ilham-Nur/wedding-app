@@ -27,16 +27,15 @@
                     data-aos="fade-in" data-aos-duration="1500" data-aos-delay="300" />
                 <!-- <div class="bubbles"></div> -->
                 <div class="content">
+                    @if (isset($tamu))
+                        <span style="font-size: 1.2rem; display:block; margin-bottom:10px;">
+                            Dear {{ $tamu->nama_tamu }}
+                        </span>
+                    @endif
                     <h2 data-aos="fade-in" data-aos-duration="1000">
                         Undangan Pernikahan
                     </h2>
                     <h1 data-aos="zoom-in" data-aos-duration="1200" data-aos-delay="200">
-                        @if (isset($tamu))
-                            <span style="font-size: 1.2rem; display:block; margin-bottom:10px;">
-                                Dear {{ $tamu->nama_tamu }},
-                            </span>
-                        @endif
-
                         Panji
                         <br>&
                         <br>Frisca
@@ -343,8 +342,7 @@
     </div>
     <div class="desktop-view">
         <div class="image-container">
-            <img src="{{ asset('storage/' . $wedding->foto_utama) }}"
-                alt="Foto Pernikahan" />
+            <img src="{{ asset('storage/' . $wedding->foto_utama) }}" alt="Foto Pernikahan" />
         </div>
         <div class="text-desktop">
             Silahkan akses undangan ini melalui hand phone anda. Terima kasih.
