@@ -27,7 +27,7 @@
                     data-aos="fade-in" data-aos-duration="1500" data-aos-delay="300" />
                 <!-- <div class="bubbles"></div> -->
                 <div class="content">
-                    @if (isset($tamu))
+                    @if (isset($tamu) && $tamu->nama_tamu !== '-')
                         <span style="font-size: 1.2rem; display:block; margin-bottom:10px;">
                             Dear {{ $tamu->nama_tamu }}
                         </span>
