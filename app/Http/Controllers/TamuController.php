@@ -101,20 +101,30 @@ class TamuController extends Controller
     public function store(Request $request, $id)
     {
         $request->validate([
-            'nama_tamu'     => 'required|string|max:255',
-            'no_telp'       => 'nullable|string|max:20',
-            'alamat'        => 'nullable|string',
-            'email'         => 'nullable|email',
-            'show_gift'     => 'boolean',
+            'nama_tamu' => 'required|string|max:255',
+            'no_telp'   => 'nullable|string|max:20',
+            'alamat'    => 'nullable|string',
+            'email'     => 'nullable|email',
+            'show_gift' => 'boolean',
         ]);
 
-        // cari jumlah tamu terakhir di pernikahan ini
-        $lastNumber = Tamu::where('pernikahan_id', $id)->count() + 1;
+        // Ambil record terakhir untuk pernikahan ini
+        $lastTamu = Tamu::where('pernikahan_id', $id)
+            ->orderBy('id', 'desc')
+            ->first();
 
-        // format jadi 3 digit (001, 002, dst)
+        $lastNumber = 0;
+
+        // Kalau ada data terakhir, ambil angka dari undangan_code
+        if ($lastTamu && preg_match('/INV-' . $id . '-(\d+)/', $lastTamu->undangan_code, $matches)) {
+            $lastNumber = (int) $matches[1];
+        }
+
+        // Increment nomor
+        $lastNumber++;
         $formattedNumber = str_pad($lastNumber, 3, '0', STR_PAD_LEFT);
 
-        // generate kode undangan
+        // Generate kode undangan
         $undanganCode = "INV-{$id}-{$formattedNumber}";
 
         $tamu = Tamu::create([
