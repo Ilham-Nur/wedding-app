@@ -184,11 +184,24 @@ class TamuController extends Controller
         }
 
         $inserted = [];
+
+        // Ambil record terakhir berdasarkan id untuk pernikahan ini
+        $lastTamu = Tamu::where('pernikahan_id', $id)
+            ->orderBy('id', 'desc')
+            ->first();
+
+        $lastNumber = 0;
+
+        // Kalau ada data terakhir, ambil angka di undangan_code
+        if ($lastTamu && preg_match('/INV-' . $id . '-(\d+)/', $lastTamu->undangan_code, $matches)) {
+            $lastNumber = (int) $matches[1];
+        }
+
         foreach ($data as $row) {
             if (empty($row[0])) continue; // skip kalau nama kosong
 
-            // hitung jumlah tamu terakhir
-            $lastNumber = Tamu::where('pernikahan_id', $id)->count() + 1;
+            // Increment nomor untuk setiap tamu baru
+            $lastNumber++;
             $formattedNumber = str_pad($lastNumber, 3, '0', STR_PAD_LEFT);
             $undanganCode = "INV-{$id}-{$formattedNumber}";
 
