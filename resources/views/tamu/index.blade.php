@@ -25,6 +25,7 @@
                 <table id="tamuTable" class="table table-bordered table-striped">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Nama</th>
                             <th>No. Telp</th>
                             <th>Email</th>
@@ -228,6 +229,12 @@
                 serverSide: true,
                 ajax: "{{ route('wedding.tamu.getdata', $pernikahanId) }}",
                 columns: [{
+                        data: 'DT_RowIndex', // otomatis dari addIndexColumn
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
                         data: 'nama_tamu',
                         name: 'nama_tamu'
                     },

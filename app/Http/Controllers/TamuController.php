@@ -25,6 +25,7 @@ class TamuController extends Controller
             ->orderBy('id', 'desc');
 
         return DataTables::of($query)
+            ->addIndexColumn()
             ->editColumn('status_hadir', function ($row) {
                 switch ($row->status_hadir) {
                     case 'hadir':
