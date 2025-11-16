@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <title>The Wedding of Yudi & Ayu</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- COVER (sudah ada) -->
+    <section class="wedding-cover" id="cover">
+      <div class="side left"></div>
+      <div class="side right"></div>
+      <div class="overlay"></div>
+
+      <div class="content">
+        <p class="subtitle">THE WEDDING OF</p>
+        <h1 class="names" data-anim="down">Yudi &amp; Ayu</h1>
+        <div class="divider" aria-hidden="true"></div>
+        <p class="date">
+          31<span class="dot">.</span>08<span class="dot">.</span>2025
+        </p>
+        <p class="guest-cover">
+          Kepada Yth.<br />
+          <span class="guest-name">Ilham &amp; Partner</span>
+        </p>
+        <button class="btn-invite" id="openInvite">BUKA UNDANGAN</button>
+      </div>
+    </section>
+
+    <!-- WEDDING CONTENT (tersembunyi hingga tombol ditekan) -->
+    <main
+      id="wedding-content"
+      class="wedding-content hidden"
+      aria-hidden="true"
+    >
+      <!-- close / return button -->
+      <!-- <button id="closeInvite" class="close-btn" aria-label="Tutup Undangan">
+        &times;
+      </button> -->
+
+      <!-- HERO -->
+      <section class="hero" data-anim="up">
+        <div class="hero-media">
+          <img src="hero.jpg" alt="Foto pasangan" />
+        </div>
+        <div class="hero-info">
+          <h2>Yudi &amp; Ayu</h2>
+          <p class="hero-date">31 . 08 . 2025</p>
+        </div>
+      </section>
+
+      <!-- QUOTE -->
+      <section class="quote" data-anim="down">
+        <blockquote>
+          "Cinta bukan hanya saling memandang, melainkan memandang ke arah yang
+          sama." — Antoine de Saint-Exupéry
+        </blockquote>
+      </section>
+
+      <!-- COUPLE -->
+      <section class="couple" data-anim="left">
+        <h3>Meet The Couple</h3>
+
+        <div class="couple-grid elegant-couple">
+          <!-- Groom -->
+          <figure class="couple-card">
+            <div class="couple-photo">
+              <img src="groom.jpg" alt="Mempelai Pria - Yudi" />
+            </div>
+            <figcaption>
+              <h4 class="couple-name">Yudi Pratama</h4>
+              <p class="couple-parent">
+                Putra dari<br />
+                <span>Bapak Andi Pratama</span>
+                &
+                <span>Ibu Lestari Wulandari</span>
+              </p>
+            </figcaption>
+          </figure>
+
+          <!-- Bride -->
+          <figure class="couple-card">
+            <div class="couple-photo">
+              <img src="bride.jpg" alt="Mempelai Wanita - Ayu" />
+            </div>
+            <figcaption>
+              <h4 class="couple-name">Ayu Natalia</h4>
+              <p class="couple-parent">
+                Putri dari<br />
+                <span>Bapak Leonardus Santoso</span>
+                &
+                <span> Ibu Maria Elisabeth</span>
+              </p>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- EVENT -->
+      <section class="event" data-anim="right">
+        <h3>Acara</h3>
+
+        <div class="timeline">
+          <!-- Event 1 -->
+          <article class="event-item" data-anim="left">
+            <div class="event-icon">
+              <i class="fa-solid fa-ring"></i>
+            </div>
+            <div class="event-detail">
+              <h4>Akad Nikah</h4>
+              <p class="when">
+                <i class="fa-regular fa-clock"></i> 31 Agustus 2025 — 09:00 WIB
+              </p>
+              <p class="where">Masjid Agung Kota — Jl. Merdeka No.10</p>
+              <a class="map-link" href="#" target="_blank" rel="noopener">
+                <i class="fa-solid fa-location-dot"></i> Lihat di peta
+              </a>
+            </div>
+          </article>
+
+          <!-- Event 2 -->
+          <article class="event-item" data-anim="right">
+            <div class="event-icon">
+              <i class="fa-solid fa-champagne-glasses"></i>
+            </div>
+            <div class="event-detail">
+              <h4>Resepsi</h4>
+              <p class="when">
+                <i class="fa-regular fa-clock"></i> 31 Agustus 2025 — 11:00 WIB
+              </p>
+              <p class="where">Balai Pertemuan Gatra — Jl. Bahagia No.22</p>
+              <a class="map-link" href="#" target="_blank" rel="noopener">
+                <i class="fa-solid fa-location-dot"></i> Lihat di peta
+              </a>
+            </div>
+          </article>
+
+          <!-- Event 3 -->
+          <article class="event-item" data-anim="left">
+            <div class="event-icon">
+              <i class="fa-solid fa-music"></i>
+            </div>
+            <div class="event-detail">
+              <h4>After Party</h4>
+              <p class="when">
+                <i class="fa-regular fa-clock"></i> 31 Agustus 2025 — 19:00 WIB
+              </p>
+              <p class="where">Garden Terrace — Hotel Indah</p>
+              <a class="map-link" href="#" target="_blank" rel="noopener">
+                <i class="fa-solid fa-location-dot"></i> Lihat di peta
+              </a>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- GALLERY: Preview atas + horizontal thumbnail list -->
+      <section class="gallery" id="gallerySection" data-anim="left">
+        <h3>Gallery</h3>
+
+        <!-- preview besar -->
+        <div class="gallery-preview" id="galleryPreview" aria-live="polite">
+          <img id="galleryPreviewImg" src="gallery1.jpg" alt="Preview" />
+          <div class="preview-caption" id="galleryPreviewTitle">Judul Foto</div>
+        </div>
+
+        <!-- thumbnail horizontal scroll -->
+        <div class="gallery-thumbs-wrap">
+          <div
+            class="gallery-thumbs"
+            id="galleryThumbs"
+            tabindex="0"
+            role="listbox"
+            aria-label="Daftar foto"
+          >
+            <!-- thumbnails akan di-generate oleh JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- GIFT -->
+      <section class="gift" data-anim="right">
+        <h3>Hadiah &amp; Doa</h3>
+        <p>Jika ingin memberi hadiah, berikut rekening resmi kami:</p>
+
+        <div class="gift-list" id="giftList">
+          <!-- Cards akan di-generate otomatis via JavaScript -->
+        </div>
+      </section>
+
+      <!-- COMMENTS -->
+      <section class="comments" data-anim="left">
+        <h3>Ucapan &amp; Doa</h3>
+
+        <form id="commentForm" class="comment-form" aria-label="Form komentar">
+          <div class="row">
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Nama (contoh: Ilham & Partner)"
+              required
+            />
+            <select id="attendance" name="attendance" required>
+              <option value="" disabled selected>Konfirmasi Kehadiran</option>
+              <option value="hadir">Hadir</option>
+              <option value="tidak_hadir">Tidak Hadir</option>
+              <option value="mungkin">Mungkin</option>
+            </select>
+          </div>
+
+          <div class="row">
+            <input
+              type="number"
+              id="guestCount"
+              name="guestCount"
+              placeholder="Jumlah orang yang datang"
+              min="1"
+              value="1"
+            />
+          </div>
+
+          <div class="row">
+            <textarea
+              id="message"
+              name="message"
+              rows="3"
+              placeholder="Tulis ucapanmu..."
+              required
+            ></textarea>
+          </div>
+
+          <div class="row actions">
+            <button type="submit" class="btn-submit">Kirim</button>
+            <button type="button" id="clearComments" class="btn-clear">
+              Bersihkan
+            </button>
+          </div>
+        </form>
+
+        <div id="commentList" class="comment-list" aria-live="polite">
+          <!-- komentar akan di-generate di sini -->
+        </div>
+      </section>
+
+      <footer class="footer-note" data-anim="down">
+        <p>&copy; 2025 Yudi &amp; Ayu</p>
+      </footer>
+    </main>
+
+    <script>
+      // Toggle show/hide between cover and wedding-content
+      const openBtn = document.getElementById("openInvite");
+      // const closeBtn = document.getElementById("closeInvite");
+      const content = document.getElementById("wedding-content");
+      const cover = document.getElementById("cover");
+
+      function openContent() {
+        cover.classList.add("hidden");
+        content.classList.remove("hidden");
+        content.setAttribute("aria-hidden", "false");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+      // function closeContent() {
+      //   content.classList.add("hidden");
+      //   content.setAttribute("aria-hidden", "true");
+      //   cover.classList.remove("hidden");
+      //   window.scrollTo({ top: 0, behavior: "smooth" });
+      // }
+
+      openBtn.addEventListener("click", openContent);
+      // closeBtn.addEventListener("click", closeContent);
+
+      /* =========================
+   Gallery: preview + thumbs
+   Data shape: { order, src, title }
+   ========================= */
+      (function () {
+        // Data sederhana (hanya order, src, title) — ubah sesuai kebutuhan
+        const galleryPhotos = [
+          { order: 1, src: "gallery1.jpg", title: "Prewedding di Tebing" },
+          { order: 2, src: "gallery2.jpg", title: "Sesi Foto di Kafe" },
+          { order: 3, src: "gallery3.jpg", title: "Acara Pertunangan" },
+          { order: 4, src: "gallery4.jpg", title: "Kenangan Keluarga" },
+          // tambah atau edit di sini
+        ];
+
+        // sort by order
+        galleryPhotos.sort((a, b) => (a.order || 0) - (b.order || 0));
+
+        const previewImg = document.getElementById("galleryPreviewImg");
+        const previewTitle = document.getElementById("galleryPreviewTitle");
+        const thumbsContainer = document.getElementById("galleryThumbs");
+        const previewWrapper = document.getElementById("galleryPreview");
+        if (!previewImg || !thumbsContainer) return;
+
+        // build thumbs
+        thumbsContainer.innerHTML = galleryPhotos
+          .map((p, idx) => {
+            const safeTitle = (p.title || "")
+              .replace(/</g, "&lt;")
+              .replace(/>/g, "&gt;");
+            return `
+      <button class="thumb" data-idx="${idx}" type="button" role="option" aria-selected="false" title="${safeTitle}">
+        <img src="${p.src}" alt="${safeTitle}">
+      </button>
+    `;
+          })
+          .join("");
+
+        const thumbs = Array.from(thumbsContainer.querySelectorAll(".thumb"));
+
+        // set initial active (first item)
+        let activeIndex = 0;
+        function setActive(index, options = { scrollThumbIntoView: true }) {
+          if (index < 0 || index >= galleryPhotos.length) return;
+          // update preview
+          const p = galleryPhotos[index];
+          previewImg.src = p.src;
+          previewImg.alt = p.title || "";
+          previewTitle.textContent = p.title || "";
+          // update classes on thumbs
+          thumbs.forEach((t, i) => {
+            t.classList.toggle("active", i === index);
+            t.setAttribute("aria-selected", i === index ? "true" : "false");
+          });
+          activeIndex = index;
+
+          // scroll thumb into center view (smooth)
+          if (options.scrollThumbIntoView) {
+            const el = thumbs[index];
+            if (el && typeof el.scrollIntoView === "function") {
+              // try to center the thumb in the container
+              const containerRect = thumbsContainer.getBoundingClientRect();
+              const elRect = el.getBoundingClientRect();
+              const offset =
+                (elRect.left + elRect.right) / 2 -
+                (containerRect.left + containerRect.right) / 2;
+              thumbsContainer.scrollBy({ left: offset, behavior: "smooth" });
+            }
+          }
+
+          // subtle preview animation
+          previewImg.style.transform = "scale(1.01)";
+          setTimeout(() => (previewImg.style.transform = ""), 420);
+        }
+
+        // click handlers for thumbs
+        thumbs.forEach((t) => {
+          const idx = parseInt(t.dataset.idx, 10);
+          t.addEventListener(
+            "click",
+            (e) => {
+              e.preventDefault();
+              setActive(idx);
+            },
+            { passive: true }
+          );
+          // keyboard support
+          t.addEventListener("keydown", (ev) => {
+            if (ev.key === "Enter" || ev.key === " ") {
+              ev.preventDefault();
+              t.click();
+            }
+          });
+        });
+
+        // keyboard navigation on thumbs container (left/right)
+        thumbsContainer.addEventListener("keydown", (e) => {
+          if (e.key === "ArrowRight") {
+            setActive(Math.min(activeIndex + 1, thumbs.length - 1));
+          }
+          if (e.key === "ArrowLeft") {
+            setActive(Math.max(activeIndex - 1, 0));
+          }
+          if (e.key === "Home") {
+            setActive(0);
+          }
+          if (e.key === "End") {
+            setActive(thumbs.length - 1);
+          }
+        });
+
+        // start with first active
+        setActive(0, { scrollThumbIntoView: false });
+
+        // optionally: autoplay preview rotate (comment out if not needed)
+        let autoplayTimer = null;
+        const AUTOPLAY_DELAY = 5000; // ms
+        function startAutoplay() {
+          if (autoplayTimer) return;
+          autoplayTimer = setInterval(() => {
+            setActive((activeIndex + 1) % thumbs.length);
+          }, AUTOPLAY_DELAY);
+        }
+        function stopAutoplay() {
+          if (autoplayTimer) {
+            clearInterval(autoplayTimer);
+            autoplayTimer = null;
+          }
+        }
+        // start autoplay only if many images (>=2)
+        if (thumbs.length > 1) {
+          startAutoplay();
+          // pause on hover/touch over thumbs or preview
+          [thumbsContainer, previewWrapper].forEach((el) => {
+            el.addEventListener("mouseenter", stopAutoplay, { passive: true });
+            el.addEventListener("mouseleave", startAutoplay, { passive: true });
+            el.addEventListener("touchstart", stopAutoplay, { passive: true });
+            el.addEventListener("touchend", startAutoplay, { passive: true });
+          });
+        }
+      })();
+
+      /* ================================
+   GIFT CARDS (Auto Generate)
+   ================================ */
+
+      (function () {
+        // --- DATA (bisa diganti dari API nanti) ---
+        const rekeningData = [
+          {
+            id: 2,
+            pernikahan_id: 2,
+            bank_nama: "BCA",
+            atas_nama: "Frisca Yunita Ashari",
+            no_rekening: "7195270236",
+            catatan: null,
+            logo: "BCA.png", // tambahkan logo bank di folder
+          },
+        ];
+
+        const giftList = document.getElementById("giftList");
+        if (!giftList) return;
+
+        // Render kartu rekening
+        giftList.innerHTML = rekeningData
+          .map(
+            (r, i) => `
+    <div class="gift-card" data-rek="${r.no_rekening}">
+      <img src="${r.logo || "bank.png"}" alt="${r.bank_nama}" class="gift-logo">
+
+      <div class="gift-info">
+        <div class="gift-bank">${r.bank_nama}</div>
+        <div class="gift-number">${r.no_rekening}</div>
+        <div class="gift-name">a/n ${r.atas_nama}</div>
+      </div>
+
+      <button class="copy-btn" data-copy="${r.no_rekening}">Copy</button>
+    </div>
+  `
+          )
+          .join("");
+
+        // Copy function
+        document.querySelectorAll(".copy-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const number = btn.dataset.copy;
+
+            navigator.clipboard.writeText(number).then(() => {
+              btn.textContent = "Copied!";
+              btn.style.background = "var(--gold-light)";
+
+              setTimeout(() => {
+                btn.textContent = "Copy";
+                btn.style.background = "var(--gold)";
+              }, 1300);
+            });
+          });
+        });
+      })();
+
+      /* ============================
+   Comments: form handling + storage
+   - Saves to localStorage (optional)
+   - Renders list with name, status, guestCount, message
+   ============================ */
+      (function () {
+        const STORAGE_KEY = "wedding_comments_v1";
+        const form = document.getElementById("commentForm");
+        const commentList = document.getElementById("commentList");
+        const clearBtn = document.getElementById("clearComments");
+
+        if (!form || !commentList) return;
+
+        // util escape
+        function esc(s) {
+          return (s || "")
+            .toString()
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;");
+        }
+
+        // load saved comments (if any)
+        let comments = [];
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (raw) comments = JSON.parse(raw) || [];
+        } catch (e) {
+          comments = [];
+        }
+
+        function saveComments() {
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(comments));
+          } catch (e) {}
+        }
+
+        function renderComments() {
+          if (!commentList) return;
+          if (!comments.length) {
+            commentList.innerHTML = `<div class="comment" style="text-align:center;color:var(--accent-2);">Belum ada ucapan. Jadilah yang pertama memberi doa dan ucapan.</div>`;
+            return;
+          }
+          commentList.innerHTML = comments
+            .map((c) => {
+              return `
+        <div class="comment" data-id="${esc(c.id)}">
+          <div class="meta">
+            <div class="left">
+              <div>
+                <div class="guest-name">${esc(c.name)}</div>
+                <div class="sub">a/n ${esc(c.guestOf || "")}</div>
+              </div>
+              <div class="guest-count">${esc(c.guestCount)} orang</div>
+            </div>
+            <div class="right">
+              <span class="badge ${esc(c.attendance)}">${
+                c.attendance_label
+              }</span>
+            </div>
+          </div>
+          <div class="message">${esc(c.message)}</div>
+        </div>
+      `;
+            })
+            .join("");
+        }
+
+        // initialize
+        renderComments();
+
+        // submit handler
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          const name = (form.name.value || "").trim();
+          const attendance = (form.attendance.value || "").trim();
+          const guestCount = parseInt(form.guestCount.value) || 1;
+          const message = (form.message.value || "").trim();
+
+          // simple validation
+          if (!name) {
+            alert("Nama harus diisi");
+            return;
+          }
+          if (!attendance) {
+            alert("Pilih konfirmasi kehadiran");
+            return;
+          }
+          if (!message) {
+            alert("Tulis ucapan/ pesan Anda");
+            return;
+          }
+
+          const attendance_label_map = {
+            hadir: "Hadir",
+            tidak_hadir: "Tidak Hadir",
+            mungkin: "Mungkin",
+          };
+
+          const newItem = {
+            id: Date.now(),
+            name,
+            attendance,
+            attendance_label: attendance_label_map[attendance] || attendance,
+            guestCount,
+            message,
+            guestOf: "", // optional, reserved if you want "a/n" field later
+          };
+
+          // prepend new comment
+          comments.unshift(newItem);
+          saveComments();
+          renderComments();
+
+          // feedback
+          form.reset();
+          // reset guestCount to 1 default
+          form.guestCount.value = 1;
+
+          // scroll to new comment
+          setTimeout(() => {
+            const first = commentList.querySelector(".comment");
+            if (first)
+              first.scrollIntoView({ behavior: "smooth", block: "start" });
+          }, 80);
+        });
+
+        // clear storage (with confirm)
+        if (clearBtn) {
+          clearBtn.addEventListener("click", function () {
+            if (
+              !confirm(
+                "Hapus semua ucapan dari tampilan (data hanya di browser Anda)?"
+              )
+            )
+              return;
+            comments = [];
+            try {
+              localStorage.removeItem(STORAGE_KEY);
+            } catch (e) {}
+            renderComments();
+          });
+        }
+      })();
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.1 }
+        );
+
+        document
+          .querySelectorAll("[data-anim]")
+          .forEach((el) => observer.observe(el));
+      });
+    </script>
+  </body>
+</html>
