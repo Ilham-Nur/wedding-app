@@ -131,16 +131,16 @@ class WeddingController extends Controller
     }
 
     public function updateExtra(Request $request, $id)
-    {
-        $wedding = Pernikahan::findOrFail($id);
+    { 
 
+        $wedding = Pernikahan::findOrFail($id);
         // Validasi
         $validated = $request->validate([
             'video_url'              => 'nullable|url',
-            'foto_suami'             => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'foto_istri'             => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'foto_utama'             => 'nullable|image|mimes:jpg,jpeg,png|max:4096',
-            'file_musik'             => 'nullable|mimes:mp3,wav,ogg|max:10240', // max 10MB
+            'foto_suami'             => 'nullable|image|mimes:jpg,jpeg,png',
+            'foto_istri'             => 'nullable|image|mimes:jpg,jpeg,png',
+            'foto_utama'             => 'nullable|image|mimes:jpg,jpeg,png',
+            'file_musik'             => 'nullable|mimes:mp3,wav,ogg|', // max 10MB
             'nama_ayah_suami'        => 'nullable|string|max:255',
             'nama_ibu_suami'         => 'nullable|string|max:255',
             'nama_ayah_istri'        => 'nullable|string|max:255',
