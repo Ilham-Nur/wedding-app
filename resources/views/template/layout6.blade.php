@@ -135,7 +135,7 @@
 
         <!-- EVENT - Updated dengan Icon Circles -->
         <section class="event" data-anim="right">
-            <h3>Acara</h3>
+            <h3>Event Details</h3>
 
             <div class="timeline">
                 @foreach ($wedding->lokasis as $index => $lokasi)
@@ -176,13 +176,15 @@
 
                 <!-- thumbnail horizontal scroll -->
                 <div class="gallery-thumbs-wrap">
-                    <div class="gallery-thumbs" id="galleryThumbs" tabindex="0" role="listbox" aria-label="Daftar foto">
+                    <div class="gallery-thumbs" id="galleryThumbs" tabindex="0" role="listbox"
+                        aria-label="Daftar foto">
                         @foreach ($wedding->galeris as $index => $foto)
                             <button class="thumb {{ $index == 0 ? 'active' : '' }}" data-idx="{{ $index }}"
                                 data-src="{{ asset('storage/' . $foto->file_path) }}"
-                                data-title="{{ $foto->judul ?? 'Foto ' . ($index + 1) }}" type="button" role="option"
-                                aria-selected="{{ $index == 0 ? 'true' : 'false' }}">
-                                <img src="{{ asset('storage/' . $foto->file_path) }}" alt="{{ $foto->judul ?? 'Thumbnail' }}">
+                                data-title="{{ $foto->judul ?? 'Foto ' . ($index + 1) }}" type="button"
+                                role="option" aria-selected="{{ $index == 0 ? 'true' : 'false' }}">
+                                <img src="{{ asset('storage/' . $foto->file_path) }}"
+                                    alt="{{ $foto->judul ?? 'Thumbnail' }}">
                             </button>
                         @endforeach
                     </div>
@@ -193,8 +195,8 @@
         <!-- GIFT -->
         @if (isset($tamu) && $tamu->show_gift && $wedding->gifts->isNotEmpty())
             <section class="gift" data-anim="right">
-                <h3>Hadiah &amp; Doa</h3>
-                <p>Jika ingin memberi hadiah, berikut rekening resmi kami:</p>
+                <h3>Gifts & Blessings</h3>
+                <p>If you wish to send a gift, here is our official account:</p>
 
                 <div class="gift-list" id="giftList">
                     @foreach ($wedding->gifts as $rekening)
@@ -207,7 +209,7 @@
                                 <div class="gift-bank">{{ $rekening->bank_nama }}</div>
                                 <div class="gift-number">{{ $rekening->no_rekening }}</div>
                                 <div class="gift-name">a/n {{ $rekening->atas_nama }}</div>
-                                @if($rekening->catatan)
+                                @if ($rekening->catatan)
                                     <div class="gift-note">{{ $rekening->catatan }}</div>
                                 @endif
                             </div>
@@ -227,7 +229,7 @@
 
         @if (!empty($turutPria) || !empty($turutWanita))
             <section class="turut-mengundang" data-anim="left">
-                <h3>Turut Mengundang</h3>
+                <h3>With Our Warmest Invitation</h3>
 
                 @if (!empty($turutPria))
                     <div class="mengundang-section">
@@ -251,43 +253,53 @@
 
         <!-- COMMENTS / RSVP - Menggunakan LocalStorage seperti Template 1 -->
         <section class="comments" data-anim="left">
-            <h3>Ucapan &amp; Doa</h3>
+            <h3>Messages & Prayers</h3>
 
             @if (isset($tamu))
-                <form id="commentForm" class="comment-form" aria-label="Form komentar">
-                    <input type="hidden" id="tamuId" value="{{ $tamu->id }}">
-                    <input type="hidden" id="guestOf" value="{{ $tamu->nama_tamu }}">
+                @if (is_null($tamu->status_hadir) || $tamu->status_hadir === 'belum_konfirmasi')
+                    {{-- ✅ Tamu BELUM konfirmasi → tampilkan form --}}
+                    <form id="commentForm" class="comment-form" aria-label="Form komentar">
+                        <input type="hidden" id="tamuId" value="{{ $tamu->id }}">
+                        <input type="hidden" id="guestOf" value="{{ $tamu->nama_tamu }}">
 
-                    <div class="row">
-                        <input type="text" id="name" name="name" value="{{ $tamu->nama_tamu }}" placeholder="Nama" readonly
-                            required />
+                        <div class="row">
+                            <input type="text" id="name" name="name" value="{{ $tamu->nama_tamu }}"
+                                placeholder="Nama" readonly required />
 
-                        <select id="attendance" name="attendance" required>
-                            <option value="" disabled selected>Konfirmasi Kehadiran</option>
-                            <option style="color: black;" value="hadir">Hadir</option>
-                            <option style="color: black;" value="tidak_hadir">Tidak Hadir</option>
-                            <option style="color: black;" value="mungkin">Mungkin</option>
-                        </select>
-                    </div>
+                            <select id="attendance" name="attendance" required>
+                                <option value="" disabled selected>Konfirmasi Kehadiran</option>
+                                <option style="color: black;" value="hadir">Hadir</option>
+                                <option style="color: black;" value="tidak_hadir">Tidak Hadir</option>
+                                <option style="color: black;" value="mungkin">Mungkin</option>
+                            </select>
+                        </div>
 
-                    <div class="row">
-                        <input type="number" id="guestCount" name="guestCount" placeholder="Jumlah orang yang datang"
-                            min="1" value="1" />
-                    </div>
+                        <div class="row">
+                            <input type="number" id="guestCount" name="guestCount"
+                                placeholder="Jumlah orang yang datang" min="1" value="1" />
+                        </div>
 
-                    <div class="row">
-                        <textarea id="message" name="message" rows="3" placeholder="Tulis ucapan & doa Anda..."
-                            required></textarea>
-                    </div>
+                        <div class="row">
+                            <textarea id="message" name="message" rows="3" placeholder="Tulis ucapan & doa Anda..." required></textarea>
+                        </div>
 
-                    <div class="row actions">
-                        <button type="submit" class="btn-submit">Kirim</button>
-                    </div>
-                </form>
+                        <div class="row actions">
+                            <button type="submit" class="btn-submit">Kirim</button>
+                        </div>
+                    </form>
+                @else
+                    {{-- ✅ Tamu SUDAH konfirmasi (hadir / tidak_hadir / mungkin) --}}
+                    <p class="already-sent" style="text-align:center;margin-top:15px;">
+                        <b>Terima kasih, Anda sudah mengirim konfirmasi & ucapan.</b>
+                    </p>
+                @endif
             @endif
 
-            <div id="commentList" class="comment-list" aria-live="polite">
-                <!-- Comments will be generated by JavaScript -->
+            <div class="comment-card">
+                <div class="comment-card-body">
+                    <div id="commentList" class="comment-list" data-comments='@json($tamusWithUcapan)'>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -312,7 +324,10 @@
             cover.classList.add("hidden");
             content.classList.remove("hidden");
             content.setAttribute("aria-hidden", "false");
-            window.scrollTo({ top: 0, behavior: "smooth" });
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
 
             // Auto play music
             if (mySong && mySong.paused) {
@@ -327,7 +342,7 @@
 
         // Music Control
         if (musicButton && mySong) {
-            musicButton.addEventListener("click", function () {
+            musicButton.addEventListener("click", function() {
                 if (mySong.paused) {
                     mySong.play();
                     musicButton.classList.add("active");
@@ -339,7 +354,7 @@
         }
 
         // Gallery System
-        (function () {
+        (function() {
             const thumbs = document.querySelectorAll(".thumb");
             const previewImg = document.getElementById("galleryPreviewImg");
             const previewTitle = document.getElementById("galleryPreviewTitle");
@@ -350,7 +365,9 @@
 
             let activeIndex = 0;
 
-            function setActive(index, options = { scrollThumbIntoView: true }) {
+            function setActive(index, options = {
+                scrollThumbIntoView: true
+            }) {
                 if (index < 0 || index >= thumbs.length) return;
 
                 const thumb = thumbs[index];
@@ -375,7 +392,10 @@
                     const containerRect = thumbsContainer.getBoundingClientRect();
                     const elRect = thumb.getBoundingClientRect();
                     const offset = (elRect.left + elRect.right) / 2 - (containerRect.left + containerRect.right) / 2;
-                    thumbsContainer.scrollBy({ left: offset, behavior: "smooth" });
+                    thumbsContainer.scrollBy({
+                        left: offset,
+                        behavior: "smooth"
+                    });
                 }
 
                 // Animation
@@ -389,7 +409,9 @@
                 t.addEventListener("click", (e) => {
                     e.preventDefault();
                     setActive(idx);
-                }, { passive: true });
+                }, {
+                    passive: true
+                });
 
                 // Keyboard support
                 t.addEventListener("keydown", (ev) => {
@@ -411,7 +433,9 @@
             }
 
             // Initial active
-            setActive(0, { scrollThumbIntoView: false });
+            setActive(0, {
+                scrollThumbIntoView: false
+            });
 
             // Autoplay
             let autoplayTimer = null;
@@ -434,10 +458,18 @@
             if (thumbs.length > 1) {
                 startAutoplay();
                 [thumbsContainer, previewWrapper].forEach((el) => {
-                    el.addEventListener("mouseenter", stopAutoplay, { passive: true });
-                    el.addEventListener("mouseleave", startAutoplay, { passive: true });
-                    el.addEventListener("touchstart", stopAutoplay, { passive: true });
-                    el.addEventListener("touchend", startAutoplay, { passive: true });
+                    el.addEventListener("mouseenter", stopAutoplay, {
+                        passive: true
+                    });
+                    el.addEventListener("mouseleave", startAutoplay, {
+                        passive: true
+                    });
+                    el.addEventListener("touchstart", stopAutoplay, {
+                        passive: true
+                    });
+                    el.addEventListener("touchend", startAutoplay, {
+                        passive: true
+                    });
                 });
             }
         })();
@@ -461,133 +493,80 @@
             });
         });
 
-        /* ============================
-           Comments System with LocalStorage
-           (Similar to Template 1)
-           ============================ */
-        (function () {
-            const STORAGE_KEY = "wedding_comments_{{ $wedding->id ?? 'default' }}";
+        (function() {
             const form = document.getElementById("commentForm");
-            const tamuId = document.getElementById("tamuId")?.value;
-            const SUBMIT_FLAG = `wedding_comment_submitted_${tamuId}`;
-
-            // Jika tamu sudah pernah submit → sembunyikan form
-            if (localStorage.getItem(SUBMIT_FLAG)) {
-                if (form) form.style.display = "none";
-
-                const notice = document.createElement("p");
-                notice.className = "already-sent";
-                notice.style.textAlign = "center";
-                notice.style.marginTop = "15px";
-                notice.innerHTML = "<b>Terima kasih, Anda sudah mengirim ucapan.</b>";
-                form.parentNode.insertBefore(notice, form.nextSibling);
-            }
             const commentList = document.getElementById("commentList");
-            const clearBtn = document.getElementById("clearComments");
 
-            if (!form || !commentList) return;
+            if (!commentList) return;
 
             // Escape HTML
             function esc(s) {
-                return (s || "")
-                    .toString()
+                return (s || "").toString()
                     .replace(/&/g, "&amp;")
                     .replace(/</g, "&lt;")
                     .replace(/>/g, "&gt;")
                     .replace(/"/g, "&quot;");
             }
 
-            // Load saved comments
-            let comments = [];
-            try {
-                const raw = localStorage.getItem(STORAGE_KEY);
-                if (raw) comments = JSON.parse(raw) || [];
-            } catch (e) {
-                comments = [];
-            }
-
-            function saveComments() {
-                try {
-                    localStorage.setItem(STORAGE_KEY, JSON.stringify(comments));
-                } catch (e) {
-                    console.error('Failed to save comments:', e);
-                }
-            }
+            // Ambil komentar dari server (data attribute)
+            let comments = JSON.parse(commentList.dataset.comments || "[]");
 
             function renderComments() {
-                if (!commentList) return;
-
                 if (!comments.length) {
                     commentList.innerHTML = `
-                        <div class="comment" style="text-align:center;color:var(--text-light);">
-                            Belum ada ucapan. Jadilah yang pertama memberi doa dan ucapan.
-                        </div>
-                    `;
+                <div class="comment" style="text-align:center;color:var(--text-light);">
+                    Belum ada ucapan. Jadilah yang pertama memberi doa.
+                </div>
+            `;
                     return;
                 }
 
-                commentList.innerHTML = comments.map((c) => {
-                    return `
-                        <div class="comment" data-id="${esc(c.id)}">
-                            <div class="meta">
-                                <div class="left">
-                                    <div>
-                                        <div class="guest-name">${esc(c.name)}</div>
-                                        
-                                    </div>
-                                    <div class="guest-count">${esc(c.guestCount)} orang</div>
-                                </div>
-                                <div class="right">
-                                    <span class="badge ${esc(c.attendance)}">${c.attendance_label}</span>
-                                </div>
-                            </div>
-                            <div class="message">${esc(c.message)}</div>
-                        </div>
-                    `;
-                }).join("");
+                commentList.innerHTML = comments.map(c => `
+            <div class="comment">
+                <div class="meta">
+                    <div class="left">
+                        <div class="guest-name">${esc(c.nama_tamu)}</div>
+                        <div class="guest-count">${c.jumlah_orang} orang</div>
+                    </div>
+                    <div class="right">
+                        <span class="badge ${esc(c.status_hadir)}">
+                            ${c.status_hadir === "hadir" ? "Hadir" :
+                              c.status_hadir === "tidak_hadir" ? "Tidak Hadir" :
+                              "Mungkin"}
+                        </span>
+                    </div>
+                </div>
+                <div class="message">${esc(c.ucapan)}</div>
+            </div>
+        `).join("");
             }
 
-            // Initialize
+            // Tampilkan komentar awal
             renderComments();
 
-            // Submit handler
-            form.addEventListener("submit", function (e) {
+            // Jika form tidak ada (tamu sudah isi), hentikan
+            if (!form) return;
+
+            // Submit form
+            form.addEventListener("submit", function(e) {
                 e.preventDefault();
 
-                const tamuId = document.getElementById('tamuId')?.value;
-                const name = (form.name.value || "").trim();
-                const guestOf = document.getElementById('guestOf')?.value || '';
-                const attendance = (form.attendance.value || "").trim();
+                const tamuId = document.getElementById('tamuId').value;
+
+                const attendance = form.attendance.value;
                 const guestCount = parseInt(form.guestCount.value) || 1;
-                const message = (form.message.value || "").trim();
+                const message = form.message.value.trim();
 
                 // Validation
-                if (!name) {
-                    Swal.fire('Peringatan', 'Nama harus diisi', 'warning');
-                    return;
-                }
-                if (!attendance) {
-                    Swal.fire('Peringatan', 'Pilih konfirmasi kehadiran', 'warning');
-                    return;
-                }
-                if (!message) {
-                    Swal.fire('Peringatan', 'Tulis ucapan Anda', 'warning');
-                    return;
-                }
+                if (!attendance) return Swal.fire("Pilih kehadiran", "", "warning");
+                if (!message) return Swal.fire("Tuliskan ucapan", "", "warning");
 
-                const attendance_label_map = {
-                    hadir: "Hadir",
-                    tidak_hadir: "Tidak Hadir",
-                    mungkin: "Mungkin",
-                };
-
-                // Send to server if tamuId exists
-                if (tamuId) {
-                    fetch(`/tamu/${tamuId}/update-wish`, {
-                        method: 'POST',
+                // Kirim ke server
+                fetch(`/tamu/${tamuId}/update-wish`, {
+                        method: "POST",
                         headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            "Content-Type": "application/json",
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}"
                         },
                         body: JSON.stringify({
                             status_hadir: attendance,
@@ -595,68 +574,27 @@
                             ucapan: message
                         })
                     })
-                        .then(res => res.json())
-                        .then(data => {
-                            if (data.success) {
-                                Swal.fire('Berhasil!', 'Terima kasih atas konfirmasi dan ucapan Anda.', 'success');
-                            }
-                        })
-                        .catch(err => {
-                            console.error(err);
-                        });
-                }
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire("Berhasil!", "Ucapan Anda tersimpan.", "success");
 
-                // Save to localStorage
-                const newItem = {
-                    id: Date.now(),
-                    name,
-                    guestOf,
-                    attendance,
-                    attendance_label: attendance_label_map[attendance] || attendance,
-                    guestCount,
-                    message,
-                };
+                            // Tambahkan komentar ke list (tanpa reload)
+                            comments.unshift({
+                                nama_tamu: document.getElementById("name").value,
+                                status_hadir: attendance,
+                                jumlah_orang: guestCount,
+                                ucapan: message
+                            });
 
-                comments.unshift(newItem);
-                saveComments();
-                renderComments();
-                // Simpan flag bahwa tamu sudah submit
-                localStorage.setItem(SUBMIT_FLAG, "1");
+                            renderComments();
 
-                // Sembunyikan form setelah submit
-                form.style.display = "none";
-
-                // Tampilkan pesan selesai
-                const notice = document.createElement("p");
-                notice.className = "already-sent";
-                notice.style.textAlign = "center";
-                notice.style.marginTop = "15px";
-                notice.innerHTML = "<b>Terima kasih, ucapan Anda berhasil dikirim.</b>";
-                form.parentNode.insertBefore(notice, form.nextSibling);
-                // Reset form
-                form.reset();
-                form.guestCount.value = 1;
-                form.name.value = name; // Keep name
-
-                // Scroll to new comment
-                setTimeout(() => {
-                    const first = commentList.querySelector(".comment");
-                    if (first) first.scrollIntoView({ behavior: "smooth", block: "start" });
-                }, 80);
+                            // Sembunyikan form
+                            form.style.display = "none";
+                        }
+                    });
             });
 
-            // Clear comments
-            if (clearBtn) {
-                clearBtn.addEventListener("click", function () {
-                    if (!confirm("Hapus semua ucapan dari tampilan (data hanya di browser Anda)?")) return;
-
-                    comments = [];
-                    try {
-                        localStorage.removeItem(STORAGE_KEY);
-                    } catch (e) { }
-                    renderComments();
-                });
-            }
         })();
 
         // Scroll Animation Observer
@@ -669,8 +607,9 @@
                             observer.unobserve(entry.target);
                         }
                     });
-                },
-                { threshold: 0.1 }
+                }, {
+                    threshold: 0.1
+                }
             );
 
             document.querySelectorAll("[data-anim]").forEach((el) => observer.observe(el));

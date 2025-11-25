@@ -843,6 +843,39 @@ img{max-width:100%;display:block}
   background: rgba(255,255,255,0.02);
 }
 
+.comment-card {
+  max-width: 720px;
+  margin: 16px auto 0;
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: rgba(0,0,0,0.45); /* bisa diganti sesuai tema */
+  border: 1px solid rgba(212,175,55,0.20);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.55);
+}
+
+/* area yang bisa di-scroll */
+.comment-card-body {
+  max-height: 320px;           /* atur tinggi card sesuai selera */
+  overflow-y: auto;
+  padding-right: 4px;          /* biar teks gak ketutup scrollbar */
+}
+
+/* optional: styling scrollbar (Chromium, Edge, Safari) */
+.comment-card-body::-webkit-scrollbar {
+  width: 6px;
+}
+.comment-card-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+.comment-card-body::-webkit-scrollbar-thumb {
+  background: rgba(212,175,55,0.45);
+  border-radius: 999px;
+}
+.comment-card-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(212,175,55,0.7);
+}
+
+
 /* comment list item */
 .comment-list { 
   margin-top:14px; 
