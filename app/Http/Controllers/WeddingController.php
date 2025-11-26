@@ -7,6 +7,8 @@ use App\Models\Pembeli;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Pernikahan;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -40,13 +42,13 @@ class WeddingController extends Controller
                 })
                 ->addColumn('action', function ($row) {
                     return '
-                        <a href="'.url('wedding/detail/'.$row->id).'" class="btn btn-sm btn-info">
+                        <a href="' . url('wedding/detail/' . $row->id) . '" class="btn btn-sm btn-info">
                             <i class="ti ti-eye"></i>
                         </a>
-                        <button class="btn btn-sm btn-primary btn-edit" data-id="'.$row->id.'">
+                        <button class="btn btn-sm btn-primary btn-edit" data-id="' . $row->id . '">
                             <i class="ti ti-edit"></i>
                         </button>
-                        <button class="btn btn-sm btn-danger btn-delete" data-id="'.$row->id.'">
+                        <button class="btn btn-sm btn-danger btn-delete" data-id="' . $row->id . '">
                            <i class="ti ti-trash"></i>
                         </button>
                     ';
@@ -66,7 +68,7 @@ class WeddingController extends Controller
             'nama_wanita'  => 'required|string|max:255',
             'tanggal'      => 'required|date',
             'waktu_mulai'  => 'nullable|date_format:H:i',
-            'waktu_selesai'=> 'nullable|date_format:H:i',
+            'waktu_selesai' => 'nullable|date_format:H:i',
             'layout_id'    => 'required|exists:layouts,id',
             'masa_aktif'   => 'required|date'
         ]);
@@ -89,7 +91,7 @@ class WeddingController extends Controller
             'nama_wanita'  => 'required|string|max:255',
             'tanggal'      => 'required|date',
             'waktu_mulai'  => 'nullable|date_format:H:i',
-            'waktu_selesai'=> 'nullable|date_format:H:i',
+            'waktu_selesai' => 'nullable|date_format:H:i',
             'layout_id'    => 'required|exists:layouts,id',
             'masa_aktif'   => 'required|date',
         ]);
@@ -112,7 +114,7 @@ class WeddingController extends Controller
 
 
 
-   public function destroy(Pernikahan $pernikahan)
+    public function destroy(Pernikahan $pernikahan)
     {
         $pernikahan->delete();
 
@@ -130,60 +132,97 @@ class WeddingController extends Controller
         return view('wedding.detail', compact('wedding'));
     }
 
+
+
     public function updateExtra(Request $request, $id)
-    { 
+    {
+        try {
+            DB::beginTransaction();
 
-        $wedding = Pernikahan::findOrFail($id);
-        // Validasi
-        $validated = $request->validate([
-            'video_url'              => 'nullable|url',
-            'foto_suami'             => 'nullable|image|mimes:jpg,jpeg,png',
-            'foto_istri'             => 'nullable|image|mimes:jpg,jpeg,png',
-            'foto_utama'             => 'nullable|image|mimes:jpg,jpeg,png',
-            'file_musik'             => 'nullable|mimes:mp3,wav,ogg|', // max 10MB
-            'nama_ayah_suami'        => 'nullable|string|max:255',
-            'nama_ibu_suami'         => 'nullable|string|max:255',
-            'nama_ayah_istri'        => 'nullable|string|max:255',
-            'nama_ibu_istri'         => 'nullable|string|max:255',
-            'turut_mengundang_pria'  => 'nullable|string',
-            'turut_mengundang_wanita'=> 'nullable|string',
-        ]);
+            $wedding = Pernikahan::findOrFail($id);
 
-        // Upload foto kalau ada
-        if ($request->hasFile('foto_suami')) {
-            $validated['foto_suami'] = $request->file('foto_suami')->store('uploads/wedding', 'public');
+            // VALIDASI
+            $validated = $request->validate([
+                'video_url'              => 'nullable|url',
+                'foto_suami'             => 'nullable|image|mimes:jpg,jpeg,png',
+                'foto_istri'             => 'nullable|image|mimes:jpg,jpeg,png',
+                'foto_utama'             => 'nullable|image|mimes:jpg,jpeg,png',
+                'file_musik'             => 'nullable|file|mimes:mp3,wav,ogg', // <- TANPA "|" terakhir
+                'nama_ayah_suami'        => 'nullable|string|max:255',
+                'nama_ibu_suami'         => 'nullable|string|max:255',
+                'nama_ayah_istri'        => 'nullable|string|max:255',
+                'nama_ibu_istri'         => 'nullable|string|max:255',
+                'turut_mengundang_pria'  => 'nullable|string',
+                'turut_mengundang_wanita' => 'nullable|string',
+            ]);
+
+            // DATA DASAR
+            $data = [
+                'video_url'              => $validated['video_url'] ?? $wedding->video_url,
+                'nama_ayah_suami'        => $validated['nama_ayah_suami'] ?? $wedding->nama_ayah_suami,
+                'nama_ibu_suami'         => $validated['nama_ibu_suami'] ?? $wedding->nama_ibu_suami,
+                'nama_ayah_istri'        => $validated['nama_ayah_istri'] ?? $wedding->nama_ayah_istri,
+                'nama_ibu_istri'         => $validated['nama_ibu_istri'] ?? $wedding->nama_ibu_istri,
+                'turut_mengundang_pria'  => $validated['turut_mengundang_pria'] ?? $wedding->turut_mengundang_pria,
+                'turut_mengundang_wanita' => $validated['turut_mengundang_wanita'] ?? $wedding->turut_mengundang_wanita,
+            ];
+
+            // FOTO SUAMI
+            if ($request->hasFile('foto_suami')) {
+                $data['foto_suami'] = $request->file('foto_suami')
+                    ->store('uploads/wedding', 'public');
+            } else {
+                $data['foto_suami'] = $wedding->foto_suami;
+            }
+
+            // FOTO ISTRI
+            if ($request->hasFile('foto_istri')) {
+                $data['foto_istri'] = $request->file('foto_istri')
+                    ->store('uploads/wedding', 'public');
+            } else {
+                $data['foto_istri'] = $wedding->foto_istri;
+            }
+
+            // FOTO UTAMA
+            if ($request->hasFile('foto_utama')) {
+                $data['foto_utama'] = $request->file('foto_utama')
+                    ->store('uploads/wedding', 'public');
+            } else {
+                $data['foto_utama'] = $wedding->foto_utama;
+            }
+
+            // 🎵 FILE MUSIK – BAGIAN KRITIS
+            if ($request->hasFile('file_musik')) {
+
+                // Kalau mau debug sekali, boleh buka komentar ini:
+                // dd([
+                //     'hasFile' => $request->hasFile('file_musik'),
+                //     'file'    => $request->file('file_musik'),
+                // ]);
+
+                $data['file_musik'] = $request->file('file_musik')
+                    ->store('uploads/wedding/music', 'public');
+            } else {
+                $data['file_musik'] = $wedding->file_musik;
+            }
+
+            // UPDATE SEKALI
+            $wedding->update($data);
+
+            DB::commit();
+
+            return redirect()
+                ->route('wedding.detail', $id)
+                ->with('success', 'Data tambahan berhasil disimpan.');
+        } catch (\Throwable $e) {
+            DB::rollBack();
+
+            Log::error('Gagal update wedding extra: ' . $e->getMessage());
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
         }
-
-        if ($request->hasFile('foto_istri')) {
-            $validated['foto_istri'] = $request->file('foto_istri')->store('uploads/wedding', 'public');
-        }
-
-        if ($request->hasFile('foto_utama')) {
-            $validated['foto_utama'] = $request->file('foto_utama')->store('uploads/wedding', 'public');
-        }
-
-        if ($request->hasFile('file_musik')) {
-            $validated['file_musik'] = $request->file('file_musik')->store('uploads/wedding/music', 'public');
-        }
-
-        // Update semua field
-        $wedding->update([
-            'video_url'              => $validated['video_url'] ?? $wedding->video_url,
-            'foto_suami'             => $validated['foto_suami'] ?? $wedding->foto_suami,
-            'foto_istri'             => $validated['foto_istri'] ?? $wedding->foto_istri,
-            'foto_utama'             => $validated['foto_utama'] ?? $wedding->foto_utama,
-            'file_musik'             => $validated['file_musik'] ?? $wedding->file_musik,
-            'nama_ayah_suami'        => $validated['nama_ayah_suami'] ?? $wedding->nama_ayah_suami,
-            'nama_ibu_suami'         => $validated['nama_ibu_suami'] ?? $wedding->nama_ibu_suami,
-            'nama_ayah_istri'        => $validated['nama_ayah_istri'] ?? $wedding->nama_ayah_istri,
-            'nama_ibu_istri'         => $validated['nama_ibu_istri'] ?? $wedding->nama_ibu_istri,
-            'turut_mengundang_pria'  => $validated['turut_mengundang_pria'] ?? $wedding->turut_mengundang_pria,
-            'turut_mengundang_wanita'=> $validated['turut_mengundang_wanita'] ?? $wedding->turut_mengundang_wanita,
-        ]);
-
-        return redirect()
-            ->route('wedding.detail', $id)
-            ->with('success', 'Data tambahan berhasil disimpan.');
     }
-
 }

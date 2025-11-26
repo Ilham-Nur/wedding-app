@@ -597,8 +597,7 @@
 
         })();
 
-        // Scroll Animation Observer
-        document.addEventListener("DOMContentLoaded", () => {
+        function initScrollAnim() {
             const observer = new IntersectionObserver(
                 (entries) => {
                     entries.forEach((entry) => {
@@ -613,7 +612,15 @@
             );
 
             document.querySelectorAll("[data-anim]").forEach((el) => observer.observe(el));
-        });
+        }
+
+        // Kalau DOM masih loading → tunggu dulu
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initScrollAnim);
+        } else {
+            // Kalau sudah siap → langsung jalan
+            initScrollAnim();
+        }
     </script>
 </body>
 

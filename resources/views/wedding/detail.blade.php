@@ -156,6 +156,36 @@
     </div>
 @endsection
 @section('script')
+    @if (session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal',
+                text: @json(session('error')),
+            });
+        </script>
+    @endif
+
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: @json(session('success')),
+            });
+        </script>
+    @endif
+
+    @if ($errors->any())
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Validasi gagal',
+                html: `{!! implode('<br>', $errors->all()) !!}`,
+            });
+        </script>
+    @endif
+
     <script>
         function previewImage(event, previewId) {
             const input = event.target;
