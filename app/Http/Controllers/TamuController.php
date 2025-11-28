@@ -20,7 +20,7 @@ class TamuController extends Controller
 
     public function getData($id)
     {
-        $query = Tamu::with(['pernikahan']) // eager load relasi
+        $query = Tamu::with(['pernikahan.lokasis'])
             ->where('pernikahan_id', $id)
             ->orderBy('id', 'desc');
 
@@ -46,8 +46,8 @@ class TamuController extends Controller
 
                 return '
                     <div class="input-group">
-                        <input type="text" class="form-control form-control-sm" value="'.$url.'" style="width: 200px;" readonly>
-                        <button type="button" class="btn btn-sm btn-outline-primary copy-btn" data-link="'.$url.'">
+                        <input type="text" class="form-control form-control-sm" value="' . $url . '" style="width: 200px;" readonly>
+                        <button type="button" class="btn btn-sm btn-outline-primary copy-btn" data-link="' . $url . '">
                             Copy
                         </button>
                     </div>
@@ -59,42 +59,77 @@ class TamuController extends Controller
                 $code  = $row->undangan_code ?? '';
                 $url   = url("undangan/{$slug}/{$code}");
 
-                $pria   = $row->pernikahan->nama_pria ?? '';
-                $wanita = $row->pernikahan->nama_wanita ?? '';
-                $tanggal = \Carbon\Carbon::parse($row->pernikahan->tanggal)->translatedFormat('l, d F Y');
+                $pria    = $row->pernikahan->nama_pria ?? '';
+                $wanita  = $row->pernikahan->nama_wanita ?? '';
 
+                // ==============================
+                // BUAT DETAIL ACARA DINAMIS DARI LOKASI
+                // ==============================
+                $detailAcara = "";
+
+                if ($row->pernikahan && $row->pernikahan->lokasis && $row->pernikahan->lokasis->count()) {
+
+                    foreach ($row->pernikahan->lokasis as $lokasi) {
+
+                        $tanggalLokasi = \Carbon\Carbon::parse($lokasi->tanggal)
+                            ->translatedFormat('l, d F Y');
+
+                        $jamMulai    = $lokasi->waktu_mulai
+                            ? \Carbon\Carbon::parse($lokasi->waktu_mulai)->format('H:i')
+                            : '-';
+
+                        $jamSelesai  = $lokasi->waktu_selesai
+                            ? \Carbon\Carbon::parse($lokasi->waktu_selesai)->format('H:i')
+                            : '-';
+
+                        $detailAcara .=
+                            "{$lokasi->nama_acara}\n" .
+                            "Hari/Tanggal : {$tanggalLokasi}\n" .
+                            "Waktu        : {$jamMulai} - {$jamSelesai} WIB\n" .
+                            "Tempat       : {$lokasi->alamat}\n\n";
+                    }
+
+                    // hapus enter terakhir biar rapi
+                    $detailAcara = trim($detailAcara);
+                } else {
+                    // fallback kalau belum ada lokasi
+                    $detailAcara = "Detail acara menyusul.\n";
+                }
+
+                // ==============================
+                // SUSUN PESAN WA
+                // ==============================
                 $message =
-            "Assalamu’alaikum Warahmatullahi Wabarakatuh\n\n".
-            "Dengan penuh rasa syukur, kami mengundang Bapak/Ibu/Saudara/i untuk hadir dan memberikan doa restu pada acara pernikahan kami:\n\n".
-            "{$pria} & {$wanita}\n\n".
-            "Hari/Tanggal : {$tanggal}\n".
-            "Waktu        : 09.00 - 18.00\n".
-            "Tempat       : Gedung M.Space Convention Center\n\n".
-            "Untuk detail acara, dapat dilihat pada undangan digital berikut:\n{$url}\n\n".
-            "Mohon maaf perihal undangan hanya dibagikan melalui pesan ini.\n".
-            "Atas kehadiran dan doa restunya, kami ucapkan terima kasih.\n\n".
-            "Wassalamu’alaikum Warahmatullahi Wabarakatuh\n\n".
-            "Hormat kami dan keluarga";
+                    "Assalamu’alaikum Warahmatullahi Wabarakatuh\n\n" .
+                    "Dengan penuh rasa syukur, kami mengundang Bapak/Ibu/Saudara/i untuk hadir dan memberikan doa restu pada acara pernikahan kami:\n\n" .
+                    "{$pria} & {$wanita}\n\n" .
+                    "Detail acara:\n{$detailAcara}\n\n" .
+                    "Untuk detail lengkap, dapat dilihat pada undangan digital berikut:\n{$url}\n\n" .
+                    "Mohon maaf perihal undangan hanya dibagikan melalui pesan ini.\n" .
+                    "Atas kehadiran dan doa restunya, kami ucapkan terima kasih.\n\n" .
+                    "Wassalamu’alaikum Warahmatullahi Wabarakatuh\n\n" .
+                    "Hormat kami dan keluarga";
 
                 // Encode setelah selesai
                 $waLink = "https://wa.me/{$phone}?text=" . urlencode($message);
 
                 return '
-                    <button class="btn btn-sm btn-primary edit-btn" data-id="'.$row->id.'">
-                        <i class="ti ti-edit"></i>
-                    </button>
-                    <button class="btn btn-sm btn-danger delete-btn" data-id="'.$row->id.'">
-                        <i class="ti ti-trash"></i>
-                    </button>
-                    <a href="'.$waLink.'" target="_blank" class="btn btn-sm btn-success">
-                        <i class="ti ti-brand-whatsapp"></i>
-                    </a>
-                ';
+        <button class="btn btn-sm btn-primary edit-btn" data-id="' . $row->id . '">
+            <i class="ti ti-edit"></i>
+        </button>
+        <button class="btn btn-sm btn-danger delete-btn" data-id="' . $row->id . '">
+            <i class="ti ti-trash"></i>
+        </button>
+        <a href="' . $waLink . '" target="_blank" class="btn btn-sm btn-success">
+            <i class="ti ti-brand-whatsapp"></i>
+        </a>
+    ';
             })
-            ->addColumn('ucapan', function($row){
+
+            ->addColumn('ucapan', function ($row) {
                 return $row->ucapan ? $row->ucapan : '-';
             })
-            ->rawColumns(['status_hadir','link','action'])
+            ->rawColumns(['status_hadir', 'link', 'action'])
             ->make(true);
     }
 
@@ -232,5 +267,4 @@ class TamuController extends Controller
 
         return response()->json(['success' => true, 'data' => $inserted]);
     }
-
 }
