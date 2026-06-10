@@ -1,0 +1,99 @@
+/* ============================================================
+   DECOR — aset milik pengguna:
+     • bg-main.jpg  -> latar section mempelai (& pembuka, samar)
+     • ornament-1..3.png (bunga) -> ornamen sudut, animasi:
+         - muncul saat discroll (fade + zoom-in)
+         - bergoyang lembut (sway)
+     • bunga emas melayang (SVG) -> tetap di section countdown
+   Dimuat SETELAH style.css.
+   ============================================================ */
+
+/* ---------- STACKING: ornamen di belakang konten ---------- */
+.section { isolation: isolate; }
+.section > *:not(.deco):not(.bloom-float):not(.closing__bg) { position: relative; z-index: 1; }
+
+/* ============================================================
+   LATAR FOTO (bg-main.jpg) — dipakai di SEMUA section terang.
+   Section gelap (countdown, rsvp, penutup, cover) dibiarkan.
+   ============================================================ */
+.verse, .couple, .events, .gallery, .maps, .gift {
+  background-image:
+    linear-gradient(rgba(246,241,230,.60), rgba(246,241,230,.72)),
+    url("assets/bg/bg-main.jpg");
+  background-size: cover;
+}
+.couple {                      /* section utama — sedikit lebih jelas */
+  background-image:
+    linear-gradient(rgba(246,241,230,.48), rgba(246,241,230,.62)),
+    url("assets/bg/bg-main.jpg");
+  background-position: center;
+}
+.verse   { background-position: center top; }
+.events  { background-position: center bottom; }
+.gallery { background-position: center top; }
+.maps    { background-position: center; }
+.gift    { background-position: center bottom; }
+
+/* ============================================================
+   ORNAMEN BUNGA (PNG transparan)
+   ============================================================ */
+.deco {
+  position: absolute; z-index: 0; pointer-events: none;
+  opacity: 0; transform: scale(.9);
+  transition: opacity 1.1s ease, transform 1.2s cubic-bezier(.2,.75,.25,1);
+}
+.deco.in { opacity: 1; transform: scale(1); }     /* muncul saat discroll */
+
+.deco img {
+  width: 100%; height: auto; display: block;
+  animation: sway 7.5s ease-in-out infinite;       /* bergoyang lembut */
+  filter: drop-shadow(0 6px 10px rgba(14,58,41,.18));
+}
+
+/* ukuran per ornamen (jaga proporsi) */
+.orn-1 { width: 150px; }
+.orn-2 { width: 172px; }
+.orn-3 { width: 104px; }
+
+/* posisi sudut + titik putar goyangan */
+.deco--tl { top: -8px;  left: -10px; }
+.deco--tr { top: -8px;  right: -10px; }
+.deco--bl { bottom: -8px; left: -10px; }
+.deco--br { bottom: -8px; right: -10px; }
+.deco--tl, .deco--tl img { transform-origin: top left; }
+.deco--tr, .deco--tr img { transform-origin: top right; }
+.deco--bl, .deco--bl img { transform-origin: bottom left; }
+.deco--br, .deco--br img { transform-origin: bottom right; }
+
+@keyframes sway {
+  0%, 100% { rotate: -1.6deg; }
+  50%      { rotate: 1.6deg; }
+}
+
+/* di ponsel kecil, sedikit lebih ringkas */
+@media (max-width: 380px) {
+  .orn-1 { width: 124px; }
+  .orn-2 { width: 140px; }
+  .orn-3 { width: 88px; }
+}
+
+/* ============================================================
+   🌸 BUNGA EMAS MELAYANG & BERPUTAR (section countdown)
+   ============================================================ */
+.bloom-float {
+  position: absolute; z-index: 0; pointer-events: none;
+  color: var(--gold-soft); opacity: .5;
+  animation: floatY 9s ease-in-out infinite, spinSlow 22s linear infinite;
+}
+.bloom-float svg { width: 100%; height: 100%; display: block; }
+
+@keyframes floatY { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-16px); } }
+@keyframes spinSlow { to { rotate: 360deg; } }
+
+/* ============================================================
+   Hormati prefers-reduced-motion
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .deco { opacity: 1; transform: none; }
+  .deco img, .bloom-float { animation: none !important; }
+}

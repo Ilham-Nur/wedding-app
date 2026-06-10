@@ -1,0 +1,457 @@
+/* ============================================================
+   UNDANGAN PERNIKAHAN — Habib & Mia
+   Ubah warna & font cukup di blok :root di bawah ini.
+   ============================================================ */
+
+:root {
+  /* ---------- PALET WARNA (ubah di sini) ---------- */
+  --green:        #14513a;   /* warna utama  */
+  --green-soft:   #3a6e55;
+  --green-deep:   #0e3a29;
+  --red:          #8e2a2a;   /* warna aksen  */
+  --red-soft:     #b1463c;
+  --gold:         #c2a14d;   /* detail emas  */
+  --gold-soft:    #ddc488;
+  --cream:        #f6f1e6;   /* latar terang */
+  --cream-deep:   #ece1cd;
+  --paper:        #fbf8f1;
+  --ink:          #2b2a24;   /* teks utama   */
+  --ink-soft:     #5d5a50;
+
+  /* ---------- TIPOGRAFI ---------- */
+  --font-script:  "Pinyon Script", cursive;
+  --font-display: "Cormorant Garamond", serif;
+  --font-body:    "Jost", system-ui, sans-serif;
+
+  /* ---------- LAYOUT ---------- */
+  --shell:        480px;     /* lebar maksimal undangan */
+  --radius:       18px;
+  --shadow:       0 24px 60px -28px rgba(14, 58, 41, .45);
+}
+
+/* ============================================================
+   RESET
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: var(--font-body);
+  font-weight: 300;
+  color: var(--ink);
+  background: #2a3b32;               /* backdrop di luar shell (desktop) */
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+body.is-locked { overflow: hidden; height: 100vh; }
+
+img { display: block; max-width: 100%; }
+button { font-family: inherit; cursor: pointer; }
+a { color: inherit; }
+
+/* ============================================================
+   SHELL — undangan dibatasi selebar ponsel, dipusatkan
+   ============================================================ */
+.cover, .invitation {
+  width: 100%;
+  max-width: var(--shell);
+  margin-inline: auto;
+}
+
+.invitation {
+  position: relative;
+  background:
+    radial-gradient(120% 60% at 50% -10%, rgba(194,161,77,.12), transparent 60%),
+    var(--cream);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+/* ============================================================
+   TIPOGRAFI HELPERS
+   ============================================================ */
+.script { font-family: var(--font-script); font-weight: 400; line-height: 1; }
+
+.eyebrow {
+  font-size: .72rem; letter-spacing: .42em; text-transform: uppercase;
+  font-weight: 400;
+}
+
+.kicker {
+  font-size: .92rem; color: var(--ink-soft); max-width: 30ch;
+  margin: 0 auto; text-wrap: pretty;
+}
+.kicker--light { color: rgba(255,255,255,.78); }
+
+.section__title {
+  font-family: var(--font-display);
+  font-weight: 500; font-size: clamp(1.9rem, 7vw, 2.5rem);
+  color: var(--green); letter-spacing: .01em; line-height: 1.1;
+  margin-bottom: .5rem;
+}
+.section__title--light { color: #fff; }
+
+/* ============================================================
+   ORNAMEN FLOURISH
+   ============================================================ */
+.ornament { display: flex; justify-content: center; color: var(--gold); }
+.flourish { width: 120px; height: 40px; }
+.flourish.flip { transform: scaleY(-1); }
+
+/* ============================================================
+   1+2 — COVER
+   ============================================================ */
+.cover {
+  position: fixed; top: 0; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: var(--shell);
+  z-index: 100;
+  display: grid; place-items: center;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--green-deep);
+  transition: opacity .9s ease, transform 1s cubic-bezier(.7,0,.2,1);
+}
+.cover.is-open { opacity: 0; transform: translateX(-50%) translateY(-3%); pointer-events: none; }
+
+.cover__bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(80% 50% at 50% 18%, rgba(194,161,77,.22), transparent 60%),
+    radial-gradient(90% 60% at 50% 110%, rgba(142,42,42,.45), transparent 60%),
+    linear-gradient(180deg, var(--green-deep), #0b2c20 60%, #0a261c);
+}
+.cover__bg::after {                  /* tekstur halus */
+  content: ""; position: absolute; inset: 0; opacity: .5;
+  background-image: radial-gradient(rgba(255,255,255,.05) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+.cover__veil {
+  position: absolute; inset: 0;
+  box-shadow: inset 0 0 120px 30px rgba(0,0,0,.55);
+  border: 1px solid rgba(221,196,136,.22);
+  margin: 14px; border-radius: 8px;
+}
+
+.cover__inner {
+  position: relative; z-index: 2; text-align: center;
+  color: var(--cream); padding: 8vh 28px;
+  display: flex; flex-direction: column; align-items: center; gap: 1.1rem;
+  animation: coverIn 1.1s ease both;
+}
+@keyframes coverIn { from { opacity: 0; transform: translateY(14px);} to { opacity: 1; transform: none;} }
+
+.cover .eyebrow { color: var(--gold-soft); }
+.cover__names {
+  font-size: clamp(4rem, 22vw, 6.2rem);
+  color: #fff;
+  text-shadow: 0 2px 30px rgba(0,0,0,.4);
+}
+.cover__names .amp { color: var(--gold-soft); font-size: .7em; }
+.cover__date {
+  font-family: var(--font-display); font-size: 1.15rem;
+  letter-spacing: .18em; text-transform: uppercase; color: var(--gold-soft);
+}
+
+.cover__guest { margin-top: .6rem; }
+.cover__to { font-size: .78rem; letter-spacing: .12em; color: rgba(255,255,255,.7); }
+.cover__guest-name {
+  font-family: var(--font-display); font-size: 1.5rem; font-weight: 500;
+  color: #fff; margin-top: .2rem;
+}
+
+/* ============================================================
+   TOMBOL
+   ============================================================ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .55rem;
+  font-family: var(--font-body); font-weight: 400;
+  font-size: .82rem; letter-spacing: .14em; text-transform: uppercase;
+  padding: .85rem 1.7rem; border: 0; border-radius: 999px;
+  text-decoration: none; transition: transform .25s, box-shadow .25s, background .25s;
+}
+.btn__icon { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+
+.btn--open {
+  margin-top: .6rem; color: var(--green-deep);
+  background: linear-gradient(180deg, var(--gold-soft), var(--gold));
+  box-shadow: 0 12px 30px -10px rgba(194,161,77,.6);
+}
+.btn--open .btn__icon { fill: none; }
+.btn--open:hover { transform: translateY(-2px); box-shadow: 0 18px 36px -12px rgba(194,161,77,.7); }
+
+.btn--ghost {
+  margin-top: 1.6rem; color: var(--green); background: transparent;
+  border: 1px solid var(--green); 
+}
+.countdown .btn--ghost { color: var(--gold-soft); border-color: var(--gold-soft); }
+.btn--ghost:hover { background: rgba(20,81,58,.06); }
+
+.btn--wa { color: #fff; background: #1faa59; box-shadow: 0 12px 26px -12px rgba(31,170,89,.8); width: 100%; }
+.btn--wa .btn__icon { fill: #fff; stroke: none; }
+.btn--wa:hover { transform: translateY(-2px); }
+
+.btn--copy {
+  margin-top: .9rem; font-size: .72rem; padding: .6rem 1.3rem;
+  color: var(--green); background: var(--cream); border: 1px solid var(--cream-deep);
+}
+.btn--copy.is-copied { background: var(--green); color: #fff; border-color: var(--green); }
+
+/* ============================================================
+   SECTION DASAR
+   ============================================================ */
+.section {
+  position: relative; z-index: 1;
+  padding: 5rem 28px;
+  text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 1.4rem;
+}
+
+/* ---------- VERSE ---------- */
+.verse { background: var(--paper); padding-top: 6rem; padding-bottom: 6rem; }
+.bismillah { display: block; font-size: 2.2rem; color: var(--red); margin-bottom: 1.2rem; }
+.verse__text {
+  font-family: var(--font-display); font-style: italic;
+  font-size: 1.18rem; line-height: 1.9; color: var(--ink); max-width: 34ch;
+  margin: 0 auto; text-wrap: pretty;
+}
+.verse__ref { font-size: .8rem; letter-spacing: .2em; color: var(--gold); margin-top: 1rem; }
+
+/* ============================================================
+   MEMPELAI
+   ============================================================ */
+.couple { padding-top: 4.5rem; }
+.couple__card {
+  display: flex; flex-direction: column; align-items: center; gap: .35rem;
+}
+.couple__name { font-size: 2.6rem; color: var(--green); margin: .4rem 0 .1rem; }
+.couple__role { font-size: .85rem; color: var(--ink-soft); }
+.couple__parents { font-family: var(--font-display); font-size: 1.05rem; color: var(--ink); }
+.couple__amp { font-size: 3rem; color: var(--red); margin: .2rem 0; }
+
+.ig {
+  display: inline-flex; align-items: center; gap: .4rem; margin-top: .5rem;
+  font-size: .8rem; letter-spacing: .06em; color: var(--green-soft);
+  text-decoration: none;
+}
+.ig svg { width: 17px; height: 17px; }
+.ig:hover { color: var(--red); }
+
+/* ---------- FOTO / PLACEHOLDER ---------- */
+.photo {
+  position: relative; overflow: hidden;
+  background:
+    linear-gradient(135deg, var(--green-soft), var(--green-deep));
+  display: grid; place-items: center;
+}
+.photo::before {                      /* monogram placeholder */
+  content: attr(data-monogram);
+  font-family: var(--font-script); color: rgba(255,255,255,.5);
+  font-size: 2.4rem;
+}
+.photo::after {                       /* bingkai dalam */
+  content: ""; position: absolute; inset: 8px; border: 1px solid rgba(255,255,255,.25);
+  border-radius: inherit; pointer-events: none;
+}
+.photo img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; }
+
+.photo--round { width: 180px; height: 180px; border-radius: 50%;
+  box-shadow: 0 14px 30px -14px rgba(14,58,41,.6), 0 0 0 6px var(--paper), 0 0 0 7px var(--gold-soft); }
+
+/* ============================================================
+   ACARA
+   ============================================================ */
+.events { background: var(--paper); }
+.event-card {
+  width: 100%; background: var(--cream);
+  border: 1px solid var(--cream-deep); border-radius: var(--radius);
+  padding: 2rem 1.5rem; position: relative; overflow: hidden;
+  box-shadow: 0 18px 40px -30px rgba(14,58,41,.5);
+}
+.event-card::before {
+  content: ""; position: absolute; inset: 0 auto 0 0; width: 5px;
+  background: linear-gradient(var(--green), var(--green-soft));
+}
+.event-card--alt::before { background: linear-gradient(var(--red), var(--red-soft)); }
+
+.event-card__badge {
+  display: inline-block; font-size: .72rem; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--green); background: rgba(20,81,58,.08);
+  padding: .35rem 1rem; border-radius: 999px; margin-bottom: 1.2rem;
+}
+.event-card--alt .event-card__badge { color: var(--red); background: rgba(142,42,42,.08); }
+
+.event-card__date { display: flex; align-items: center; justify-content: center; gap: .9rem; margin-bottom: .6rem; }
+.event-card__day, .event-card__mon {
+  font-family: var(--font-display); font-size: .95rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink-soft); writing-mode: initial;
+}
+.event-card__num {
+  font-family: var(--font-display); font-weight: 600; font-size: 3.4rem; color: var(--green);
+  line-height: 1; padding: 0 .6rem; border-inline: 1px solid var(--cream-deep);
+}
+.event-card--alt .event-card__num { color: var(--red); }
+.event-card__time { font-family: var(--font-display); font-size: 1.15rem; color: var(--ink); letter-spacing: .04em; }
+.event-card__place { font-size: .9rem; color: var(--ink-soft); margin-top: .4rem; text-wrap: pretty; }
+
+/* ============================================================
+   COUNTDOWN
+   ============================================================ */
+.countdown {
+  background:
+    radial-gradient(90% 60% at 50% -10%, rgba(194,161,77,.18), transparent 60%),
+    linear-gradient(180deg, var(--green), var(--green-deep));
+  color: #fff; overflow: hidden;
+}
+.countdown__grid { display: flex; justify-content: center; gap: .7rem; margin: 1.6rem 0 .4rem; }
+.cd {
+  display: flex; flex-direction: column; align-items: center; gap: .35rem;
+  min-width: 68px; padding: 1rem .4rem;
+  background: rgba(255,255,255,.06); border: 1px solid rgba(221,196,136,.25);
+  border-radius: 14px; backdrop-filter: blur(2px);
+}
+.cd__num { font-family: var(--font-display); font-weight: 600; font-size: 2.2rem; color: var(--gold-soft); line-height: 1; }
+.cd__lbl { font-size: .68rem; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.7); }
+
+/* ============================================================
+   GALERI
+   ============================================================ */
+.gallery__grid {
+  width: 100%;
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 130px; gap: 10px;
+}
+.gal { border-radius: 12px; }
+.gal::before { font-size: 1.4rem; }
+.gal--tall { grid-row: span 2; }
+.gal--wide { grid-column: span 2; }
+.gal:nth-child(even) { background: linear-gradient(135deg, var(--red-soft), var(--red)); }
+.gal:nth-child(3n) { background: linear-gradient(135deg, var(--gold), #9a7d34); }
+
+/* ============================================================
+   MAPS
+   ============================================================ */
+.maps { background: var(--paper); }
+.maps__frame {
+  width: 100%; border-radius: var(--radius); overflow: hidden;
+  border: 1px solid var(--cream-deep); box-shadow: var(--shadow);
+  aspect-ratio: 4 / 3;
+}
+.maps__frame iframe { width: 100%; height: 100%; border: 0; filter: saturate(.9); }
+
+/* ============================================================
+   RSVP
+   ============================================================ */
+.rsvp {
+  background:
+    radial-gradient(90% 60% at 50% 110%, rgba(142,42,42,.4), transparent 60%),
+    linear-gradient(180deg, var(--green-deep), var(--green));
+  color: #fff;
+}
+.rsvp__form { width: 100%; display: flex; flex-direction: column; gap: 1rem; text-align: left; margin-top: .6rem; }
+.field { display: flex; flex-direction: column; gap: .4rem; border: 0; }
+.field__label { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--gold-soft); }
+.field input, .field select, .field textarea {
+  font-family: var(--font-body); font-size: 1rem; color: #fff;
+  background: rgba(255,255,255,.08); border: 1px solid rgba(221,196,136,.3);
+  border-radius: 12px; padding: .8rem 1rem; width: 100%;
+  transition: border-color .2s, background .2s;
+}
+.field textarea { resize: vertical; }
+.field input::placeholder, .field textarea::placeholder { color: rgba(255,255,255,.45); }
+.field input:focus, .field select:focus, .field textarea:focus {
+  outline: none; border-color: var(--gold-soft); background: rgba(255,255,255,.12);
+}
+.field select option { color: var(--ink); }
+
+.radio-row { display: flex; gap: .7rem; }
+.radio { flex: 1; position: relative; }
+.radio input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.radio span {
+  display: block; text-align: center; padding: .7rem; border-radius: 12px;
+  border: 1px solid rgba(221,196,136,.3); background: rgba(255,255,255,.06);
+  font-size: .9rem; transition: all .2s;
+}
+.radio input:checked + span { background: var(--gold-soft); color: var(--green-deep); border-color: var(--gold-soft); font-weight: 500; }
+
+/* ============================================================
+   AMPLOP DIGITAL
+   ============================================================ */
+.gift { background: var(--paper); }
+.gift__card {
+  width: 100%; max-width: 360px;
+  background: linear-gradient(135deg, var(--green), var(--green-deep));
+  color: #fff; border-radius: var(--radius); padding: 1.8rem;
+  position: relative; overflow: hidden;
+  box-shadow: 0 20px 44px -24px rgba(14,58,41,.7);
+}
+.gift__card::after {                   /* chip kartu */
+  content: ""; position: absolute; top: 1.6rem; right: 1.6rem;
+  width: 34px; height: 26px; border-radius: 6px;
+  background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+}
+.gift__bank { font-family: var(--font-display); font-weight: 600; font-size: 1.4rem; letter-spacing: .08em; color: var(--gold-soft); }
+.gift__no { font-family: var(--font-display); font-size: 1.7rem; letter-spacing: .12em; margin: 1.6rem 0 .3rem; }
+.gift__owner { font-size: .85rem; letter-spacing: .08em; color: rgba(255,255,255,.8); }
+
+/* ============================================================
+   PENUTUP
+   ============================================================ */
+.closing { position: relative; color: #fff; padding: 6rem 28px; overflow: hidden; }
+.closing__bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(80% 50% at 50% 16%, rgba(194,161,77,.2), transparent 60%),
+    linear-gradient(180deg, #0b2c20, var(--green-deep) 50%, #0a261c);
+}
+.closing__bg::after {
+  content: ""; position: absolute; inset: 14px; border: 1px solid rgba(221,196,136,.22); border-radius: 8px;
+}
+.closing__inner { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+.closing__text { font-family: var(--font-display); font-style: italic; font-size: 1.1rem; line-height: 1.9; max-width: 34ch; color: rgba(255,255,255,.9); text-wrap: pretty; }
+.closing__sign { font-size: .85rem; letter-spacing: .1em; color: rgba(255,255,255,.7); margin-top: .6rem; }
+.closing__names { font-size: 4.4rem; color: #fff; }
+.closing .ornament { color: var(--gold-soft); }
+.closing__credit { font-size: .72rem; letter-spacing: .14em; color: rgba(255,255,255,.55); margin-top: 1.2rem; }
+.heart { color: var(--red-soft); }
+
+/* ============================================================
+   MUSIC BUTTON
+   ============================================================ */
+.music-btn {
+  position: fixed; z-index: 90; bottom: 18px; right: 18px;
+  width: 50px; height: 50px; border-radius: 50%; border: 1px solid var(--gold-soft);
+  background: var(--green); color: var(--gold-soft);
+  display: grid; place-items: center;
+  box-shadow: 0 10px 24px -10px rgba(0,0,0,.5);
+}
+@media (min-width: 540px) { .music-btn { right: calc(50% - var(--shell)/2 + 18px); } }
+.music-btn__disc { width: 22px; height: 22px; }
+.music-btn.is-playing .music-btn__disc { animation: spin 4s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ============================================================
+   PETALS CANVAS
+   ============================================================ */
+.petals { position: fixed; inset: 0; z-index: 80; pointer-events: none; }
+
+/* ============================================================
+   SCROLL REVEAL
+   ============================================================ */
+.reveal { opacity: 0; transform: translateY(26px); transition: opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1); }
+.reveal.is-visible { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .cover__inner { animation: none; }
+  .music-btn.is-playing .music-btn__disc { animation: none; }
+}
+
+/* ============================================================
+   DESKTOP — beri ruang & tepi pada shell
+   ============================================================ */
+@media (min-width: 540px) {
+  body { padding: 0; }
+  .invitation { border-radius: 0; min-height: 100vh; }
+}
