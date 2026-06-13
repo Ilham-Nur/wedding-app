@@ -128,7 +128,44 @@
   })();
 
   /* ========================================================
-     6. SALIN NOMOR REKENING
+     6. FOTO UTAMA: BATASI PORTRAIT YANG TERLALU TINGGI
+     ======================================================== */
+  (function mainPhotoFrame() {
+    const image = $("#mainPhotoImage");
+    if (!image) return;
+
+    const classify = () => {
+      const frame = image.closest(".main-photo__frame");
+      if (!frame || !image.naturalWidth || !image.naturalHeight) return;
+      frame.classList.toggle("is-tall", image.naturalHeight / image.naturalWidth > 1.45);
+    };
+
+    if (image.complete) classify();
+    else image.addEventListener("load", classify, { once: true });
+  })();
+
+  /* ========================================================
+     7. GALERI RESPONSIF BERDASARKAN ORIENTASI FOTO
+     ======================================================== */
+  (function responsiveGallery() {
+    $$(".gallery__grid .gal img").forEach((img) => {
+      const classify = () => {
+        const item = img.closest(".gal");
+        if (!item || !img.naturalWidth || !img.naturalHeight) return;
+
+        item.classList.remove("gal--landscape", "gal--portrait");
+        item.classList.add(
+          img.naturalWidth > img.naturalHeight ? "gal--landscape" : "gal--portrait"
+        );
+      };
+
+      if (img.complete) classify();
+      else img.addEventListener("load", classify, { once: true });
+    });
+  })();
+
+  /* ========================================================
+     8. SALIN NOMOR REKENING
      ======================================================== */
   $$(".btn--copy").forEach((btn) => {
     btn.addEventListener("click", async () => {
@@ -148,7 +185,7 @@
   });
 
   /* ========================================================
-     7. RSVP via WHATSAPP
+     9. RSVP via WHATSAPP
      ======================================================== */
   (function rsvp() {
     const form = $("#rsvpForm");
@@ -177,7 +214,7 @@
   })();
 
   /* ========================================================
-     8. ANIMASI KELOPAK JATUH  (canvas)
+     10. ANIMASI KELOPAK JATUH  (canvas)
      ======================================================== */
   (function petals() {
     const canvas = $("#petals");
@@ -251,7 +288,7 @@
   })();
 
   /* ========================================================
-     9. ORNAMEN BUNGA (aset pengguna) + bunga emas melayang
+     11. ORNAMEN BUNGA (aset pengguna) + bunga emas melayang
      ======================================================== */
   (function decor() {
     const svg = (id, vb) =>
@@ -287,15 +324,10 @@
       made.forEach((m) => m.classList.add("in"));
     }
 
-    // bunga emas melayang di section countdown (tetap dipertahankan)
-    const cd = document.querySelector(".countdown");
-    if (cd) {
-      const blooms = [
-        { top: "14%", left: "8%",  size: 34 },
-        { top: "62%", left: "86%", size: 26 },
-        { top: "78%", left: "12%", size: 22 },
-        { top: "22%", left: "82%", size: 30 },
-      ];
+    function addFloatingBlooms(selector, blooms) {
+      const section = document.querySelector(selector);
+      if (!section) return;
+
       blooms.forEach((b, i) => {
         const s = document.createElement("span");
         s.className = "bloom-float";
@@ -304,9 +336,24 @@
           "top:" + b.top + ";left:" + b.left + ";width:" + b.size + "px;height:" + b.size + "px;" +
           "animation-delay:" + (-i * 1.7) + "s, " + (-i * 3) + "s";
         s.innerHTML = svg("bloom", "0 0 60 60");
-        cd.appendChild(s);
+        section.appendChild(s);
       });
     }
+
+    addFloatingBlooms(".countdown", [
+      { top: "14%", left: "8%",  size: 34 },
+      { top: "62%", left: "86%", size: 26 },
+      { top: "78%", left: "12%", size: 22 },
+      { top: "22%", left: "82%", size: 30 },
+    ]);
+
+    addFloatingBlooms(".main-photo", [
+      { top: "8%",  left: "8%",  size: 38 },
+      { top: "22%", left: "84%", size: 24 },
+      { top: "70%", left: "7%",  size: 26 },
+      { top: "82%", left: "86%", size: 34 },
+      { top: "48%", left: "91%", size: 18 },
+    ]);
   })();
 
 })();

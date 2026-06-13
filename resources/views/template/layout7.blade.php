@@ -35,7 +35,11 @@
       <svg viewBox="0 0 120 40" class="flourish"><use href="#flourish"></use></svg>
     </div>
 
-    <h1 class="cover__names script">{{ $wedding->nama_pria }} <span class="amp">&amp;</span> {{ $wedding->nama_wanita }}</h1>
+    <h1 class="cover__names script">
+      <span class="cover__name">{{ $wedding->nama_pria }}</span>
+      <span class="amp">&amp;</span>
+      <span class="cover__name">{{ $wedding->nama_wanita }}</span>
+    </h1>
 
     <p class="cover__date">
       {{ \Carbon\Carbon::parse($wedding->tanggal)->translatedFormat('l, d F Y') }}
@@ -76,6 +80,16 @@
     </div>
   </section>
 
+  <!-- FOTO UTAMA -->
+  @if($wedding->foto_utama)
+  <section class="main-photo reveal" data-screen-label="Foto Utama">
+    <figure class="main-photo__frame">
+      <img src="{{ asset('storage/' . $wedding->foto_utama) }}"
+        alt="Foto {{ $wedding->nama_pria }} dan {{ $wedding->nama_wanita }}" id="mainPhotoImage" />
+    </figure>
+  </section>
+  @endif
+
 
   <!-- MEMPELAI -->
   <section class="section couple" id="mempelai" data-screen-label="Mempelai">
@@ -85,7 +99,7 @@
     </div>
 
     <div class="couple__card reveal">
-      <div class="photo photo--round" data-monogram="{{ strtoupper(substr($wedding->nama_pria, 0, 1)) }}">
+      <div class="photo photo--round" @unless($wedding->foto_suami) data-monogram="{{ strtoupper(substr($wedding->nama_pria, 0, 1)) }}" @endunless>
         @if($wedding->foto_suami)
           <img src="{{ asset('storage/' . $wedding->foto_suami) }}" alt="Foto {{ $wedding->nama_pria }}" />
         @endif
@@ -98,7 +112,7 @@
     <div class="couple__amp script reveal">&amp;</div>
 
     <div class="couple__card reveal">
-      <div class="photo photo--round" data-monogram="{{ strtoupper(substr($wedding->nama_wanita, 0, 1)) }}">
+      <div class="photo photo--round" @unless($wedding->foto_istri) data-monogram="{{ strtoupper(substr($wedding->nama_wanita, 0, 1)) }}" @endunless>
         @if($wedding->foto_istri)
           <img src="{{ asset('storage/' . $wedding->foto_istri) }}" alt="Foto {{ $wedding->nama_wanita }}" />
         @endif
@@ -167,12 +181,13 @@
     <div class="gallery__grid reveal">
       @foreach($wedding->galeris->take(6) as $index => $foto)
         @php
-          $classes = 'photo gal';
-          if ($index === 0) $classes .= ' gal--tall';
-          if ($index === 3) $classes .= ' gal--wide';
+          $galleryPath = ltrim($foto->file_path, '/');
+          $galleryUrl = str_starts_with($foto->file_path, '/')
+            ? asset($galleryPath)
+            : asset('storage/' . $galleryPath);
         @endphp
-        <figure class="{{ $classes }}" data-monogram="{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}">
-          <img src="{{ asset('storage/' . $foto->file_path) }}" alt="{{ $foto->judul ?? 'Foto ' . ($index + 1) }}" loading="lazy" />
+        <figure class="gal" data-monogram="{{ str_pad($index + 1, 2, '0', STR_PAD_LEFT) }}">
+          <img src="{{ $galleryUrl }}" alt="{{ $foto->judul ?? 'Foto ' . ($index + 1) }}" loading="lazy" />
         </figure>
       @endforeach
     </div>
@@ -270,9 +285,10 @@
           <textarea id="rsvpMsg" rows="3" placeholder="Tuliskan ucapan untuk kedua mempelai..."></textarea>
         </label>
 
-        <button class="btn btn--wa" type="submit">
-          <span>Kirim</span>
+        <button class="btn btn--wa" id="rsvpSubmit" type="submit">
+          <span>Kirim Ucapan</span>
         </button>
+        <p class="rsvp__feedback" id="rsvpFeedback" role="status" aria-live="polite"></p>
       </form>
       @else
       <p class="reveal" style="text-align:center;margin-top:15px;">
@@ -282,8 +298,9 @@
     @endif
 
     <!-- Daftar Ucapan -->
-    <div class="reveal" style="margin-top:2rem;">
-      <div id="commentList" data-comments='@json($tamusWithUcapan)'></div>
+    <div class="wishes reveal">
+      <h3 class="wishes__title">Ucapan &amp; Doa</h3>
+      <div id="commentList" class="wishes__list" data-comments='@json($tamusWithUcapan)'></div>
     </div>
   </section>
 
@@ -334,14 +351,24 @@
 <!-- FLOATING MUSIC CONTROL -->
 @if($wedding->file_musik)
 <button class="music-btn" id="musicBtn" type="button" aria-label="Putar / hentikan musik">
-  <svg class="music-btn__disc" viewBox="0 0 24 24" aria-hidden="true"><use href="#note"></use></svg>
+  <svg class="music-btn__icon" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M9 17.5V6.8L19 4.5v10.8" />
+    <path d="M9 9.2 19 7" />
+    <circle cx="6.5" cy="17.5" r="2.5" />
+    <circle cx="16.5" cy="15.3" r="2.5" />
+  </svg>
 </button>
 <audio id="bgm" loop preload="none">
   <source src="{{ asset('storage/' . $wedding->file_musik) }}" type="audio/mpeg" />
 </audio>
 @else
 <button class="music-btn" id="musicBtn" type="button" aria-label="Putar / hentikan musik" hidden>
-  <svg class="music-btn__disc" viewBox="0 0 24 24" aria-hidden="true"><use href="#note"></use></svg>
+  <svg class="music-btn__icon" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M9 17.5V6.8L19 4.5v10.8" />
+    <path d="M9 9.2 19 7" />
+    <circle cx="6.5" cy="17.5" r="2.5" />
+    <circle cx="16.5" cy="15.3" r="2.5" />
+  </svg>
 </button>
 <audio id="bgm" loop preload="none"></audio>
 @endif
@@ -437,16 +464,26 @@
       var attendance = (form.querySelector('input[name="attend"]:checked') || {}).value || 'hadir';
       var guestCount = parseInt(document.getElementById('rsvpCount').value) || 1;
       var message    = document.getElementById('rsvpMsg').value.trim();
+      var submitBtn  = document.getElementById('rsvpSubmit');
+      var feedback   = document.getElementById('rsvpFeedback');
 
       if (!message) {
-        alert('Mohon tuliskan ucapan terlebih dahulu.');
+        feedback.textContent = 'Mohon tuliskan ucapan terlebih dahulu.';
+        feedback.className = 'rsvp__feedback is-error';
+        document.getElementById('rsvpMsg').focus();
         return;
       }
+
+      submitBtn.disabled = true;
+      submitBtn.querySelector('span').textContent = 'Mengirim...';
+      feedback.textContent = '';
+      feedback.className = 'rsvp__feedback';
 
       fetch('/tamu/' + tamuId + '/update-wish', {
         method : 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
           'X-CSRF-TOKEN': '{{ csrf_token() }}'
         },
         body: JSON.stringify({
@@ -455,21 +492,18 @@
           ucapan       : message
         })
       })
-      .then(function(r) { return r.json(); })
+      .then(function(r) {
+        return r.json().then(function(data) {
+          if (!r.ok) {
+            var validation = data.errors ? Object.values(data.errors).flat()[0] : null;
+            throw new Error(validation || data.message || 'Ucapan gagal dikirim.');
+          }
+          return data;
+        });
+      })
       .then(function(data) {
         if (data.success) {
-          form.style.display = 'none';
-          var thanks = document.createElement('p');
-          thanks.style.cssText = 'text-align:center;margin-top:15px;';
-          thanks.innerHTML = '<b>Terima kasih, ucapan Anda tersimpan.</b>';
-          form.parentNode.insertBefore(thanks, form.nextSibling);
-
-          var newComment = {
-            nama_tamu   : document.getElementById('rsvpName').value,
-            status_hadir: attendance,
-            jumlah_orang: guestCount,
-            ucapan      : message
-          };
+          var newComment = data.data;
           var list = document.getElementById('commentList');
           if (list) {
             try {
@@ -479,6 +513,18 @@
               renderComments(list, comments);
             } catch(err) {}
           }
+
+          form.innerHTML = '<p class="rsvp__success"><b>Terima kasih.</b><br>Konfirmasi kehadiran dan ucapan Anda sudah tersimpan.</p>';
+        }
+      })
+      .catch(function(err) {
+        feedback.textContent = err.message || 'Ucapan gagal dikirim. Silakan coba lagi.';
+        feedback.className = 'rsvp__feedback is-error';
+      })
+      .finally(function() {
+        if (submitBtn && submitBtn.isConnected) {
+          submitBtn.disabled = false;
+          submitBtn.querySelector('span').textContent = 'Kirim Ucapan';
         }
       });
     });
@@ -492,21 +538,90 @@
 
   function renderComments(el, comments) {
     if (!comments.length) {
-      el.innerHTML = '<p style="text-align:center;opacity:.6;margin-top:1rem;">Belum ada ucapan. Jadilah yang pertama.</p>';
+      el.innerHTML = '<p class="wishes__empty">Belum ada ucapan. Jadilah yang pertama memberi doa.</p>';
+      setupWishAutoScroll(el);
       return;
     }
     el.innerHTML = comments.map(function(c) {
       var badge = c.status_hadir === 'hadir' ? 'Hadir'
                 : c.status_hadir === 'tidak_hadir' ? 'Tidak Hadir'
-                : 'Mungkin';
-      return '<div class="comment-item" style="border:1px solid rgba(0,0,0,.1);border-radius:8px;padding:1rem;margin-bottom:.75rem;">'
-        + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem;">'
-        + '<strong>' + esc(c.nama_tamu) + '</strong>'
-        + '<span style="font-size:.75rem;opacity:.7;">' + esc(badge) + ' · ' + esc(c.jumlah_orang) + ' org</span>'
+                : c.status_hadir === 'mungkin' ? 'Mungkin'
+                : 'Belum Konfirmasi';
+      return '<article class="wish-card">'
+        + '<div class="wish-card__meta">'
+        + '<strong class="wish-card__name">' + esc(c.nama_tamu) + '</strong>'
+        + '<span class="wish-card__badge wish-card__badge--' + esc(c.status_hadir) + '">' + esc(badge) + ' · ' + esc(c.jumlah_orang) + ' orang</span>'
         + '</div>'
-        + '<p style="margin:0;font-size:.9rem;">' + esc(c.ucapan) + '</p>'
-        + '</div>';
+        + '<p class="wish-card__message">' + esc(c.ucapan) + '</p>'
+        + '</article>';
     }).join('');
+    setupWishAutoScroll(el);
+  }
+
+  function setupWishAutoScroll(el) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+
+    if (el.dataset.autoScrollReady) {
+      el.dispatchEvent(new Event('wishes:updated'));
+      return;
+    }
+
+    el.dataset.autoScrollReady = 'true';
+    var timer = null;
+    var resumeTimer = null;
+    var resetTimer = null;
+    var releaseTimer = null;
+    var bottomPause = false;
+
+    function canScroll() {
+      return el.scrollHeight > el.clientHeight + 2;
+    }
+
+    function start() {
+      clearInterval(timer);
+      if (!canScroll()) return;
+
+      timer = setInterval(function() {
+        if (bottomPause) return;
+
+        if (el.scrollTop + el.clientHeight >= el.scrollHeight - 2) {
+          bottomPause = true;
+          resetTimer = setTimeout(function() {
+            el.scrollTo({ top: 0, behavior: 'smooth' });
+            releaseTimer = setTimeout(function() { bottomPause = false; }, 1800);
+          }, 2600);
+          return;
+        }
+
+        el.scrollTop += 1;
+      }, 70);
+    }
+
+    function pauseThenResume() {
+      clearInterval(timer);
+      clearTimeout(resumeTimer);
+      clearTimeout(resetTimer);
+      clearTimeout(releaseTimer);
+      bottomPause = false;
+      resumeTimer = setTimeout(start, 5000);
+    }
+
+    ['touchstart', 'pointerdown', 'wheel', 'focusin'].forEach(function(eventName) {
+      el.addEventListener(eventName, pauseThenResume, { passive: true });
+    });
+    el.addEventListener('mouseenter', function() { clearInterval(timer); });
+    el.addEventListener('mouseleave', start);
+    el.addEventListener('wishes:updated', function() {
+      clearInterval(timer);
+      clearTimeout(resetTimer);
+      clearTimeout(releaseTimer);
+      bottomPause = false;
+      setTimeout(start, 800);
+    });
+
+    setTimeout(start, 1800);
   }
 
   var commentList = document.getElementById('commentList');

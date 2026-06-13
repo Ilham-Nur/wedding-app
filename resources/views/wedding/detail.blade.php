@@ -1,6 +1,43 @@
 @extends('layout.app')
 @section('title', 'Detail Wedding')
 
+@section('style')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.css">
+    <style>
+        .couple-photo-preview {
+            width: 92px;
+            height: 92px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #fff;
+            box-shadow: 0 0 0 1px #dfe5ef, 0 8px 20px rgba(42, 53, 71, .14);
+        }
+
+        .cropper-stage {
+            width: 100%;
+            min-height: 360px;
+            max-height: 65vh;
+            background: #17202a;
+            overflow: hidden;
+        }
+
+        .cropper-stage img {
+            display: block;
+            max-width: 100%;
+        }
+
+        .cropper-view-box,
+        .cropper-face {
+            border-radius: 50%;
+        }
+
+        .cropper-view-box {
+            outline: 2px solid rgba(255, 255, 255, .95);
+            outline-color: rgba(255, 255, 255, .95);
+        }
+    </style>
+@endsection
+
 @section('content')
     <a href="{{ route('wedding.index') }}" class="btn btn-secondary mb-2">
         ← Kembali
@@ -46,27 +83,27 @@
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label class="form-label">Foto Suami</label>
-                        <input type="file" name="foto_suami" class="form-control" accept="image/*"
-                            onchange="previewImage(event, 'previewSuami')">
+                        <input type="file" id="foto_suami" name="foto_suami" class="form-control couple-photo-input"
+                            accept="image/jpeg,image/png,image/webp" data-preview="previewSuami" data-label="Foto Suami">
+                        <small class="text-muted d-block mt-1">Pilih foto, lalu atur bagian yang tampil di dalam lingkaran.</small>
                         @if ($wedding->foto_suami)
                             <img id="previewSuami" src="{{ asset('storage/' . $wedding->foto_suami) }}" alt="Foto Suami"
-                                class="mt-2" width="50" height="50" style="object-fit: cover;">
+                                class="mt-2 couple-photo-preview">
                         @else
-                            <img id="previewSuami" class="mt-2 d-none" width="50" height="50"
-                                style="object-fit: cover;">
+                            <img id="previewSuami" class="mt-2 d-none couple-photo-preview">
                         @endif
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label">Foto Istri</label>
-                        <input type="file" name="foto_istri" class="form-control" accept="image/*"
-                            onchange="previewImage(event, 'previewIstri')">
+                        <input type="file" id="foto_istri" name="foto_istri" class="form-control couple-photo-input"
+                            accept="image/jpeg,image/png,image/webp" data-preview="previewIstri" data-label="Foto Istri">
+                        <small class="text-muted d-block mt-1">Pilih foto, lalu atur bagian yang tampil di dalam lingkaran.</small>
                         @if ($wedding->foto_istri)
                             <img id="previewIstri" src="{{ asset('storage/' . $wedding->foto_istri) }}" alt="Foto Istri"
-                                class="mt-2" width="50" height="50" style="object-fit: cover;">
+                                class="mt-2 couple-photo-preview">
                         @else
-                            <img id="previewIstri" class="mt-2 d-none" width="50" height="50"
-                                style="object-fit: cover;">
+                            <img id="previewIstri" class="mt-2 d-none couple-photo-preview">
                         @endif
                     </div>
                 </div>
@@ -156,6 +193,27 @@
             </form>
         </div>
     </div>
+
+    <div class="modal fade" id="coupleCropModal" tabindex="-1" aria-labelledby="coupleCropModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="coupleCropModalLabel">Atur Foto Mempelai</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Batal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted">Geser foto dan gunakan zoom untuk menentukan bagian yang tampil.</p>
+                    <div class="cropper-stage">
+                        <img id="coupleCropImage" alt="Foto yang akan dipotong">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary" id="applyCoupleCrop">Gunakan Foto</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('script')
     @if (session('error'))
@@ -188,6 +246,7 @@
         </script>
     @endif
 
+    <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.js"></script>
     <script>
         function previewImage(event, previewId) {
             const input = event.target;
@@ -201,6 +260,120 @@
                 reader.readAsDataURL(input.files[0]);
             }
         }
+
+        const coupleCropModalElement = document.getElementById('coupleCropModal');
+        const coupleCropModal = new bootstrap.Modal(coupleCropModalElement);
+        const coupleCropImage = document.getElementById('coupleCropImage');
+        const applyCoupleCrop = document.getElementById('applyCoupleCrop');
+        let coupleCropper = null;
+        let activeCoupleInput = null;
+        let activeObjectUrl = null;
+        let cropWasApplied = false;
+
+        document.querySelectorAll('.couple-photo-input').forEach(function(input) {
+            input.addEventListener('change', function() {
+                const file = input.files[0];
+
+                if (!file) {
+                    return;
+                }
+
+                if (!window.Cropper) {
+                    input.value = '';
+                    Swal.fire('Editor foto gagal dimuat', 'Periksa koneksi internet lalu coba kembali.', 'error');
+                    return;
+                }
+
+                activeCoupleInput = input;
+                cropWasApplied = false;
+                activeObjectUrl = URL.createObjectURL(file);
+                coupleCropImage.src = activeObjectUrl;
+                document.getElementById('coupleCropModalLabel').textContent = 'Atur ' + input.dataset.label;
+                coupleCropModal.show();
+            });
+        });
+
+        coupleCropModalElement.addEventListener('shown.bs.modal', function() {
+            if (coupleCropper) {
+                coupleCropper.destroy();
+            }
+
+            coupleCropper = new Cropper(coupleCropImage, {
+                aspectRatio: 1,
+                viewMode: 1,
+                dragMode: 'move',
+                autoCropArea: .82,
+                background: false,
+                responsive: true,
+                restore: false,
+                guides: false,
+                center: true,
+                highlight: false,
+                cropBoxMovable: true,
+                cropBoxResizable: true,
+                toggleDragModeOnDblclick: false,
+            });
+        });
+
+        applyCoupleCrop.addEventListener('click', function() {
+            if (!coupleCropper || !activeCoupleInput) {
+                return;
+            }
+
+            applyCoupleCrop.disabled = true;
+            applyCoupleCrop.textContent = 'Memproses...';
+
+            const canvas = coupleCropper.getCroppedCanvas({
+                width: 1200,
+                height: 1200,
+                imageSmoothingEnabled: true,
+                imageSmoothingQuality: 'high',
+            });
+
+            canvas.toBlob(function(blob) {
+                if (!blob) {
+                    applyCoupleCrop.disabled = false;
+                    applyCoupleCrop.textContent = 'Gunakan Foto';
+                    Swal.fire('Gagal', 'Foto tidak dapat diproses.', 'error');
+                    return;
+                }
+
+                const fileName = activeCoupleInput.name + '-' + Date.now() + '.webp';
+                const croppedFile = new File([blob], fileName, {
+                    type: 'image/webp'
+                });
+                const transfer = new DataTransfer();
+                transfer.items.add(croppedFile);
+                activeCoupleInput.files = transfer.files;
+
+                const preview = document.getElementById(activeCoupleInput.dataset.preview);
+                preview.src = URL.createObjectURL(blob);
+                preview.classList.remove('d-none');
+                cropWasApplied = true;
+                coupleCropModal.hide();
+            }, 'image/webp', .92);
+        });
+
+        coupleCropModalElement.addEventListener('hidden.bs.modal', function() {
+            if (coupleCropper) {
+                coupleCropper.destroy();
+                coupleCropper = null;
+            }
+
+            if (activeObjectUrl) {
+                URL.revokeObjectURL(activeObjectUrl);
+                activeObjectUrl = null;
+            }
+
+            if (activeCoupleInput && !cropWasApplied) {
+                activeCoupleInput.value = '';
+            }
+
+            activeCoupleInput = null;
+            applyCoupleCrop.disabled = false;
+            applyCoupleCrop.textContent = 'Gunakan Foto';
+            coupleCropImage.removeAttribute('src');
+        });
 
         var quillPria = new Quill('#editor-pria', {
             theme: 'snow'

@@ -144,11 +144,20 @@ a { color: inherit; }
 
 .cover .eyebrow { color: var(--gold-soft); }
 .cover__names {
-  font-size: clamp(4rem, 22vw, 6.2rem);
+  width: 100%;
+  display: grid;
+  justify-items: center;
+  gap: .12em;
+  font-size: clamp(3.6rem, 18vw, 5.5rem);
   color: #fff;
   text-shadow: 0 2px 30px rgba(0,0,0,.4);
 }
-.cover__names .amp { color: var(--gold-soft); font-size: .7em; }
+.cover__name { max-width: 100%; overflow-wrap: anywhere; }
+.cover__names .amp {
+  display: grid; place-items: center;
+  color: var(--gold-soft); font-size: .62em;
+  line-height: .75;
+}
 .cover__date {
   font-family: var(--font-display); font-size: 1.15rem;
   letter-spacing: .18em; text-transform: uppercase; color: var(--gold-soft);
@@ -191,6 +200,7 @@ a { color: inherit; }
 .btn--wa { color: #fff; background: #1faa59; box-shadow: 0 12px 26px -12px rgba(31,170,89,.8); width: 100%; }
 .btn--wa .btn__icon { fill: #fff; stroke: none; }
 .btn--wa:hover { transform: translateY(-2px); }
+.btn--wa:disabled { opacity: .65; cursor: wait; transform: none; }
 
 .btn--copy {
   margin-top: .9rem; font-size: .72rem; padding: .6rem 1.3rem;
@@ -217,6 +227,60 @@ a { color: inherit; }
   margin: 0 auto; text-wrap: pretty;
 }
 .verse__ref { font-size: .8rem; letter-spacing: .2em; color: var(--gold); margin-top: 1rem; }
+
+/* ---------- FOTO UTAMA ---------- */
+.main-photo {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 3rem 24px;
+  background:
+    radial-gradient(90% 60% at 50% -10%, rgba(194,161,77,.18), transparent 60%),
+    linear-gradient(180deg, var(--green), var(--green-deep));
+  display: flex;
+  justify-content: center;
+}
+.main-photo__frame {
+  position: relative;
+  z-index: 1;
+  display: inline-grid;
+  place-items: center;
+  width: fit-content;
+  max-width: 100%;
+  max-height: min(78vh, 720px);
+  padding: 8px;
+  border-radius: 42px 16px 42px 16px;
+  background: linear-gradient(145deg, var(--gold-soft), var(--paper) 45%, var(--gold));
+  box-shadow: 0 24px 48px -22px rgba(0,0,0,.7);
+}
+.main-photo__frame::before {
+  content: "";
+  position: absolute;
+  inset: -9px;
+  border: 1px solid rgba(194,161,77,.62);
+  border-radius: 50px 20px 50px 20px;
+  pointer-events: none;
+}
+.main-photo__frame img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: min(78vh, 720px);
+  object-fit: contain;
+  border-radius: 35px 11px 35px 11px;
+}
+.main-photo__frame.is-tall {
+  width: min(82vw, 350px);
+  max-height: none;
+  aspect-ratio: 4 / 5;
+}
+.main-photo__frame.is-tall img {
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  object-fit: cover;
+}
 
 /* ============================================================
    MEMPELAI
@@ -246,7 +310,8 @@ a { color: inherit; }
   display: grid; place-items: center;
 }
 .photo::before {                      /* monogram placeholder */
-  content: attr(data-monogram);
+  content: attr(data-monogram); position: absolute; inset: 0;
+  display: grid; place-items: center;
   font-family: var(--font-script); color: rgba(255,255,255,.5);
   font-size: 2.4rem;
 }
@@ -254,7 +319,10 @@ a { color: inherit; }
   content: ""; position: absolute; inset: 8px; border: 1px solid rgba(255,255,255,.25);
   border-radius: inherit; pointer-events: none;
 }
-.photo img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; }
+.photo img {
+  position: absolute; inset: 0; z-index: 1;
+  width: 100%; height: 100%; object-fit: cover;
+}
 
 .photo--round { width: 180px; height: 180px; border-radius: 50%;
   box-shadow: 0 14px 30px -14px rgba(14,58,41,.6), 0 0 0 6px var(--paper), 0 0 0 7px var(--gold-soft); }
@@ -319,13 +387,48 @@ a { color: inherit; }
    ============================================================ */
 .gallery__grid {
   width: 100%;
-  display: grid; grid-template-columns: repeat(2, 1fr);
-  grid-auto-rows: 130px; gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-flow: dense;
+  align-items: start;
+  gap: 10px;
 }
-.gal { border-radius: 12px; }
-.gal::before { font-size: 1.4rem; }
-.gal--tall { grid-row: span 2; }
-.gal--wide { grid-column: span 2; }
+.gal {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  background: var(--green-deep);
+}
+.gal::before {
+  content: attr(data-monogram);
+  position: absolute;
+  font-family: var(--font-script);
+  font-size: 1.4rem;
+  color: rgba(255,255,255,.5);
+}
+.gal::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  z-index: 2;
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 8px;
+  pointer-events: none;
+}
+.gal img {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: min(72vh, 680px);
+  object-fit: contain;
+}
+.gal--landscape { grid-column: 1 / -1; }
 .gal:nth-child(even) { background: linear-gradient(135deg, var(--red-soft), var(--red)); }
 .gal:nth-child(3n) { background: linear-gradient(135deg, var(--gold), #9a7d34); }
 
@@ -364,6 +467,46 @@ a { color: inherit; }
   outline: none; border-color: var(--gold-soft); background: rgba(255,255,255,.12);
 }
 .field select option { color: var(--ink); }
+.rsvp__feedback { min-height: 1.5em; text-align: center; font-size: .82rem; color: var(--gold-soft); }
+.rsvp__feedback.is-error { color: #ffd2ce; }
+.rsvp__success {
+  width: 100%; text-align: center; padding: 1rem;
+  border: 1px solid rgba(221,196,136,.3); border-radius: 12px;
+  background: rgba(255,255,255,.07); color: #fff;
+}
+
+.wishes { width: 100%; margin-top: 1.4rem; }
+.wishes__title {
+  margin-bottom: 1rem; font-family: var(--font-display);
+  font-size: 1.45rem; font-weight: 500; color: var(--gold-soft);
+}
+.wishes__list {
+  width: 100%; max-height: 360px; overflow-y: auto;
+  display: flex; flex-direction: column; gap: .75rem;
+  padding-right: .35rem; text-align: left;
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(221,196,136,.65) rgba(255,255,255,.08);
+}
+.wishes__list::-webkit-scrollbar { width: 5px; }
+.wishes__list::-webkit-scrollbar-track { background: rgba(255,255,255,.08); border-radius: 999px; }
+.wishes__list::-webkit-scrollbar-thumb { background: rgba(221,196,136,.65); border-radius: 999px; }
+.wishes__empty { text-align: center; font-size: .9rem; color: rgba(255,255,255,.65); }
+.wish-card {
+  flex: 0 0 auto; min-height: 104px;
+  padding: 1rem; border: 1px solid rgba(221,196,136,.25); border-radius: 12px;
+  background: rgba(255,255,255,.07); backdrop-filter: blur(2px);
+}
+.wish-card__meta { display: flex; justify-content: space-between; align-items: flex-start; gap: .75rem; }
+.wish-card__name { font-family: var(--font-display); font-size: 1.1rem; color: #fff; }
+.wish-card__badge {
+  flex: 0 0 auto; padding: .2rem .55rem; border-radius: 999px;
+  font-size: .64rem; letter-spacing: .04em; color: var(--green-deep); background: var(--gold-soft);
+}
+.wish-card__badge--tidak_hadir { color: #fff; background: var(--red-soft); }
+.wish-card__badge--mungkin { color: var(--ink); background: var(--cream-deep); }
+.wish-card__message { margin-top: .55rem; font-size: .88rem; line-height: 1.65; color: rgba(255,255,255,.82); overflow-wrap: anywhere; }
 
 .radio-row { display: flex; gap: .7rem; }
 .radio { flex: 1; position: relative; }
@@ -421,15 +564,31 @@ a { color: inherit; }
    ============================================================ */
 .music-btn {
   position: fixed; z-index: 90; bottom: 18px; right: 18px;
-  width: 50px; height: 50px; border-radius: 50%; border: 1px solid var(--gold-soft);
-  background: var(--green); color: var(--gold-soft);
+  width: 52px; height: 52px; border-radius: 50%; border: 1px solid rgba(221,196,136,.8);
+  background: linear-gradient(145deg, var(--green-soft), var(--green-deep));
+  color: var(--gold-soft);
   display: grid; place-items: center;
-  box-shadow: 0 10px 24px -10px rgba(0,0,0,.5);
+  box-shadow: 0 10px 24px -10px rgba(0,0,0,.5), inset 0 0 0 4px rgba(255,255,255,.06);
+  transition: transform .25s ease, box-shadow .25s ease;
 }
 @media (min-width: 540px) { .music-btn { right: calc(50% - var(--shell)/2 + 18px); } }
-.music-btn__disc { width: 22px; height: 22px; }
-.music-btn.is-playing .music-btn__disc { animation: spin 4s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
+.music-btn__icon {
+  width: 25px;
+  height: 25px;
+  overflow: visible;
+  fill: currentColor;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.music-btn__icon path { fill: none; }
+.music-btn:hover { transform: translateY(-2px); }
+.music-btn.is-playing {
+  box-shadow: 0 10px 24px -10px rgba(0,0,0,.5), 0 0 0 7px rgba(194,161,77,.16);
+}
+.music-btn.is-playing .music-btn__icon { animation: musicPulse 1.4s ease-in-out infinite; }
+@keyframes musicPulse { 50% { transform: scale(1.12) rotate(-4deg); } }
 
 /* ============================================================
    PETALS CANVAS
@@ -445,7 +604,7 @@ a { color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
   .cover__inner { animation: none; }
-  .music-btn.is-playing .music-btn__disc { animation: none; }
+  .music-btn.is-playing .music-btn__icon { animation: none; }
 }
 
 /* ============================================================

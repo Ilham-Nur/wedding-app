@@ -8,17 +8,18 @@ use Illuminate\Http\Request;
 
 class UndanganController extends Controller
 {
-   public function show($slug, $code = null)
+    public function show($slug, $code = null)
     {
         $wedding = Pernikahan::with('layout', 'galeris', 'lokasis', 'gifts')
-                    ->where('slug', $slug)
-                    ->firstOrFail();
+            ->where('slug', $slug)
+            ->firstOrFail();
 
-        // ambil semua tamu dengan ucapan untuk pernikahan ini
+        // Hanya tampilkan pesan yang benar-benar berisi, terbaru lebih dahulu.
         $tamusWithUcapan = $wedding->tamus()
-        ->where('status_hadir', '!=', 'belum_konfirmasi')
-        ->get();
-
+            ->whereNotNull('ucapan')
+            ->whereRaw("TRIM(ucapan) <> ''")
+            ->latest('updated_at')
+            ->get(['nama_tamu', 'status_hadir', 'jumlah_orang', 'ucapan']);
 
         // opsional: cek code tamu
         $tamu = null;
@@ -29,16 +30,16 @@ class UndanganController extends Controller
             }
         }
 
-        $viewPath = 'template.' . $wedding->layout->folder_path;
+        $viewPath = 'template.'.$wedding->layout->folder_path;
+
         return view($viewPath, compact('wedding', 'tamu', 'tamusWithUcapan'));
     }
 
-
-     public function updateWish(Request $request, $id)
+    public function updateWish(Request $request, $id)
     {
         $tamu = Tamu::find($id);
 
-        if(!$tamu){
+        if (! $tamu) {
             return response()->json(['success' => false, 'message' => 'Tamu tidak ditemukan'], 404);
         }
 
@@ -46,7 +47,7 @@ class UndanganController extends Controller
         $validated = $request->validate([
             'status_hadir' => 'required|in:belum_konfirmasi,hadir,tidak_hadir,mungkin',
             'jumlah_orang' => 'required|integer|min:1',
-            'ucapan'       => 'nullable|string|max:1000',
+            'ucapan' => 'nullable|string|max:1000',
         ]);
 
         // Update data
@@ -55,6 +56,15 @@ class UndanganController extends Controller
         $tamu->ucapan = $validated['ucapan'];
         $tamu->save();
 
-        return response()->json(['success' => true, 'message' => 'Data berhasil diperbarui']);
+        return response()->json([
+            'success' => true,
+            'message' => 'Konfirmasi kehadiran dan ucapan berhasil disimpan.',
+            'data' => [
+                'nama_tamu' => $tamu->nama_tamu,
+                'status_hadir' => $tamu->status_hadir,
+                'jumlah_orang' => $tamu->jumlah_orang,
+                'ucapan' => $tamu->ucapan,
+            ],
+        ]);
     }
 }
