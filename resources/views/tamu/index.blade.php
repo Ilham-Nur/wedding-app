@@ -102,6 +102,15 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
+                        <div class="alert alert-info d-flex justify-content-between align-items-center gap-3">
+                            <div>
+                                <strong>Gunakan template yang tersedia.</strong>
+                                <div class="small">Nomor telepon akan dipertahankan sebagai teks dan kolom Show Gift menerima 1 atau 0.</div>
+                            </div>
+                            <a href="{{ asset('templates/template-import-tamu.xlsx') }}" class="btn btn-sm btn-outline-primary flex-shrink-0" download>
+                                <i class="ti ti-download"></i> Download Template
+                            </a>
+                        </div>
                         <div class="mb-3">
                             <label class="form-label">Pilih File Excel</label>
                             <input type="file" name="file" id="file" class="form-control" accept=".xlsx,.xls"
@@ -161,21 +170,29 @@
                     let sheetName = workbook.SheetNames[0];
                     let worksheet = workbook.Sheets[sheetName];
                     let rows = XLSX.utils.sheet_to_json(worksheet, {
-                        header: 1
+                        header: 1,
+                        raw: false,
+                        defval: ""
                     });
 
                     let tbody = $("#previewTable tbody");
                     tbody.empty();
 
+                    const expectedHeaders = ["nama", "no. telp", "email", "alamat", "show gift"];
+                    const actualHeaders = (rows[0] || []).slice(0, 5).map(value => String(value).trim().toLowerCase());
+
+                    if (expectedHeaders.some((header, index) => actualHeaders[index] !== header)) {
+                        $("#file").val("");
+                        Swal.fire("Format tidak sesuai", "Gunakan file template import tamu yang tersedia.", "warning");
+                        return;
+                    }
+
                     $.each(rows.slice(1), function(i, row) { // skip header
-                        if (row.length > 0) {
-                            let tr = "<tr>";
-                            tr += `<td>${row[0] ?? ""}</td>`;
-                            tr += `<td>${row[1] ?? ""}</td>`;
-                            tr += `<td>${row[2] ?? ""}</td>`;
-                            tr += `<td>${row[3] ?? ""}</td>`;
-                            tr += `<td>${row[4] ?? ""}</td>`;
-                            tr += "</tr>";
+                        if (String(row[0] ?? "").trim() !== "") {
+                            const tr = $("<tr>");
+                            for (let column = 0; column < 5; column++) {
+                                $("<td>").text(row[column] ?? "").appendTo(tr);
+                            }
                             tbody.append(tr);
                         }
                     });
@@ -207,14 +224,24 @@
                         if (res.success) {
                             Swal.fire("Berhasil!", "Data tamu berhasil diimport", "success");
                             $("#importModal").modal("hide");
+                            $("#importForm")[0].reset();
+                            $("#previewTable tbody").empty();
                             $("#tamuTable").DataTable().ajax.reload();
                         } else {
                             Swal.fire("Gagal!", res.message || "Terjadi kesalahan saat import",
                                 "error");
                         }
                     },
-                    error: function() {
-                        Swal.fire("Error!", "Terjadi kesalahan server", "error");
+                    error: function(xhr) {
+                        const errors = xhr.responseJSON?.errors;
+                        const message = errors
+                            ? Object.values(errors).flat().join("<br>")
+                            : xhr.responseJSON?.message || "Terjadi kesalahan server";
+                        Swal.fire({
+                            icon: "error",
+                            title: "Import gagal",
+                            html: message
+                        });
                     }
                 });
             });

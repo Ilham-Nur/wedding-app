@@ -1,5 +1,5 @@
 /* ============================================================
-   UNDANGAN PERNIKAHAN — Habib & Mia
+   UNDANGAN PERNIKAHAN
    Vanilla JavaScript — tanpa library.
    ============================================================ */
 (function () {
@@ -92,19 +92,7 @@
     tick();
     setInterval(tick, 1000);
 
-    /* tautan "Simpan ke Kalender" (Google Calendar) */
-    const cal = $("#calBtn");
-    if (cal) {
-      const start = new Date(el.dataset.target);
-      const end   = new Date(start.getTime() + 3 * 3600 * 1000);
-      const fmt   = (d) => d.toISOString().replace(/[-:]|\.\d{3}/g, "");
-      const url = "https://calendar.google.com/calendar/render?action=TEMPLATE"
-        + "&text=" + encodeURIComponent("Pernikahan Habib & Mia")
-        + "&dates=" + fmt(start) + "/" + fmt(end)
-        + "&details=" + encodeURIComponent("Dengan senang hati mengundang Anda.")
-        + "&location=" + encodeURIComponent("Graha Melati, Jakarta Selatan");
-      cal.href = url;
-    }
+    /* Tautan kalender diisi oleh data pernikahan pada template Blade. */
   })();
 
   /* ========================================================
@@ -185,36 +173,7 @@
   });
 
   /* ========================================================
-     9. RSVP via WHATSAPP
-     ======================================================== */
-  (function rsvp() {
-    const form = $("#rsvpForm");
-    if (!form) return;
-    // GANTI nomor berikut dengan nomor WhatsApp Anda (format 62...)
-    const WA_NUMBER = "6281234567890";
-
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const name   = $("#rsvpName").value.trim();
-      const count  = $("#rsvpCount").value;
-      const attend = (form.querySelector('input[name="attend"]:checked') || {}).value || "Hadir";
-      const msg    = $("#rsvpMsg").value.trim();
-
-      if (!name) { $("#rsvpName").focus(); return; }
-
-      const text =
-        "*Konfirmasi Kehadiran — Habib & Mia*%0A" +
-        "%0ANama: " + encodeURIComponent(name) +
-        "%0AKehadiran: " + encodeURIComponent(attend) +
-        "%0AJumlah Tamu: " + encodeURIComponent(count + " orang") +
-        (msg ? "%0AUcapan: " + encodeURIComponent(msg) : "");
-
-      window.open("https://wa.me/" + WA_NUMBER + "?text=" + text, "_blank");
-    });
-  })();
-
-  /* ========================================================
-     10. ANIMASI KELOPAK JATUH  (canvas)
+     9. ANIMASI KELOPAK JATUH  (canvas)
      ======================================================== */
   (function petals() {
     const canvas = $("#petals");
@@ -288,7 +247,7 @@
   })();
 
   /* ========================================================
-     11. ORNAMEN BUNGA (aset pengguna) + bunga emas melayang
+     10. ORNAMEN BUNGA (aset pengguna) + bunga emas melayang
      ======================================================== */
   (function decor() {
     const svg = (id, vb) =>
