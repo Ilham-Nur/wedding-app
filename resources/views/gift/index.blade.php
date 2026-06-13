@@ -57,6 +57,7 @@
                                 <option value="BNI">BNI</option>
                                 <option value="BCA">BCA</option>
                                 <option value="MANDIRI">MANDIRI</option>
+                                <option value="BRI">BRI</option>
                             </select>
                         </div>
                         <div class="mb-3">
