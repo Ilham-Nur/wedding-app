@@ -10,7 +10,12 @@ class UndanganController extends Controller
 {
     public function show($slug, $code = null)
     {
-        $wedding = Pernikahan::with('layout', 'galeris', 'lokasis', 'gifts')
+        $wedding = Pernikahan::with([
+            'layout',
+            'galeris' => fn ($query) => $query->orderBy('urutan')->orderBy('id'),
+            'lokasis',
+            'gifts',
+        ])
             ->where('slug', $slug)
             ->firstOrFail();
 

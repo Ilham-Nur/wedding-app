@@ -179,7 +179,7 @@
       <p class="kicker">Momen-momen berharga kami</p>
     </div>
     <div class="gallery__grid reveal">
-      @foreach($wedding->galeris->take(6) as $index => $foto)
+      @foreach($wedding->galeris as $index => $foto)
         @php
           $galleryPath = ltrim($foto->file_path, '/');
           $galleryUrl = str_starts_with($foto->file_path, '/')
