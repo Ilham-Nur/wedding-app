@@ -90,7 +90,7 @@
           <img src="{{ asset('storage/' . $wedding->foto_suami) }}" alt="Foto {{ $wedding->nama_pria }}" />
         @endif
       </div>
-      <h3 class="couple__name script">{{ $wedding->nama_pria }}</h3>
+      <h3 class="couple__name script">{{ $wedding->nama_lengkap_pria ?: $wedding->nama_pria }}</h3>
       <p class="couple__role">Putra dari</p>
       <p class="couple__parents">{{ $wedding->nama_ayah_suami }}<br />&amp; {{ $wedding->nama_ibu_suami }}</p>
     </div>
@@ -103,7 +103,7 @@
           <img src="{{ asset('storage/' . $wedding->foto_istri) }}" alt="Foto {{ $wedding->nama_wanita }}" />
         @endif
       </div>
-      <h3 class="couple__name script">{{ $wedding->nama_wanita }}</h3>
+      <h3 class="couple__name script">{{ $wedding->nama_lengkap_wanita ?: $wedding->nama_wanita }}</h3>
       <p class="couple__role">Putri dari</p>
       <p class="couple__parents">{{ $wedding->nama_ayah_istri }}<br />&amp; {{ $wedding->nama_ibu_istri }}</p>
     </div>

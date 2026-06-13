@@ -65,7 +65,9 @@ class WeddingController extends Controller
         $validated = $request->validate([
             'pembeli_id'   => 'required|exists:pembelis,id',
             'nama_pria'    => 'required|string|max:255',
+            'nama_lengkap_pria' => 'required|string|max:255',
             'nama_wanita'  => 'required|string|max:255',
+            'nama_lengkap_wanita' => 'required|string|max:255',
             'tanggal'      => 'required|date',
             'waktu_mulai'  => 'nullable|date_format:H:i',
             'waktu_selesai' => 'nullable|date_format:H:i',
@@ -88,7 +90,9 @@ class WeddingController extends Controller
         $validated = $request->validate([
             'pembeli_id'   => 'required|exists:pembelis,id',
             'nama_pria'    => 'required|string|max:255',
+            'nama_lengkap_pria' => 'required|string|max:255',
             'nama_wanita'  => 'required|string|max:255',
+            'nama_lengkap_wanita' => 'required|string|max:255',
             'tanggal'      => 'required|date',
             'waktu_mulai'  => 'nullable|date_format:H:i',
             'waktu_selesai' => 'nullable|date_format:H:i',

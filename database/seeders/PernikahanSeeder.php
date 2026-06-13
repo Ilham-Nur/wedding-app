@@ -13,7 +13,9 @@ class PernikahanSeeder extends Seeder
             [
                 'pembeli_id' => 1,
                 'nama_pria' => 'Andi',
+                'nama_lengkap_pria' => 'Andi',
                 'nama_wanita' => 'Siti',
+                'nama_lengkap_wanita' => 'Siti',
                 'tanggal' => '2025-09-15',
                 'layout_id' => 1,
                 'masa_aktif' => '2025-09-20',

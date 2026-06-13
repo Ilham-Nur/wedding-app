@@ -14,7 +14,9 @@ class Pernikahan extends Model
     protected $fillable = [
         'pembeli_id',
         'nama_pria',
+        'nama_lengkap_pria',
         'nama_wanita',
+        'nama_lengkap_wanita',
         'tanggal',
         'layout_id',
         'masa_aktif',

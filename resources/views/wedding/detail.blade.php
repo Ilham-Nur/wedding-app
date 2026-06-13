@@ -22,7 +22,9 @@
             {{-- Informasi Utama --}}
             <div class="mb-3">
                 <p><strong>Nama Pria:</strong> {{ $wedding->nama_pria }}</p>
+                <p><strong>Nama Lengkap Pria:</strong> {{ $wedding->nama_lengkap_pria ?: '-' }}</p>
                 <p><strong>Nama Wanita:</strong> {{ $wedding->nama_wanita }}</p>
+                <p><strong>Nama Lengkap Wanita:</strong> {{ $wedding->nama_lengkap_wanita ?: '-' }}</p>
                 <p><strong>Tanggal:</strong> {{ $wedding->tanggal }}</p>
                 <p>
                     <strong>Status:</strong>

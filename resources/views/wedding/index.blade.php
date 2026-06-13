@@ -86,12 +86,22 @@
                         <div class="mb-3">
                             <label for="nama_pria" class="form-label">Nama Suami</label>
                             <input type="text" class="form-control" id="nama_pria" name="nama_pria"
-                                placeholder="Masukkan nama Suami" required>
+                                placeholder="Masukkan nama panggilan suami" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nama_lengkap_pria" class="form-label">Nama Lengkap Suami</label>
+                            <input type="text" class="form-control" id="nama_lengkap_pria" name="nama_lengkap_pria"
+                                placeholder="Masukkan nama lengkap suami" required>
                         </div>
                         <div class="mb-3">
                             <label for="nama_wanita" class="form-label">Nama Istri</label>
                             <input type="text" class="form-control" id="nama_wanita" name="nama_wanita"
-                                placeholder="Masukkan nama Istri" required>
+                                placeholder="Masukkan nama panggilan istri" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="nama_lengkap_wanita" class="form-label">Nama Lengkap Istri</label>
+                            <input type="text" class="form-control" id="nama_lengkap_wanita" name="nama_lengkap_wanita"
+                                placeholder="Masukkan nama lengkap istri" required>
                         </div>
                         <div class="mb-3">
                             <label for="layout" class="form-label">Layout</label>
@@ -179,7 +189,9 @@
                     $('#tanggal').val(res.tanggal);
                     $('#pembeli_id').val(res.pembeli_id);
                     $('#nama_pria').val(res.nama_pria);
+                    $('#nama_lengkap_pria').val(res.nama_lengkap_pria || res.nama_pria);
                     $('#nama_wanita').val(res.nama_wanita);
+                    $('#nama_lengkap_wanita').val(res.nama_lengkap_wanita || res.nama_wanita);
                     $('#layout_id').val(res.layout_id);
                     $('#masa_aktif').val(res.masa_aktif);
 
