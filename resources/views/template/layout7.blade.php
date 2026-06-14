@@ -4,6 +4,12 @@
     $countdownTarget = $firstLokasi
         ? \Carbon\Carbon::parse($firstLokasi->tanggal . ' ' . ($firstLokasi->waktu_mulai ?? '08:00:00'))->toIso8601String()
         : \Carbon\Carbon::parse($wedding->tanggal)->startOfDay()->toIso8601String();
+    $layoutScriptFile = public_path($assetPath . '/script.js');
+    $layoutScriptVersion = is_file($layoutScriptFile) ? filemtime($layoutScriptFile) : null;
+    $layoutStyleFile = public_path($assetPath . '/style.css');
+    $layoutStyleVersion = is_file($layoutStyleFile) ? filemtime($layoutStyleFile) : null;
+    $coverAssetFile = public_path($assetPath . '/assets/decor/aset-cover.png');
+    $coverAssetVersion = is_file($coverAssetFile) ? filemtime($coverAssetFile) : null;
 @endphp
 
 <!DOCTYPE html>
@@ -18,22 +24,20 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Pinyon+Script&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
 
-<link rel="stylesheet" href="{{ asset($assetPath . '/style.css') }}">
+<link rel="stylesheet" href="{{ asset($assetPath . '/style.css') }}{{ $layoutStyleVersion ? '?v=' . $layoutStyleVersion : '' }}">
 <link rel="stylesheet" href="{{ asset($assetPath . '/decor.css') }}">
 </head>
-<body class="is-locked">
+<body class="is-locked" data-layout-asset-url="/{{ ltrim($assetPath, '/') }}">
 
 <!-- COVER -->
 <section id="cover" class="cover" data-screen-label="Cover">
   <div class="cover__bg" aria-hidden="true"></div>
-  <div class="cover__veil" aria-hidden="true"></div>
+  <img class="cover__art"
+    src="/{{ ltrim($assetPath, '/') }}/assets/decor/aset-cover.png{{ $coverAssetVersion ? '?v=' . $coverAssetVersion : '' }}"
+    alt="" aria-hidden="true" />
 
   <div class="cover__inner">
     <p class="eyebrow">The Wedding Of</p>
-
-    <div class="ornament ornament--top" aria-hidden="true">
-      <svg viewBox="0 0 120 40" class="flourish"><use href="#flourish"></use></svg>
-    </div>
 
     <h1 class="cover__names script">
       <span class="cover__name">{{ $wedding->nama_pria }}</span>
@@ -41,13 +45,16 @@
       <span class="cover__name">{{ $wedding->nama_wanita }}</span>
     </h1>
 
+    @if($wedding->foto_utama)
+      <figure class="cover__photo-frame">
+        <img src="{{ asset('storage/' . $wedding->foto_utama) }}"
+          alt="Foto {{ $wedding->nama_pria }} dan {{ $wedding->nama_wanita }}" />
+      </figure>
+    @endif
+
     <p class="cover__date">
       {{ \Carbon\Carbon::parse($wedding->tanggal)->translatedFormat('l, d F Y') }}
     </p>
-
-    <div class="ornament ornament--bottom" aria-hidden="true">
-      <svg viewBox="0 0 120 40" class="flourish flip"><use href="#flourish"></use></svg>
-    </div>
 
     <div class="cover__guest">
       <p class="cover__to">Kepada Yth. Bapak/Ibu/Saudara/i</p>
@@ -84,8 +91,10 @@
   @if($wedding->foto_utama)
   <section class="main-photo reveal" data-screen-label="Foto Utama">
     <figure class="main-photo__frame">
-      <img src="{{ asset('storage/' . $wedding->foto_utama) }}"
-        alt="Foto {{ $wedding->nama_pria }} dan {{ $wedding->nama_wanita }}" id="mainPhotoImage" />
+      <div class="main-photo__media">
+        <img src="{{ asset('storage/' . $wedding->foto_utama) }}"
+          alt="Foto {{ $wedding->nama_pria }} dan {{ $wedding->nama_wanita }}" id="mainPhotoImage" />
+      </div>
     </figure>
   </section>
   @endif
@@ -106,7 +115,7 @@
       </div>
       <h3 class="couple__name script">{{ $wedding->nama_lengkap_pria ?: $wedding->nama_pria }}</h3>
       <p class="couple__role">Putra dari</p>
-      <p class="couple__parents">{{ $wedding->nama_ayah_suami }}<br />&amp; {{ $wedding->nama_ibu_suami }}</p>
+      <p class="couple__parents">{{ $wedding->nama_ayah_suami }} &amp; {{ $wedding->nama_ibu_suami }}</p>
     </div>
 
     <div class="couple__amp script reveal">&amp;</div>
@@ -119,7 +128,7 @@
       </div>
       <h3 class="couple__name script">{{ $wedding->nama_lengkap_wanita ?: $wedding->nama_wanita }}</h3>
       <p class="couple__role">Putri dari</p>
-      <p class="couple__parents">{{ $wedding->nama_ayah_istri }}<br />&amp; {{ $wedding->nama_ibu_istri }}</p>
+      <p class="couple__parents">{{ $wedding->nama_ayah_istri }} &amp; {{ $wedding->nama_ibu_istri }}</p>
     </div>
   </section>
 
@@ -435,7 +444,7 @@
   </defs>
 </svg>
 
-<script src="{{ asset($assetPath . '/script.js') }}"></script>
+<script src="{{ asset($assetPath . '/script.js') }}{{ $layoutScriptVersion ? '?v=' . $layoutScriptVersion : '' }}"></script>
 
 <script>
 (function () {

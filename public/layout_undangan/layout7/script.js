@@ -133,27 +133,73 @@
   })();
 
   /* ========================================================
-     7. GALERI RESPONSIF BERDASARKAN ORIENTASI FOTO
+     7. JAGA NAMA PANJANG TETAP SATU BARIS
+     ======================================================== */
+  (function fitLongNames() {
+    const fit = (element, minSize) => {
+      if (!element) return;
+
+      element.style.removeProperty("font-size");
+      let size = parseFloat(getComputedStyle(element).fontSize);
+      while (element.scrollWidth > element.clientWidth + 1 && size > minSize) {
+        size -= 0.5;
+        element.style.fontSize = size + "px";
+      }
+    };
+
+    const run = () => {
+      fit($(".cover__names"), 25);
+      $$(".couple__name").forEach((el) => fit(el, 20));
+      $$(".couple__parents").forEach((el) => fit(el, 12));
+      fit($(".closing__names"), 36);
+    };
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(run);
+    } else {
+      addEventListener("load", run, { once: true });
+    }
+
+    let resizeTimer;
+    addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(run, 180);
+    });
+  })();
+
+  /* ========================================================
+     8. GALERI RESPONSIF BERDASARKAN ORIENTASI FOTO
      ======================================================== */
   (function responsiveGallery() {
     $$(".gallery__grid .gal img").forEach((img) => {
+      const item = img.closest(".gal");
       const classify = () => {
-        const item = img.closest(".gal");
         if (!item || !img.naturalWidth || !img.naturalHeight) return;
 
         item.classList.remove("gal--landscape", "gal--portrait");
         item.classList.add(
           img.naturalWidth > img.naturalHeight ? "gal--landscape" : "gal--portrait"
         );
+        item.classList.add("is-loaded");
       };
 
-      if (img.complete) classify();
-      else img.addEventListener("load", classify, { once: true });
+      const removeBroken = () => {
+        if (item) item.remove();
+      };
+
+      img.addEventListener("error", removeBroken, { once: true });
+
+      if (img.complete) {
+        if (img.naturalWidth) classify();
+        else removeBroken();
+      } else {
+        img.addEventListener("load", classify, { once: true });
+      }
     });
   })();
 
   /* ========================================================
-     8. SALIN NOMOR REKENING
+     9. SALIN NOMOR REKENING
      ======================================================== */
   $$(".btn--copy").forEach((btn) => {
     btn.addEventListener("click", async () => {
@@ -173,7 +219,7 @@
   });
 
   /* ========================================================
-     9. ANIMASI KELOPAK JATUH  (canvas)
+     10. ANIMASI KELOPAK JATUH  (canvas)
      ======================================================== */
   (function petals() {
     const canvas = $("#petals");
@@ -247,7 +293,7 @@
   })();
 
   /* ========================================================
-     10. ORNAMEN BUNGA (aset pengguna) + bunga emas melayang
+     11. ORNAMEN BUNGA (aset pengguna) + bunga emas melayang
      ======================================================== */
   (function decor() {
     const svg = (id, vb) =>
@@ -266,7 +312,9 @@
       const s = document.createElement("span");
       s.className = "deco deco--" + spot + " orn-" + n;
       s.setAttribute("aria-hidden", "true");
-      s.innerHTML = '<img src="assets/decor/ornament-' + n + '.png" alt="" loading="lazy" />';
+      const assetBase = document.body.dataset.layoutAssetUrl || "";
+      s.innerHTML = '<img src="' + assetBase + '/assets/decor/ornament-' + n + '.png" alt="" loading="lazy" />';
+      s.querySelector("img").addEventListener("error", () => s.remove(), { once: true });
       sec.appendChild(s);
       made.push(s);
     });
