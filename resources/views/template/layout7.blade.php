@@ -8,7 +8,7 @@
     $layoutScriptVersion = is_file($layoutScriptFile) ? filemtime($layoutScriptFile) : null;
     $layoutStyleFile = public_path($assetPath . '/style.css');
     $layoutStyleVersion = is_file($layoutStyleFile) ? filemtime($layoutStyleFile) : null;
-    $coverAssetFile = public_path($assetPath . '/assets/decor/aset-cover.png');
+    $coverAssetFile = public_path($assetPath . '/assets/decor/aset-cover.webp');
     $coverAssetVersion = is_file($coverAssetFile) ? filemtime($coverAssetFile) : null;
 @endphp
 
@@ -33,7 +33,7 @@
 <section id="cover" class="cover" data-screen-label="Cover">
   <div class="cover__bg" aria-hidden="true"></div>
   <img class="cover__art"
-    src="/{{ ltrim($assetPath, '/') }}/assets/decor/aset-cover.png{{ $coverAssetVersion ? '?v=' . $coverAssetVersion : '' }}"
+    src="/{{ ltrim($assetPath, '/') }}/assets/decor/aset-cover.webp{{ $coverAssetVersion ? '?v=' . $coverAssetVersion : '' }}"
     alt="" aria-hidden="true" />
 
   <div class="cover__inner">
