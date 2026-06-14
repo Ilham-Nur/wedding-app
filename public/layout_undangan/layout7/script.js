@@ -9,6 +9,16 @@
   const $  = (s, c = document) => c.querySelector(s);
   const $$ = (s, c = document) => [...c.querySelectorAll(s)];
 
+  /* ---------- animasi aset cover setelah gambarnya siap ---------- */
+  (function revealCoverArt() {
+    const art = $(".cover__art");
+    if (!art) return;
+
+    const reveal = () => requestAnimationFrame(() => art.classList.add("is-ready"));
+    if (art.complete && art.naturalWidth) reveal();
+    else art.addEventListener("load", reveal, { once: true });
+  })();
+
   /* ========================================================
      1. NAMA TAMU dari URL  (?to=Nama)
      ======================================================== */
