@@ -150,7 +150,7 @@ a { color: inherit; }
 }
 .cover__inner {
   position: relative; z-index: 2; text-align: center;
-  top: -6dvh;
+  top: -9dvh;
   width: min(100%, 350px);
   height: 100%;
   color: var(--gold-soft);
@@ -199,6 +199,7 @@ a { color: inherit; }
   box-shadow:
     0 15px 35px -20px rgba(14,58,41,.65),
     0 0 0 4px rgba(255,255,255,.55);
+  margin-bottom: clamp(.22rem, .8dvh, .55rem);
 }
 .cover__photo-frame img {
   width: 100%;
@@ -215,9 +216,11 @@ a { color: inherit; }
   text-transform: uppercase;
   color: var(--gold-soft);
   text-shadow: 0 2px 14px rgba(0,0,0,.5);
+  margin-bottom: clamp(.18rem, .65dvh, .45rem);
 }
 
 .cover__guest {
+  margin-top: clamp(.12rem, .45dvh, .3rem);
   padding: .25rem .7rem;
   border-radius: 12px;
   border: 1px solid rgba(221,196,136,.28);
@@ -473,14 +476,17 @@ a { color: inherit; }
 }
 .gal {
   position: relative;
-  display: none;
+  display: grid;
   place-items: center;
   min-width: 0;
+  min-height: 160px;
   overflow: hidden;
   border-radius: 12px;
   background: var(--green-deep);
+  opacity: 0;
+  transition: opacity .45s ease;
 }
-.gal.is-loaded { display: grid; }
+.gal.is-loaded { opacity: 1; }
 .gal::before {
   content: attr(data-monogram);
   position: absolute;
@@ -727,7 +733,7 @@ a { color: inherit; }
 
 @media (max-height: 680px) {
   .cover__inner {
-    top: -3dvh;
+    top: -5dvh;
     padding-top: 22px;
     padding-bottom: 30px;
     gap: .38rem;
