@@ -18,6 +18,9 @@
                     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#importModal">
                         <i class="ti ti-file-import"></i> Import Excel
                     </button>
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#whatsappTemplateModal">
+                        <i class="ti ti-brand-whatsapp"></i> Template WhatsApp
+                    </button>
                 </div>
             </div>
 
@@ -43,6 +46,66 @@
                 </table>
 
             </div>
+        </div>
+    </div>
+
+    <!-- Modal Template WhatsApp -->
+    <div class="modal fade" id="whatsappTemplateModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <form id="whatsappTemplateForm">
+                @csrf
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div>
+                            <h5 class="modal-title">Desain Template Pesan WhatsApp</h5>
+                            <div class="small text-muted">Template ini digunakan oleh seluruh tombol kirim WhatsApp pada daftar tamu.</div>
+                        </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row g-4">
+                            <div class="col-lg-7">
+                                <label for="whatsapp_template" class="form-label fw-semibold">Isi Pesan</label>
+                                <textarea id="whatsapp_template" name="whatsapp_template" class="form-control font-monospace"
+                                    rows="19" maxlength="10000" required>{{ $whatsappTemplate }}</textarea>
+                                <div class="d-flex justify-content-between mt-1">
+                                    <small class="text-muted">Format WhatsApp: <code>*tebal*</code>, <code>_miring_</code>, dan <code>~coret~</code>.</small>
+                                    <small class="text-muted"><span id="whatsappTemplateCount">0</span>/10000</small>
+                                </div>
+
+                                <div class="mt-3">
+                                    <div class="form-label fw-semibold mb-2">Sisipkan Data Otomatis</div>
+                                    <div class="d-flex flex-wrap gap-2" id="whatsappPlaceholderButtons">
+                                        @foreach(array_keys($whatsappPreviewValues) as $placeholder)
+                                            <button type="button" class="btn btn-sm btn-outline-success whatsapp-placeholder"
+                                                data-placeholder="{{ $placeholder }}">
+                                                {{ $placeholder }}
+                                            </button>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="form-label fw-semibold mb-0">Preview Pesan</span>
+                                    <span class="badge bg-success">Data contoh</span>
+                                </div>
+                                <div id="whatsappTemplatePreview" class="border rounded-3 p-3 bg-light"
+                                    style="min-height: 420px; white-space: pre-wrap; overflow-wrap: anywhere;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" id="resetWhatsappTemplate">
+                            Reset ke Template Bawaan
+                        </button>
+                        <button type="submit" class="btn btn-success">
+                            <i class="ti ti-device-floppy"></i> Simpan Template
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -307,6 +370,73 @@
                         searchable: false
                     },
                 ]
+            });
+
+            const whatsappPreviewValues = @json($whatsappPreviewValues);
+            const defaultWhatsappTemplate = @json($defaultWhatsappTemplate);
+            const whatsappTemplateInput = document.getElementById('whatsapp_template');
+            const whatsappTemplatePreview = document.getElementById('whatsappTemplatePreview');
+            const whatsappTemplateCount = document.getElementById('whatsappTemplateCount');
+
+            function renderWhatsappTemplatePreview() {
+                let preview = whatsappTemplateInput.value;
+
+                Object.entries(whatsappPreviewValues).forEach(([placeholder, value]) => {
+                    preview = preview.split(placeholder).join(value ?? '');
+                });
+
+                whatsappTemplatePreview.textContent = preview;
+                whatsappTemplateCount.textContent = whatsappTemplateInput.value.length;
+            }
+
+            whatsappTemplateInput.addEventListener('input', renderWhatsappTemplatePreview);
+            renderWhatsappTemplatePreview();
+
+            $(document).on('click', '.whatsapp-placeholder', function() {
+                const placeholder = $(this).data('placeholder');
+                const start = whatsappTemplateInput.selectionStart;
+                const end = whatsappTemplateInput.selectionEnd;
+                const current = whatsappTemplateInput.value;
+
+                whatsappTemplateInput.value = current.slice(0, start) + placeholder + current.slice(end);
+                whatsappTemplateInput.focus();
+                whatsappTemplateInput.setSelectionRange(start + placeholder.length, start + placeholder.length);
+                renderWhatsappTemplatePreview();
+            });
+
+            $('#resetWhatsappTemplate').click(function() {
+                whatsappTemplateInput.value = defaultWhatsappTemplate;
+                renderWhatsappTemplatePreview();
+            });
+
+            $('#whatsappTemplateForm').submit(function(e) {
+                e.preventDefault();
+
+                $.ajax({
+                    url: "{{ route('wedding.tamu.whatsappTemplate.update', $pernikahanId) }}",
+                    type: 'PUT',
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        whatsapp_template: whatsappTemplateInput.value
+                    },
+                    success: function(res) {
+                        $('#whatsappTemplateModal').modal('hide');
+                        table.ajax.reload(null, false);
+                        Swal.fire('Berhasil', res.message || 'Template WhatsApp berhasil disimpan.', 'success');
+                    },
+                    error: function(xhr) {
+                        const errors = xhr.responseJSON?.errors;
+                        const message = errors
+                            ? Object.values(errors).flat().join('<br>')
+                            : xhr.responseJSON?.message || 'Gagal menyimpan template WhatsApp';
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Template gagal disimpan',
+                            html: message
+                        });
+                    }
+                });
             });
 
             // Tambah Tamu

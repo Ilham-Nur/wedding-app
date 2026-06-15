@@ -12,10 +12,18 @@ class TamuController extends Controller
 {
     public function index($id)
     {
-        $pernikahan = Pernikahan::findOrFail($id);
+        $pernikahan = Pernikahan::with('lokasis')->findOrFail($id);
+        $previewGuest = Tamu::where('pernikahan_id', $pernikahan->id)->orderBy('id')->first();
 
         return view('tamu.index', [
             'pernikahanId' => $pernikahan->id,
+            'whatsappTemplate' => $pernikahan->whatsapp_template ?: $this->defaultWhatsAppTemplate(),
+            'defaultWhatsappTemplate' => $this->defaultWhatsAppTemplate(),
+            'whatsappPreviewValues' => $this->whatsAppPlaceholderValues(
+                $pernikahan,
+                $previewGuest?->nama_tamu ?? 'Nama Tamu',
+                $previewGuest?->undangan_code ?? 'INV-'.$pernikahan->id.'-001'
+            ),
         ]);
     }
 
@@ -228,10 +236,39 @@ class TamuController extends Controller
         return response()->json(['success' => true, 'data' => $inserted]);
     }
 
+    public function updateWhatsAppTemplate(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'whatsapp_template' => 'required|string|max:10000',
+        ]);
+
+        $pernikahan = Pernikahan::findOrFail($id);
+        $pernikahan->update([
+            'whatsapp_template' => trim($validated['whatsapp_template']),
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Template WhatsApp berhasil disimpan.',
+        ]);
+    }
+
     private function buildWhatsAppLink(Tamu $tamu, string $phone): string
     {
         $wedding = $tamu->pernikahan;
-        $url = url("undangan/{$wedding->slug}/{$tamu->undangan_code}");
+        $template = $wedding->whatsapp_template ?: $this->defaultWhatsAppTemplate();
+        $message = strtr($template, $this->whatsAppPlaceholderValues(
+            $wedding,
+            $tamu->nama_tamu,
+            $tamu->undangan_code
+        ));
+
+        return 'https://wa.me/'.$phone.'?text='.rawurlencode($message);
+    }
+
+    private function whatsAppPlaceholderValues(Pernikahan $wedding, string $guestName, string $invitationCode): array
+    {
+        $url = url("undangan/{$wedding->slug}/{$invitationCode}");
         $couple = trim(($wedding->nama_pria ?? '').' & '.($wedding->nama_wanita ?? ''), ' &');
         $eventDetails = $wedding->lokasis->map(function ($location) {
             $date = Carbon::parse($location->tanggal)->translatedFormat('l, d F Y');
@@ -250,18 +287,30 @@ class TamuController extends Controller
             $eventDetails = 'Detail acara akan diinformasikan kemudian.';
         }
 
-        $message = "Assalamu'alaikum Warahmatullahi Wabarakatuh\n\n"
-            ."Yth. Bapak/Ibu/Saudara/i\n{$tamu->nama_tamu}\n\n"
+        return [
+            '{{nama_tamu}}' => $guestName,
+            '{{nama_pasangan}}' => $couple,
+            '{{nama_pria}}' => $wedding->nama_pria ?? '',
+            '{{nama_wanita}}' => $wedding->nama_wanita ?? '',
+            '{{tanggal_pernikahan}}' => Carbon::parse($wedding->tanggal)->translatedFormat('l, d F Y'),
+            '{{detail_acara}}' => $eventDetails,
+            '{{link_undangan}}' => $url,
+            '{{kode_undangan}}' => $invitationCode,
+        ];
+    }
+
+    private function defaultWhatsAppTemplate(): string
+    {
+        return "Assalamu'alaikum Warahmatullahi Wabarakatuh\n\n"
+            ."Yth. Bapak/Ibu/Saudara/i\n{{nama_tamu}}\n\n"
             ."Tanpa mengurangi rasa hormat, kami mengundang Anda untuk hadir dan memberikan doa restu pada acara pernikahan:\n\n"
-            ."*{$couple}*\n\n"
-            ."Detail acara:\n{$eventDetails}\n\n"
-            ."Undangan digital khusus untuk Anda dapat dibuka melalui tautan berikut:\n{$url}\n\n"
+            ."*{{nama_pasangan}}*\n\n"
+            ."Detail acara:\n{{detail_acara}}\n\n"
+            ."Undangan digital khusus untuk Anda dapat dibuka melalui tautan berikut:\n{{link_undangan}}\n\n"
             ."Mohon maaf karena undangan ini kami sampaikan melalui pesan WhatsApp.\n"
             ."Atas kehadiran dan doa restunya, kami mengucapkan terima kasih.\n\n"
             ."Wassalamu'alaikum Warahmatullahi Wabarakatuh\n\n"
             .'Hormat kami dan keluarga';
-
-        return 'https://wa.me/'.$phone.'?text='.rawurlencode($message);
     }
 
     private function normalizeWhatsAppNumber(?string $phone): ?string

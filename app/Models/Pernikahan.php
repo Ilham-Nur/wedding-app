@@ -32,7 +32,8 @@ class Pernikahan extends Model
         'nama_ayah_istri',
         'nama_ibu_istri',
         'turut_mengundang_pria',
-        'turut_mengundang_wanita'
+        'turut_mengundang_wanita',
+        'whatsapp_template',
     ];
 
     // Relasi contoh

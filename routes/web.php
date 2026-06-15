@@ -41,6 +41,8 @@ Route::middleware('auth')->group(function () {
     Route::prefix('wedding/{id}/tamu')->group(function () {
         Route::get('/', [TamuController::class, 'index'])->name('wedding.tamu');
         Route::get('/getdata', [TamuController::class, 'getData'])->name('wedding.tamu.getdata');
+        Route::put('/whatsapp-template', [TamuController::class, 'updateWhatsAppTemplate'])
+            ->name('wedding.tamu.whatsappTemplate.update');
         Route::post('/', [TamuController::class, 'store'])->name('wedding.tamu.store');
         Route::get('/{tamu}', [TamuController::class, 'show'])->name('wedding.tamu.show');
         Route::put('/{tamu}', [TamuController::class, 'update'])->name('wedding.tamu.update');
@@ -77,6 +79,5 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });
-
 
 
