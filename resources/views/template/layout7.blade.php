@@ -205,7 +205,7 @@
 
 
   <!-- GOOGLE MAPS -->
-  @if($firstLokasi)
+  {{-- @if($firstLokasi)
   <section class="section maps" id="lokasi" data-screen-label="Lokasi">
     <div class="reveal">
       <h2 class="section__title">Lokasi Acara</h2>
@@ -224,7 +224,7 @@
     </a>
     @endif
   </section>
-  @endif
+  @endif --}}
 
 
   <!-- TURUT MENGUNDANG -->
